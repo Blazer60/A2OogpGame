@@ -5,9 +5,17 @@ project(${PROJECT_NAME})
 
 set(MAIN_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/Main.cpp)
 
-add_executable(${PROJECT_NAME} ${MAIN_SOURCE_DIR})
-target_compile_definitions(${PROJECT_NAME} PUBLIC -DSDL_MAIN_HANDLED)
+add_executable(${PROJECT_NAME}
+        ${MAIN_SOURCE_DIR}
+        src/StateMachineManager.cpp src/StateMachineManager.h
+        src/StateMachine.cpp src/StateMachine.h
+        )
 
+
+
+#---------- Adding Vendor elements to project. ----------#
+
+target_compile_definitions(${PROJECT_NAME} PUBLIC -DSDL_MAIN_HANDLED)
 # Getting information for machine type. Assembling compiler 'triplet' to load correct files.
 string(TOLOWER "${CMAKE_CXX_COMPILER_ID}" COMP)
 string(TOLOWER "${CMAKE_SYSTEM_NAME}" PLATFORM)
