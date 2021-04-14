@@ -15,3 +15,6 @@ void StateMachine::changeState(StateMachineManager *smm, char stateKey)
 {
     smm->changeState(stateKey);
 }
+
+StateMachine::StateMachine(SDL_Window *window) : mRenderer(window) {}
+

@@ -11,6 +11,8 @@
 #ifndef A2OOPGAME_STATEMACHINE_H
 #define A2OOPGAME_STATEMACHINE_H
 
+#include "Renderer.h"
+
 class StateMachineManager;
 
 /**
@@ -21,7 +23,7 @@ class StateMachineManager;
 class StateMachine
 {
 public:
-    StateMachine() = default;
+    explicit StateMachine(SDL_Window *window);
     virtual ~StateMachine() = default;
 
     virtual void onPause() = 0;
@@ -33,7 +35,7 @@ public:
     static void changeState(StateMachineManager *smm, char stateKey);
 
 protected:
-
+    Renderer mRenderer;
 };
 
 

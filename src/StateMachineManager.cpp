@@ -10,6 +10,7 @@
 
 #include "StateMachineManager.h"
 #include "StateMachine.h"
+#include "MenuState.h"
 
 #include <iostream>
 #include <thread>
@@ -26,6 +27,7 @@ StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skip
     }
 
     mWindow = SDL_CreateWindow("A2 OOP Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mScreenSize.x, mScreenSize.y, SDL_WINDOW_SHOWN);
+    changeState(skipToStateKey);
 }
 
 StateMachineManager::~StateMachineManager()
@@ -53,7 +55,12 @@ void StateMachineManager::changeState(char stateKey)
 
 void StateMachineManager::addState(char stateKey)
 {
-
+    switch (stateKey)
+    {
+        case statesList::MainMenu:
+        default:
+            mStates[stateKey] = std::make_shared<MenuState>(mWindow);
+    }
 }
 
 void StateMachineManager::removeState(char stateKey)
@@ -80,8 +87,8 @@ void StateMachineManager::runLogic()
 {
     while (mIsRunning)
     {
-//        event();
-//        update();
+        event();
+        update();
     }
 }
 
@@ -89,6 +96,6 @@ void StateMachineManager::runRenderer()
 {
     while (mIsRunning)
     {
-//        render();
+        render();
     }
 }

@@ -9,7 +9,8 @@ add_executable(${PROJECT_NAME}
         ${MAIN_SOURCE_DIR}
         src/StateMachineManager.cpp src/StateMachineManager.h
         src/StateMachine.cpp src/StateMachine.h
-        )
+        src/Renderer.cpp src/Renderer.h
+        src/MenuState.cpp src/MenuState.h)
 
 
 
