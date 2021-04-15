@@ -14,7 +14,7 @@ add_executable(${PROJECT_NAME}
         src/HelperFunctions.cpp include/HelperFunctions.h
         src/entities/Entity.cpp include/entities/Entity.h
         src/entities/Player.cpp include/entities/Player.h
-        )
+        src/state-machines/GameState.cpp include/state-machines/GameState.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         include
