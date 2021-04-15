@@ -15,6 +15,7 @@
 
 #include <SDL.h>
 #include <type_traits>
+#include <string>
 
 /**
  * Gets the time since SDL was initialised in seconds.
@@ -31,5 +32,12 @@ T getTicks()
     static_assert(std::is_arithmetic_v<T>, "getTicks() only accepts numeric values. E.g.: int, float, double");
     return static_cast<T>(SDL_GetTicks()) / 1000;
 }
+
+/**
+ * Throw an error to console and stop execution.
+ * ONLY to be used when the program cannot continue.
+ * @param hint Additional information for debugging
+ */
+void throwError(const std::string &hint);
 
 //#endif //A2OOPGAME_HELPERFUNCTIONS_H

@@ -9,3 +9,11 @@
 
 
 #include "HelperFunctions.h"
+#include <iostream>
+
+void throwError(const std::string &hint)
+{
+    std::cout << hint << std::endl;
+    std::cout << SDL_GetError() << std::endl;
+    throw std::exception();
+}
