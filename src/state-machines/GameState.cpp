@@ -8,6 +8,7 @@
  */
 
 
+#include <iostream>
 #include "GameState.h"
 #include "StateMachineManager.h"
 
@@ -35,11 +36,56 @@ void GameState::event(StateMachineManager *smm)
         {
             smm->mIsRunning = false;
         }
+        else if (event.type == SDL_KEYDOWN)
+        {
+            switch (event.key.keysym.sym)
+            {
+                case SDLK_LEFT:
+                case SDLK_a:
+                    mKeysPressed.left = true;
+                    break;
+                case SDLK_RIGHT:
+                case SDLK_d:
+                    mKeysPressed.right = true;
+                    break;
+                case SDLK_UP:
+                case SDLK_w:
+                    mKeysPressed.up = true;
+                    break;
+                case SDLK_DOWN:
+                case SDLK_s:
+                    mKeysPressed.down = true;
+                    break;
+            }
+        }
+        else if (event.type == SDL_KEYUP)
+        {
+            switch (event.key.keysym.sym)
+            {
+                case SDLK_LEFT:
+                case SDLK_a:
+                    mKeysPressed.left = false;
+                    break;
+                case SDLK_RIGHT:
+                case SDLK_d:
+                    mKeysPressed.right = false;
+                    break;
+                case SDLK_UP:
+                case SDLK_w:
+                    mKeysPressed.up = false;
+                    break;
+                case SDLK_DOWN:
+                case SDLK_s:
+                    mKeysPressed.down = false;
+                    break;
+            }
+        }
     }
 }
 
 void GameState::update(StateMachineManager *smm)
 {
+    mPlayer->event(mKeysPressed);
     mPlayer->update();
 }
 

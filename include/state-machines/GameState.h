@@ -17,6 +17,11 @@
 #include <memory>
 #include <vector>
 
+struct keys
+{
+    bool up = false, down = false, left = false, right = false, space = false, leftClick = false, rightClick = false, esc = false;
+};
+
 /**
  * The game state that runs the actual game.
  * @author Ryan Purse
@@ -24,6 +29,7 @@
  */
 class GameState : public StateMachine
 {
+
 public:
     explicit GameState(SDL_Window *window);
     ~GameState() override = default;
@@ -37,6 +43,7 @@ public:
 
 protected:
     std::shared_ptr<Player> mPlayer;
+    keys mKeysPressed;
     //std::vector<std::shared_ptr<Entity>> entities;
 };
 
