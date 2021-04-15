@@ -11,12 +11,15 @@
 #include "StateMachineManager.h"
 #include "StateMachine.h"
 #include "MenuState.h"
+#include "HelperFunctions.h"
 
 #include <iostream>
 #include <thread>
 
 StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skipToStateKey) :
-    mIsRunning(true), mWindow(nullptr), mScreenSize(screenSize)
+    mIsRunning(true), mWindow(nullptr), mScreenSize(screenSize),
+    mUpdateRatePerSecond(60.0), mUpdateDelta(1.0 / mUpdateRatePerSecond), mNextUpdateTick(getTicks<double>()),
+    mRenderRatePerSecond(90.0), mRenderDelta(1.0 / mRenderRatePerSecond), mNextRenderTick(getTicks<double>())
 {
     // Initialise all of SDL.
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
@@ -89,6 +92,12 @@ void StateMachineManager::runLogic()
     {
         event();
         update();
+
+        mNextUpdateTick += mUpdateDelta;
+        if (getTicks<double>() < mNextUpdateTick)  // Slow the update to sync with real time.
+        {
+            SDL_Delay(static_cast<Uint32>((mNextUpdateTick - getTicks<double>()) * 1000.0));
+        }
     }
 }
 
@@ -97,5 +106,11 @@ void StateMachineManager::runRenderer()
     while (mIsRunning)
     {
         render();
+
+        mNextRenderTick += mUpdateDelta;
+        if (getTicks<double>() < mNextRenderTick)  // Slow the renderer to sync with real time.
+        {
+            SDL_Delay(static_cast<Uint32>((mNextRenderTick - getTicks<double>()) * 1000.0));
+        }
     }
 }
