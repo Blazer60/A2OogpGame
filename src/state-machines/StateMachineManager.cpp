@@ -11,6 +11,7 @@
 #include "StateMachineManager.h"
 #include "StateMachine.h"
 #include "MenuState.h"
+#include "GameState.h"
 #include "HelperFunctions.h"
 
 #include <iostream>
@@ -63,6 +64,8 @@ void StateMachineManager::addState(char stateKey)
         case statesList::MainMenu:
         default:
             mStates[stateKey] = std::make_shared<MenuState>(mWindow);
+        case statesList::InGame:
+            mStates[stateKey] = std::make_shared<GameState>(mWindow);
     }
 }
 

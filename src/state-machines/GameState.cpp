@@ -44,6 +44,5 @@ void GameState::update(StateMachineManager *smm)
 void GameState::render(StateMachineManager *smm)
 {
     mRenderer.update();
-    mRenderer.renderItem(images[0]);
     mRenderer.flip();
 }
