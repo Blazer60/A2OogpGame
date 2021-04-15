@@ -8,8 +8,8 @@
  */
 
 
-#include "MenuState.h"
-#include "StateMachineManager.h"
+#include "state-machines/MenuState.h"
+#include "state-machines/StateMachineManager.h"
 
 MenuState::MenuState(SDL_Window *window) : StateMachine(window)
 {

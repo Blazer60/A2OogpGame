@@ -11,7 +11,7 @@
 #ifndef A2OOPGAME_STATEMACHINE_H
 #define A2OOPGAME_STATEMACHINE_H
 
-#include "Renderer.h"
+#include "renderer/Renderer.h"
 
 class StateMachineManager;
 

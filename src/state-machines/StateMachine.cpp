@@ -8,8 +8,8 @@
  */
 
 
-#include "StateMachine.h"
-#include "StateMachineManager.h"
+#include "state-machines/StateMachine.h"
+#include "state-machines/StateMachineManager.h"
 
 void StateMachine::changeState(StateMachineManager *smm, char stateKey)
 {

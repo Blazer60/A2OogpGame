@@ -7,13 +7,18 @@ set(MAIN_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/Main.cpp)
 
 add_executable(${PROJECT_NAME}
         ${MAIN_SOURCE_DIR}
-        src/StateMachineManager.cpp src/StateMachineManager.h
-        src/StateMachine.cpp src/StateMachine.h
-        src/Renderer.cpp src/Renderer.h
-        src/MenuState.cpp src/MenuState.h
-        src/HelperFunctions.cpp src/HelperFunctions.h
+        src/state-machines/StateMachineManager.cpp include/state-machines/StateMachineManager.h
+        src/state-machines/StateMachine.cpp include/state-machines/StateMachine.h
+        src/state-machines/renderer/Renderer.cpp include/state-machines/renderer/Renderer.h
+        src/state-machines/MenuState.cpp include/state-machines/MenuState.h
+        src/HelperFunctions.cpp include/HelperFunctions.h
         )
 
+target_include_directories(${PROJECT_NAME} PUBLIC
+        include
+        include/state-machines
+        include/state-machines/renderer
+        )
 
 
 #---------- Adding Vendor elements to project. ----------#
