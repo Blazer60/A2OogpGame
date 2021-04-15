@@ -19,8 +19,8 @@
 
 StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skipToStateKey) :
     mIsRunning(true), mWindow(nullptr), mScreenSize(screenSize),
-    mUpdateRatePerSecond(60.0), mUpdateDelta(1.0 / mUpdateRatePerSecond), mNextUpdateTick(getTicks<double>()),
-    mRenderRatePerSecond(90.0), mRenderDelta(1.0 / mRenderRatePerSecond), mNextRenderTick(getTicks<double>())
+    mUpdateRatePerSecond(20.0), mUpdateDelta(1.0 / mUpdateRatePerSecond), mNextUpdateTick(getTicks<double>()),
+    mRenderRatePerSecond(120.0), mRenderDelta(1.0 / mRenderRatePerSecond), mNextRenderTick(getTicks<double>())
 {
     // Initialise all of SDL.
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
