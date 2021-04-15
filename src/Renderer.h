@@ -16,6 +16,12 @@
 #include <unordered_map>
 #include <memory>
 
+struct imageData
+{
+    SDL_Texture *src;
+    int width, height;
+};
+
 /**
  * Handles rendering entities to the screen. Each state machine contains their own renderer.
  * @author Ryan Purse
@@ -23,13 +29,13 @@
  */
 class Renderer
 {
-    // Trialling how to use SDL objects with smart pointers, may or may not work.
-    typedef std::unordered_map<std::string, std::unique_ptr<SDL_Surface, decltype(&SDL_FreeSurface)>> imageMap;
+    typedef std::unordered_map<std::string, imageData> imageMap;
 public:
     explicit Renderer(SDL_Window *window);
+    ~Renderer();
 
-    //void update();
-    //void renderItem(ENTITY);
+    void update();
+    void renderItem(const std::string &imageRef);
     void flip();
     void loadImage(const std::string &imageRef);
     void freeImage(const std::string &imageRef);

@@ -30,6 +30,9 @@ public:
     void event(StateMachineManager *smm) override;
     void update(StateMachineManager *smm) override;
     void render(StateMachineManager *smm) override;
+
+protected:
+    std::vector<std::string> images;
 };
 
 

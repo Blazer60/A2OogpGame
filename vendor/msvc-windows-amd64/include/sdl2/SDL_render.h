@@ -870,7 +870,7 @@ extern DECLSPEC int SDLCALL SDL_RenderFillRects(SDL_Renderer * renderer,
 extern DECLSPEC int SDLCALL SDL_RenderCopy(SDL_Renderer * renderer,
                                            SDL_Texture * texture,
                                            const SDL_Rect * srcrect,
-                                           const SDL_Rect * dstrect);
+                                           SDL_Rect dstrect);
 
 /**
  *  \brief Copy a portion of the source texture to the current rendering target, rotating it by angle around the given center

@@ -12,7 +12,9 @@
 #include "StateMachineManager.h"
 
 MenuState::MenuState(SDL_Window *window) : StateMachine(window)
-{}
+{
+    images.emplace_back("../tmp/chad.bmp");
+}
 
 void MenuState::onPause()
 {
@@ -43,5 +45,7 @@ void MenuState::update(StateMachineManager *smm)
 
 void MenuState::render(StateMachineManager *smm)
 {
-
+    mRenderer.update();
+    mRenderer.renderItem(images[0]);
+    mRenderer.flip();
 }
