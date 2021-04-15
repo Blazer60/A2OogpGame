@@ -12,12 +12,14 @@ add_executable(${PROJECT_NAME}
         src/state-machines/renderer/Renderer.cpp include/state-machines/renderer/Renderer.h
         src/state-machines/MenuState.cpp include/state-machines/MenuState.h
         src/HelperFunctions.cpp include/HelperFunctions.h
+        src/entities/Entity.cpp include/entities/Entity.h
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         include
         include/state-machines
         include/state-machines/renderer
+        include/entities
         )
 
 
