@@ -13,6 +13,7 @@ add_executable(${PROJECT_NAME}
         src/state-machines/MenuState.cpp include/state-machines/MenuState.h
         src/HelperFunctions.cpp include/HelperFunctions.h
         src/entities/Entity.cpp include/entities/Entity.h
+        src/entities/Player.cpp include/entities/Player.h
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
