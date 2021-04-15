@@ -11,11 +11,14 @@
 #include <iostream>
 #include "GameState.h"
 #include "StateMachineManager.h"
+#include "BaseEnemy.h"
 
 GameState::GameState(SDL_Window *window) :
     StateMachine(window),
     mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f }, glm::vec2{ 100.f, 100.f }))
-{}
+{
+    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(400, 500), glm::vec2(100.f, 100.f)));
+}
 
 void GameState::onPause()
 {
@@ -98,7 +101,6 @@ void GameState::event(StateMachineManager *smm)
             {
                 case SDL_BUTTON_LEFT:
                     mInputs.leftClick = true;
-                    std::cout << "Up";
                     break;
             }
         }
@@ -114,11 +116,24 @@ void GameState::update(StateMachineManager *smm)
 {
     mPlayer->event(mInputs);
     mPlayer->update();
+
+    for (auto &item : mEntities)
+    {
+        item->update();
+    }
 }
 
 void GameState::render(StateMachineManager *smm, const float &interpolation)
 {
-    mRenderer.update(interpolation);
+    // Items are ordered from back to front.
+    mRenderer.update(interpolation);  // Must be at the start of rendering
+
+    for (auto &item : mEntities)
+    {
+        mRenderer.renderItem(item);
+    }
+
     mRenderer.renderItem(mPlayer);
-    mRenderer.flip();
+
+    mRenderer.flip();  // Must be at the end of rendering.
 }

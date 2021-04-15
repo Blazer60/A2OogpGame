@@ -44,7 +44,7 @@ public:
 protected:
     std::shared_ptr<Player> mPlayer;
     inputs mInputs;
-    //std::vector<std::shared_ptr<Entity>> entities;
+    std::vector<std::shared_ptr<Entity>> mEntities;
 };
 
 
