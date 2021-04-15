@@ -28,7 +28,7 @@ public:
     void onAwake() override;
 
     void event(StateMachineManager *smm) override;
-    void update(StateMachineManager *smm) override;
+    void update(StateMachineManager *smm, const float &deltaTime) override;
     void render(StateMachineManager *smm) override;
 };
 

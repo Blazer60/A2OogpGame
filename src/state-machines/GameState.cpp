@@ -36,7 +36,7 @@ void GameState::event(StateMachineManager *smm)
     }
 }
 
-void GameState::update(StateMachineManager *smm)
+void GameState::update(StateMachineManager *smm, const float &deltaTime)
 {
 
 }

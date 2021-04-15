@@ -36,7 +36,7 @@ void MenuState::event(StateMachineManager *smm)
     }
 }
 
-void MenuState::update(StateMachineManager *smm)
+void MenuState::update(StateMachineManager *smm, const float &deltaTime)
 {
 
 }

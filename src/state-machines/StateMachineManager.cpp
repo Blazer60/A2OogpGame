@@ -81,7 +81,7 @@ void StateMachineManager::event()
 
 void StateMachineManager::update()
 {
-    mCurrentState->update(this);
+    mCurrentState->update(this, static_cast<float>(mUpdateDelta));
 }
 
 void StateMachineManager::render()
