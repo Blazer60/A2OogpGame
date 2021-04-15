@@ -39,9 +39,9 @@ public:
     virtual void update(float deltaTime) = 0;
     virtual void onCollision(const Entity &other) = 0;
 
-protected:
+public:
     transform mTransform;
-    std::string mImageRef;
+    const std::string mImageRef;
     glm::vec2 mHitBoxSize;
 };
 

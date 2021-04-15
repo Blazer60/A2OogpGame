@@ -11,7 +11,9 @@
 #include "GameState.h"
 #include "StateMachineManager.h"
 
-GameState::GameState(SDL_Window *window) : StateMachine(window)
+GameState::GameState(SDL_Window *window) :
+    StateMachine(window),
+    mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f }, glm::vec2{ 100.f, 100.f }))
 {}
 
 void GameState::onPause()
@@ -38,11 +40,12 @@ void GameState::event(StateMachineManager *smm)
 
 void GameState::update(StateMachineManager *smm, const float &deltaTime)
 {
-
+    mPlayer->update(deltaTime);
 }
 
 void GameState::render(StateMachineManager *smm)
 {
     mRenderer.update();
+    mRenderer.renderItem(mPlayer);
     mRenderer.flip();
 }

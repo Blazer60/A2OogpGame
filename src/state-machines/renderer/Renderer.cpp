@@ -9,8 +9,10 @@
 
 
 #include "Renderer.h"
-#include <iostream>
 #include "HelperFunctions.h"
+#include "Entity.h"
+
+#include <iostream>
 
 Renderer::Renderer(SDL_Window *window) :
         mRenderer(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED))
@@ -21,16 +23,23 @@ void Renderer::flip()
     SDL_RenderPresent(mRenderer);
 }
 
-void Renderer::renderItem(const std::string &imageRef)
+void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
 {
-    auto imageIt = mImages.find(imageRef);
+    auto imageIt = mImages.find(entity->mImageRef);
     if (imageIt == mImages.end())
     {
-        loadImage(imageRef);
+        loadImage(entity->mImageRef);
     }
+
+    // Where the image is going to go and the size of the image.
+    SDL_Rect dstRect = {
+            entity->mTransform.position.x, entity->mTransform.position.y,
+            mImages[entity->mImageRef].width, mImages[entity->mImageRef].height
+    };
+
     // srcrect is where to crop an image if it's within an atlas map.
-    SDL_RenderCopy(mRenderer, mImages[imageRef].src,
-                   nullptr, { 0, 0, mImages[imageRef].width, mImages[imageRef].height });
+    SDL_RenderCopy(mRenderer, mImages[entity->mImageRef].src,
+                   nullptr, dstRect);
 }
 
 void Renderer::loadImage(const std::string &imageRef)

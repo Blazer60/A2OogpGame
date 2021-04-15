@@ -36,7 +36,7 @@ public:
     void render(StateMachineManager *smm) override;
 
 protected:
-    std::shared_ptr<Player> player;
+    std::shared_ptr<Player> mPlayer;
     //std::vector<std::shared_ptr<Entity>> entities;
 };
 

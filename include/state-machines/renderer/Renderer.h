@@ -15,6 +15,7 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
+#include <Entity.h>
 
 struct imageData
 {
@@ -35,7 +36,7 @@ public:
     ~Renderer();
 
     void update();
-    void renderItem(const std::string &imageRef);
+    void renderItem(const std::shared_ptr<Entity> &entity);
     void flip();
     void loadImage(const std::string &imageRef);
     void freeImage(const std::string &imageRef);
