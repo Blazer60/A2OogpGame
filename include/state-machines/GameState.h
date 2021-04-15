@@ -17,9 +17,10 @@
 #include <memory>
 #include <vector>
 
-struct keys
+struct inputs
 {
     bool up = false, down = false, left = false, right = false, space = false, leftClick = false, rightClick = false, esc = false;
+    glm::vec2 mousePosition;
 };
 
 /**
@@ -29,7 +30,6 @@ struct keys
  */
 class GameState : public StateMachine
 {
-
 public:
     explicit GameState(SDL_Window *window);
     ~GameState() override = default;
@@ -43,7 +43,7 @@ public:
 
 protected:
     std::shared_ptr<Player> mPlayer;
-    keys mKeysPressed;
+    inputs mInputs;
     //std::vector<std::shared_ptr<Entity>> entities;
 };
 

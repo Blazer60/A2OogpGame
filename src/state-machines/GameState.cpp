@@ -42,19 +42,22 @@ void GameState::event(StateMachineManager *smm)
             {
                 case SDLK_LEFT:
                 case SDLK_a:
-                    mKeysPressed.left = true;
+                    mInputs.left = true;
                     break;
                 case SDLK_RIGHT:
                 case SDLK_d:
-                    mKeysPressed.right = true;
+                    mInputs.right = true;
                     break;
                 case SDLK_UP:
                 case SDLK_w:
-                    mKeysPressed.up = true;
+                    mInputs.up = true;
                     break;
                 case SDLK_DOWN:
                 case SDLK_s:
-                    mKeysPressed.down = true;
+                    mInputs.down = true;
+                    break;
+                case SDLK_SPACE:
+                    mInputs.space = true;
                     break;
             }
         }
@@ -64,28 +67,52 @@ void GameState::event(StateMachineManager *smm)
             {
                 case SDLK_LEFT:
                 case SDLK_a:
-                    mKeysPressed.left = false;
+                    mInputs.left = false;
                     break;
                 case SDLK_RIGHT:
                 case SDLK_d:
-                    mKeysPressed.right = false;
+                    mInputs.right = false;
                     break;
                 case SDLK_UP:
                 case SDLK_w:
-                    mKeysPressed.up = false;
+                    mInputs.up = false;
                     break;
                 case SDLK_DOWN:
                 case SDLK_s:
-                    mKeysPressed.down = false;
+                    mInputs.down = false;
                     break;
             }
+        }
+        else if (event.type == SDL_MOUSEBUTTONDOWN)
+        {
+            switch (event.button.button)
+            {
+                case SDL_BUTTON_LEFT:
+                    mInputs.leftClick = true;
+                    break;
+            }
+        }
+        else if (event.type == SDL_MOUSEBUTTONUP)
+        {
+            switch (event.button.button)
+            {
+                case SDL_BUTTON_LEFT:
+                    mInputs.leftClick = true;
+                    std::cout << "Up";
+                    break;
+            }
+        }
+        else if (event.type == SDL_MOUSEMOTION)
+        {
+            mInputs.mousePosition.x = static_cast<float>(event.motion.x);
+            mInputs.mousePosition.y = static_cast<float>(event.motion.y);
         }
     }
 }
 
 void GameState::update(StateMachineManager *smm)
 {
-    mPlayer->event(mKeysPressed);
+    mPlayer->event(mInputs);
     mPlayer->update();
 }
 

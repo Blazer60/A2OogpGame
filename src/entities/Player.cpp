@@ -18,7 +18,7 @@ Player::Player(const glm::vec2 &position, const glm::vec2 &hitBoxSize) :
     mVelocity.x = mSpeed;
 }
 
-void Player::event(const keys &keysPressed)
+void Player::event(const inputs &keysPressed)
 {
     glm::vec2 axisInput(0);
     if (keysPressed.right) { axisInput.x += 1; }

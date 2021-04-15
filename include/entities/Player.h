@@ -13,7 +13,7 @@
 
 #include <Entity.h>
 
-struct keys;
+struct inputs;
 
 /**
  * The main player class that the they can control.
@@ -25,7 +25,7 @@ class Player : public Entity
 public:
     Player(const glm::vec2 &position, const glm::vec2 &hitBoxSize);
 
-    void event(const keys& keysPressed);
+    void event(const inputs& keysPressed);
     void update() override;
     void onCollision(const Entity &other) override;
 
