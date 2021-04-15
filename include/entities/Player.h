@@ -23,7 +23,7 @@ class Player : public Entity
 public:
     Player(const glm::vec2 &position, const glm::vec2 &hitBoxSize);
 
-    void update(float deltaTime) override;
+    void update() override;
     void onCollision(const Entity &other) override;
 
 protected:

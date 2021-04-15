@@ -11,12 +11,14 @@
 #include "Player.h"
 
 Player::Player(const glm::vec2 &position, const glm::vec2 &hitBoxSize) :
-    Entity(position, hitBoxSize), mSpeed(50.f)
-{}
-
-void Player::update(float deltaTime)
+    Entity(position, hitBoxSize), mSpeed(5.f)
 {
-    mTransform.position.x += mSpeed * deltaTime;
+    mVelocity.x = mSpeed;
+}
+
+void Player::update()
+{
+    mTransform.position += mVelocity;
 }
 
 void Player::onCollision(const Entity &other)

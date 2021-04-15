@@ -35,7 +35,7 @@ public:
     explicit Renderer(SDL_Window *window);
     ~Renderer();
 
-    void update();
+    void update(const float &interpolation);
     void renderItem(const std::shared_ptr<Entity> &entity);
     void flip();
     void loadImage(const std::string &imageRef);
@@ -44,6 +44,7 @@ public:
 protected:
     SDL_Renderer *mRenderer;
     imageMap mImages;
+    float mInterpolation;
 };
 
 

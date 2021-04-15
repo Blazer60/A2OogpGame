@@ -30,8 +30,8 @@ public:
     virtual void onAwake() = 0;
 
     virtual void event(StateMachineManager *smm) = 0;
-    virtual void update(StateMachineManager *smm, const float &deltaTime) = 0;
-    virtual void render(StateMachineManager *smm) = 0;
+    virtual void update(StateMachineManager *smm) = 0;
+    virtual void render(StateMachineManager *smm, const float &interpolation) = 0;
     static void changeState(StateMachineManager *smm, char stateKey);
 
 protected:

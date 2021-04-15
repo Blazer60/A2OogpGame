@@ -15,7 +15,8 @@
 #include <iostream>
 
 Renderer::Renderer(SDL_Window *window) :
-        mRenderer(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED))
+        mRenderer(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED)),
+        mInterpolation(0.f)
 {}
 
 void Renderer::flip()
@@ -33,7 +34,8 @@ void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
 
     // Where the image is going to go and the size of the image.
     SDL_Rect dstRect = {
-            entity->mTransform.position.x, entity->mTransform.position.y,
+            static_cast<int>(entity->mTransform.position.x + entity->mVelocity.x * mInterpolation),
+            static_cast<int>(entity->mTransform.position.y + entity->mVelocity.y * mInterpolation),
             mImages[entity->mImageRef].width, mImages[entity->mImageRef].height
     };
 
@@ -63,8 +65,9 @@ void Renderer::freeImage(const std::string &imageRef)
     mImages.erase(imageRef);
 }
 
-void Renderer::update()
+void Renderer::update(const float &interpolation)
 {
+    mInterpolation = interpolation;
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0);
     SDL_RenderClear(mRenderer);
 }

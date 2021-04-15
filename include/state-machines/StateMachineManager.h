@@ -68,6 +68,7 @@ protected:
     const double mRenderRatePerSecond;
     const double mRenderDelta;
     double mNextRenderTick;
+    double mInterpolation;
 };
 
 

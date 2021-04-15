@@ -38,14 +38,14 @@ void GameState::event(StateMachineManager *smm)
     }
 }
 
-void GameState::update(StateMachineManager *smm, const float &deltaTime)
+void GameState::update(StateMachineManager *smm)
 {
-    mPlayer->update(deltaTime);
+    mPlayer->update();
 }
 
-void GameState::render(StateMachineManager *smm)
+void GameState::render(StateMachineManager *smm, const float &interpolation)
 {
-    mRenderer.update();
+    mRenderer.update(interpolation);
     mRenderer.renderItem(mPlayer);
     mRenderer.flip();
 }

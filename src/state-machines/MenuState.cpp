@@ -36,13 +36,13 @@ void MenuState::event(StateMachineManager *smm)
     }
 }
 
-void MenuState::update(StateMachineManager *smm, const float &deltaTime)
+void MenuState::update(StateMachineManager *smm)
 {
 
 }
 
-void MenuState::render(StateMachineManager *smm)
+void MenuState::render(StateMachineManager *smm, const float &interpolation)
 {
-    mRenderer.update();
+    mRenderer.update(52);
     mRenderer.flip();
 }

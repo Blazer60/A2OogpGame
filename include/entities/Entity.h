@@ -36,11 +36,12 @@ public:
     Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, std::string imageRef="../tmp/chad.bmp");
     virtual ~Entity() = default;
 
-    virtual void update(float deltaTime) = 0;
+    virtual void update() = 0;
     virtual void onCollision(const Entity &other) = 0;
 
 public:
     transform mTransform;
+    glm::vec2 mVelocity;
     const std::string mImageRef;
     glm::vec2 mHitBoxSize;
 };

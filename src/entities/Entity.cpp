@@ -15,5 +15,6 @@
 Entity::Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, std::string imageRef) :
     mTransform(position, 0.f, glm::vec2(1.f, 1.f)),
     mHitBoxSize(hitBoxSize),
-    mImageRef(std::move(imageRef))
+    mImageRef(std::move(imageRef)),
+    mVelocity({ 0.f, 0.f })
 {}

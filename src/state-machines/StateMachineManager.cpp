@@ -19,8 +19,9 @@
 
 StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skipToStateKey) :
     mIsRunning(true), mWindow(nullptr), mScreenSize(screenSize),
-    mUpdateRatePerSecond(20.0), mUpdateDelta(1.0 / mUpdateRatePerSecond), mNextUpdateTick(getTicks<double>()),
-    mRenderRatePerSecond(120.0), mRenderDelta(1.0 / mRenderRatePerSecond), mNextRenderTick(getTicks<double>())
+    mUpdateRatePerSecond(60.0), mUpdateDelta(1.0 / mUpdateRatePerSecond), mNextUpdateTick(getTicks<double>()),
+    mRenderRatePerSecond(120.0), mRenderDelta(1.0 / mRenderRatePerSecond), mNextRenderTick(getTicks<double>()),
+    mInterpolation(0)
 {
     // Initialise all of SDL.
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
@@ -81,12 +82,12 @@ void StateMachineManager::event()
 
 void StateMachineManager::update()
 {
-    mCurrentState->update(this, static_cast<float>(mUpdateDelta));
+    mCurrentState->update(this);
 }
 
 void StateMachineManager::render()
 {
-    mCurrentState->render(this);
+    mCurrentState->render(this, static_cast<float>(mInterpolation));
 }
 
 void StateMachineManager::runLogic()
@@ -108,9 +109,11 @@ void StateMachineManager::runRenderer()
 {
     while (mIsRunning)
     {
+        mInterpolation = (getTicks<double>() + mUpdateDelta - mNextUpdateTick) / mUpdateDelta;
+        //std::cout << mInterpolation << std::endl;
         render();
 
-        mNextRenderTick += mUpdateDelta;
+        mNextRenderTick += mRenderDelta;
         if (getTicks<double>() < mNextRenderTick)  // Slow the renderer to sync with real time.
         {
             SDL_Delay(static_cast<Uint32>((mNextRenderTick - getTicks<double>()) * 1000.0));
