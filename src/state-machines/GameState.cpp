@@ -15,9 +15,11 @@
 #include "HelperFunctions.h"
 
 #include <iostream>
-#include <mutex>
 
-std::mutex mtx;
+#if DEBUG_DRAW_HIT_BOXES  // Used to draw the quadtree to the screen. Not seen in release mode.
+#include <mutex>
+std::mutex mtx;  // Used to stop race conditions on Quad Tree (that should only be accessed by update functions).
+#endif
 
 GameState::GameState(SDL_Window *window) :
     StateMachine(window),
@@ -47,7 +49,9 @@ void GameState::onAwake()
 
 void GameState::update(StateMachineManager *smm)
 {
+#if DEBUG_DRAW_HIT_BOXES
     mtx.lock();
+#endif
     mQuadTree = std::make_unique<entityTree>(quad::rect{ -1920, -1080, 3840, 2160 }, 1);
     mQuadTree->insert(mPlayer, quad::rect{ mPlayer->mTransform.position, mPlayer->mHitBoxSize });
 
@@ -55,7 +59,9 @@ void GameState::update(StateMachineManager *smm)
     {
         mQuadTree->insert(item, quad::rect{ item->mTransform.position, item->mHitBoxSize });
     }
+#if DEBUG_DRAW_HIT_BOXES
     mtx.unlock();
+#endif
 
     mPlayer->event(mInputs);
     mPlayer->update();
