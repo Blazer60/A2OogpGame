@@ -8,17 +8,22 @@
  */
 
 
-#include <iostream>
+
 #include "GameState.h"
 #include "StateMachineManager.h"
 #include "BaseEnemy.h"
 #include "HelperFunctions.h"
+#include "QuadTree.h"
+
+#include <iostream>
 
 GameState::GameState(SDL_Window *window) :
     StateMachine(window),
-    mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f }, glm::vec2{ 320.f, 240.f }))
+    mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f }, glm::vec2{ 600.f, 600.f }))
 {
     mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(400, 500), glm::vec2(320.f, 240.f)));
+    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(900, -100), glm::vec2(320.f, 240.f)));
+    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(100, 900), glm::vec2(320.f, 240.f)));
 
     mRenderer.setTarget(mPlayer);
 }
@@ -117,6 +122,8 @@ void GameState::event(StateMachineManager *smm)
 
 void GameState::update(StateMachineManager *smm)
 {
+    QuadTree<std::shared_ptr<Entity>> quadTree({ 0, 0, 1920, 1080 });
+    quadTree.insert(mPlayer, quad::rect{ mPlayer->mTransform.position, mPlayer->mHitBoxSize });
     mPlayer->event(mInputs);
     mPlayer->update();
 

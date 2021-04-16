@@ -16,13 +16,15 @@ add_executable(${PROJECT_NAME}
         src/entities/Player.cpp include/entities/Player.h
         src/state-machines/GameState.cpp include/state-machines/GameState.h
         src/entities/BaseEnemy.cpp include/entities/BaseEnemy.h
-        )
+        include/quad-tree/QuadTree.h include/quad-tree/QuadTreeNode.h
+        include/quad-tree/QuadTreeHelpers.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         include
         include/state-machines
         include/state-machines/renderer
         include/entities
+        include/quad-tree
         )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC DEBUG_DRAW_HIT_BOXES=1)
