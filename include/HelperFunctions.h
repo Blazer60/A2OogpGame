@@ -35,6 +35,22 @@ T getTicks()
 }
 
 /**
+ * Normalises a value between 0 and 1 inclusive. However, there are no bounds checks.
+ * So x can be outside the range 0-1.
+ * @tparam T A numeric type you want to normalise.
+ * @param x The number being normalised
+ * @param lB The smallest number x can be.
+ * @param uB The largest number x can be.
+ * @return A number between [0, 1] inclusive.
+ */
+template<typename T>
+T normalise(const T &x, const T &lB, const T &uB)
+{
+    static_assert(std::is_arithmetic_v<T>, "normalise() only accepts numeric values. E.g.: int, float, double");
+    return (x - lB) / (uB - lB);
+}
+
+/**
  * Throw an error to console and stop execution.
  * ONLY to be used when the program cannot continue.
  * @param hint Additional information for debugging
