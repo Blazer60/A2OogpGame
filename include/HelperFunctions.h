@@ -16,6 +16,7 @@
 #include <SDL.h>
 #include <type_traits>
 #include <string>
+#include <glm.hpp>
 
 /**
  * Gets the time since SDL was initialised in seconds.
@@ -39,5 +40,12 @@ T getTicks()
  * @param hint Additional information for debugging
  */
 void throwError(const std::string &hint);
+
+/**
+ * Converts an SDL window size into a glm vec2
+ * @param window The window with the size
+ * @return The width and height of the window.
+ */
+glm::ivec2 windowSizeToVec2(SDL_Window *window);
 
 //#endif //A2OOPGAME_HELPERFUNCTIONS_H
