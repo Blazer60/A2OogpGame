@@ -31,10 +31,28 @@ class QuadTree
 public:
     explicit QuadTree(const quad::rect &bounds, const size_t &splitThreshold=10, const size_t &maxDepth=10);
 
-    void insert(const dataType &data, const quad::rect &rect);
+    /**
+     * Inserts an item into the tree.
+     * @param data The item data you want to store.
+     * @param aabb The bounding box to find said data.
+     */
+    void insert(const dataType &data, const quad::rect &aabb);
+
+    /**
+     * Renders the bounding boxes of the quad tree. Only to be used in debug mode.
+     * @param renderer What you want to render to.
+     */
     void debugRender(Renderer *renderer);
-    // This will return itself. E.g.: player passed in will return player.
-    std::vector<dataType> getIntersecting(const quad::rect &element);
+
+    /**
+     * Gets all of the intersecting elements within the tree. NOTE: This will
+     * also return the element you query if its within the tree. E.g.: if player
+     * was inserted into the tree, and used to find what items will be intersected.
+     * Player will be returned.
+     * @param aabb The bounding box you want items to intersect.
+     * @return All elements intersecting your query.
+     */
+    std::vector<dataType> getIntersecting(const quad::rect &aabb);
 
 protected:
     const std::unique_ptr<QuadTreeNode<dataType>> mRootNode;
@@ -43,6 +61,8 @@ protected:
     const size_t mSplitThreshold;
     std::vector<quad::data<dataType>> mUnboundItems;
 };
+
+
 
 template<class dataType>
 QuadTree<dataType>::QuadTree(const quad::rect &bounds, const size_t &splitThreshold, const size_t &maxDepth) :
@@ -54,9 +74,9 @@ QuadTree<dataType>::QuadTree(const quad::rect &bounds, const size_t &splitThresh
 }
 
 template<class dataType>
-void QuadTree<dataType>::insert(const dataType &data, const quad::rect &rect)
+void QuadTree<dataType>::insert(const dataType &data, const quad::rect &aabb)
 {
-    quad::data<dataType> item{ rect, data };
+    quad::data<dataType> item{ aabb, data };
     bool success = mRootNode->insert(item, mMaxDepth);
     if (!success) { mUnboundItems.emplace_back(item); }
 }
@@ -68,14 +88,14 @@ void QuadTree<dataType>::debugRender(Renderer *renderer)
 }
 
 template<class dataType>
-std::vector<dataType> QuadTree<dataType>::getIntersecting(const quad::rect &element)
+std::vector<dataType> QuadTree<dataType>::getIntersecting(const quad::rect &aabb)
 {
     std::vector<dataType> hitItems;
     for (quad::data<dataType> &item : mUnboundItems)
     {
-        if (quad::isIntersecting(item.bounds, element)) { hitItems.emplace_back(item.value); }
+        if (quad::isIntersecting(item.bounds, aabb)) { hitItems.emplace_back(item.value); }
     }
-    mRootNode->getIntersecting(element, hitItems);
+    mRootNode->getIntersecting(aabb, hitItems);
     return hitItems;
 }
 

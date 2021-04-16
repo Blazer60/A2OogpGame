@@ -31,13 +31,42 @@ class QuadTreeNode
 public:
     explicit QuadTreeNode(const quad::rect &rect, const size_t &splitThreshold=10);
 
-    bool contains(const quad::rect &other);
+    /**
+     * Checks to see if an bounding box fit wholly within a this nodes bounding box.
+     * @param aabb The item you want to test against.
+     * @return True if it is wholly contained
+     */
+    bool contains(const quad::rect &aabb);
+
+    /**
+     * Attempts to add an item into the tree recursively.
+     * @param item The item you are trying to add.
+     * @param depth How far down can the item go. 0=this node.
+     * @return True if the item was added anywhere in the tree.
+     */
     bool insert(quad::data<dataType> &item, int depth=0);
+
+    /**
+     * Draw the bounding box of this node.
+     * @param renderer What you want to render to.
+     */
     void debugRender(Renderer *renderer);
-    // This will intersect itself. E.g.: Player passed in will return player out.
-    void getIntersecting(const quad::rect &element, std::vector<dataType> &hitItems);
+
+    /**
+     * Gets all of the intersecting elements within the tree. NOTE: This will
+     * also return the element you query if its within the tree. E.g.: if player
+     * was inserted into the tree, and used to find what items will be intersected.
+     * Player will be returned.
+     * @param aabb The bounding box you want items to intersect.
+     * @param hitItems All items that that have been intersected.
+     */
+    void getIntersecting(const quad::rect &aabb, std::vector<dataType> &hitItems);
 
 protected:
+    /**
+     * Split a bounding box into 4 sub regions.
+     * @param depth If depth is zero. It is unable to subdivide.
+     */
     void subdivide(int depth);
     
     const quad::rect mBounds;
@@ -56,10 +85,10 @@ QuadTreeNode<dataType>::QuadTreeNode(const quad::rect &rect, const size_t &split
 }
 
 template<class dataType>
-bool QuadTreeNode<dataType>::contains(const quad::rect &other)
+bool QuadTreeNode<dataType>::contains(const quad::rect &aabb)
 {
-    return (mBounds.x < other.x && mBounds.x + mBounds.w > other.x + other.w &&
-        mBounds.y < other.y && mBounds.y + mBounds.h > other.y + other.h);
+    return (mBounds.x < aabb.x && mBounds.x + mBounds.w > aabb.x + aabb.w &&
+            mBounds.y < aabb.y && mBounds.y + mBounds.h > aabb.y + aabb.h);
 }
 
 template<class dataType>
@@ -126,20 +155,20 @@ void QuadTreeNode<dataType>::debugRender(Renderer *renderer)
 }
 
 template<class dataType>
-void QuadTreeNode<dataType>::getIntersecting(const quad::rect &element, std::vector<dataType> &hitItems)
+void QuadTreeNode<dataType>::getIntersecting(const quad::rect &aabb, std::vector<dataType> &hitItems)
 {
-    if (!quad::isIntersecting(mBounds, element)) { return; }  // Nothing will be intersecting in this node.
+    if (!quad::isIntersecting(mBounds, aabb)) { return; }  // Nothing will be intersecting in this node.
 
     // Check all items within this node.
     for (quad::data<dataType> &item : mItems)
     {
-        if (quad::isIntersecting(item.bounds, element)) { hitItems.emplace_back(item.value); }
+        if (quad::isIntersecting(item.bounds, aabb)) { hitItems.emplace_back(item.value); }
     }
 
     // Check items within sub-nodes.
     if (mSubRegions[0])
     {
-        for (auto &region : mSubRegions) { region->getIntersecting(element, hitItems); }
+        for (auto &region : mSubRegions) { region->getIntersecting(aabb, hitItems); }
     }
 }
 
