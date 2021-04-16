@@ -19,9 +19,9 @@
 
 StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skipToStateKey) :
     mIsRunning(true), mWindow(nullptr), mScreenSize(screenSize),
-    mUpdateRatePerSecond(60.0), mUpdateDelta(1.0 / mUpdateRatePerSecond), mNextUpdateTick(getTicks<double>()),
-    mRenderRatePerSecond(120.0), mRenderDelta(1.0 / mRenderRatePerSecond), mNextRenderTick(getTicks<double>()),
-    mInterpolation(0)
+    mUpdateRatePerSecond(30.0), mUpdateDelta(1.0 / mUpdateRatePerSecond), mNextUpdateTick(0.0), mUpdateFrameSkip(5),
+    mRenderRatePerSecond(90.0), mRenderDelta(1.0 / mRenderRatePerSecond), mNextRenderTick(0.0), mRenderFrameSkip(5),
+    mInterpolation(0.0)
 {
     // Initialise all of SDL.
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
@@ -92,31 +92,36 @@ void StateMachineManager::render()
 
 void StateMachineManager::runLogic()
 {
+    mNextUpdateTick = getTicks<double>();
+    unsigned int loopAmount;
     while (mIsRunning)
     {
-        event();
-        update();
-
-        mNextUpdateTick += mUpdateDelta;
-        if (getTicks<double>() < mNextUpdateTick)  // Slow the update to sync with real time.
+        loopAmount = 0;  // If the update is behind, force check to see if the user has quit.
+        while (getTicks<double>() > mNextUpdateTick && loopAmount < mUpdateFrameSkip)
         {
-            SDL_Delay(static_cast<Uint32>((mNextUpdateTick - getTicks<double>()) * 1000.0));
+            event();
+            update();
+
+            mNextUpdateTick += mUpdateDelta;
+            loopAmount++;
         }
     }
 }
 
 void StateMachineManager::runRenderer()
 {
+    mNextRenderTick = getTicks<double>();
+    unsigned int loopAmount;
     while (mIsRunning)
     {
-        mInterpolation = (getTicks<double>() + mUpdateDelta - mNextUpdateTick) / mUpdateDelta;
-        //std::cout << mInterpolation << std::endl;
-        render();
-
-        mNextRenderTick += mRenderDelta;
-        if (getTicks<double>() < mNextRenderTick)  // Slow the renderer to sync with real time.
+        loopAmount = 0;  // If the renderer is behind, force check to see if the user has quit.
+        while (getTicks<double>() > mNextRenderTick && loopAmount < mRenderFrameSkip)
         {
-            SDL_Delay(static_cast<Uint32>((mNextRenderTick - getTicks<double>()) * 1000.0));
+            mInterpolation = (getTicks<double>() + mUpdateDelta - mNextUpdateTick) / mUpdateDelta;
+            render();
+
+            mNextRenderTick += mRenderDelta;
+            loopAmount++;
         }
     }
 }

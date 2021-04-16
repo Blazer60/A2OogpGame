@@ -63,10 +63,12 @@ protected:
     // Frame rate control
     const double mUpdateRatePerSecond;
     const double mUpdateDelta;
+    const unsigned int mUpdateFrameSkip;
     double mNextUpdateTick;
 
     const double mRenderRatePerSecond;
     const double mRenderDelta;
+    const unsigned int mRenderFrameSkip;
     double mNextRenderTick;
     double mInterpolation;
 };
