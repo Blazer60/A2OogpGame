@@ -102,7 +102,7 @@ void Renderer::setTarget(const std::weak_ptr<Entity> &entity)
 
 void Renderer::renderHitBox(const std::shared_ptr<Entity> &entity)
 {
-    glm::vec2 screenPosition = entity->mTransform.position;
+    glm::vec2 screenPosition = entity->mTransform.position - mPosition;
     SDL_Rect dstRect = {
             static_cast<int>(screenPosition.x),
             static_cast<int>(screenPosition.y),
