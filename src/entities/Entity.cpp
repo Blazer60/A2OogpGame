@@ -16,5 +16,6 @@ Entity::Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, std::stri
     mTransform(position, 0.f, glm::vec2(1.f, 1.f)),
     mHitBoxSize(hitBoxSize),
     mImageRef(std::move(imageRef)),
-    mVelocity({ 0.f, 0.f })
+    mVelocity({ 0.f, 0.f }),
+    mHitBoxColour({ 0, 0, 255, 255 })
 {}

@@ -31,10 +31,11 @@ void Player::event(const inputs &keysPressed)
 
 void Player::update()
 {
+    mHitBoxColour = { 0, 0, 255, 255 };
     mTransform.position += mVelocity;
 }
 
 void Player::onCollision(const Entity &other)
 {
-
+    mHitBoxColour = { 255, 0, 0, 255 };
 }

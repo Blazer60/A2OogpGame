@@ -25,6 +25,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         include/entities
         )
 
+target_compile_definitions(${PROJECT_NAME} PUBLIC DEBUG_DRAW_HIT_BOXES=1)
 
 #---------- Adding Vendor elements to project. ----------#
 

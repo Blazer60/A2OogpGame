@@ -16,10 +16,10 @@ BaseEnemy::BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize) :
 
 void BaseEnemy::update()
 {
-
+    mHitBoxColour = { 0, 0, 255, 255 };
 }
 
 void BaseEnemy::onCollision(const Entity &other)
 {
-
+    mHitBoxColour = { 255, 0, 0, 255 };
 }

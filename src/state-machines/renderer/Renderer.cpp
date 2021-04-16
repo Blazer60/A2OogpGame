@@ -99,3 +99,16 @@ void Renderer::setTarget(const std::weak_ptr<Entity> &entity)
 {
     mTargetEntity = entity;
 }
+
+void Renderer::renderHitBox(const std::shared_ptr<Entity> &entity)
+{
+    glm::vec2 screenPosition = entity->mTransform.position;
+    SDL_Rect dstRect = {
+            static_cast<int>(screenPosition.x),
+            static_cast<int>(screenPosition.y),
+            static_cast<int>(entity->mHitBoxSize.x),
+            static_cast<int>(entity->mHitBoxSize.y)
+    };
+    SDL_SetRenderDrawColor(mRenderer, entity->mHitBoxColour.r, entity->mHitBoxColour.g, entity->mHitBoxColour.b, entity->mHitBoxColour.a);
+    SDL_RenderDrawRect(mRenderer, &dstRect);
+}

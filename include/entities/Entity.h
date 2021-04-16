@@ -44,6 +44,7 @@ public:
     glm::vec2 mVelocity;
     const std::string mImageRef;
     glm::vec2 mHitBoxSize;
+    glm::vec4 mHitBoxColour;
 };
 
 

@@ -15,9 +15,9 @@
 
 GameState::GameState(SDL_Window *window) :
     StateMachine(window),
-    mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f }, glm::vec2{ 100.f, 100.f }))
+    mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f }, glm::vec2{ 320.f, 240.f }))
 {
-    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(400, 500), glm::vec2(100.f, 100.f)));
+    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(400, 500), glm::vec2(320.f, 240.f)));
 }
 
 void GameState::onPause()
@@ -134,6 +134,15 @@ void GameState::render(StateMachineManager *smm, const float &interpolation)
     }
 
     mRenderer.renderItem(mPlayer);
+
+#if DEBUG_DRAW_HIT_BOXES  // Set in CMakeLists.txt
+    for (auto &item : mEntities)
+    {
+        mRenderer.renderHitBox(item);
+    }
+
+    mRenderer.renderHitBox(mPlayer);
+#endif
 
     mRenderer.flip();  // Must be at the end of rendering.
 }
