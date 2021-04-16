@@ -33,6 +33,8 @@ namespace quad
         rect bounds;
         dataType value;
     };
+
+    bool isIntersecting(const rect &rec1, const rect &rec2);
 }
 
 

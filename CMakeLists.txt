@@ -17,7 +17,7 @@ add_executable(${PROJECT_NAME}
         src/state-machines/GameState.cpp include/state-machines/GameState.h
         src/entities/BaseEnemy.cpp include/entities/BaseEnemy.h
         include/quad-tree/QuadTree.h include/quad-tree/QuadTreeNode.h
-        include/quad-tree/QuadTreeHelpers.h)
+        include/quad-tree/QuadTreeHelpers.h src/quad-tree/QuadTreeHelpers.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         include

@@ -71,15 +71,13 @@ void GameState::update(StateMachineManager *smm)
         item->update();
     }
 
-    // Crude collision
-    for (auto &item : mEntities)
+    // Updated Collision
+    std::vector<std::shared_ptr<Entity>> collidedWith = mQuadTree->getIntersecting(quad::rect{mPlayer->mTransform.position, mPlayer->mHitBoxSize});
+    for (auto &other : collidedWith)
     {
-        bool hit = isIntersecting(mPlayer->mTransform.position, mPlayer->mHitBoxSize, item->mTransform.position, item->mHitBoxSize);
-        if (hit)
-        {
-            mPlayer->onCollision(item);
-            item->onCollision(mPlayer);
-        }
+        if (other == mPlayer) { continue; }
+        mPlayer->onCollision(other);
+        other->onCollision(mPlayer);
     }
 }
 

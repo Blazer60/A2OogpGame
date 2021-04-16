@@ -33,6 +33,8 @@ public:
 
     void insert(const dataType &data, const quad::rect &rect);
     void debugRender(Renderer *renderer);
+    // This will return itself. E.g.: player passed in will return player.
+    std::vector<dataType> getIntersecting(const quad::rect &element);
 
 protected:
     const std::unique_ptr<QuadTreeNode<dataType>> mRootNode;
@@ -63,6 +65,18 @@ template<class dataType>
 void QuadTree<dataType>::debugRender(Renderer *renderer)
 {
     mRootNode->debugRender(renderer);
+}
+
+template<class dataType>
+std::vector<dataType> QuadTree<dataType>::getIntersecting(const quad::rect &element)
+{
+    std::vector<dataType> hitItems;
+    for (quad::data<dataType> &item : mUnboundItems)
+    {
+        if (quad::isIntersecting(item.bounds, element)) { hitItems.emplace_back(item.value); }
+    }
+    mRootNode->getIntersecting(element, hitItems);
+    return hitItems;
 }
 
 

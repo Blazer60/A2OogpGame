@@ -12,12 +12,13 @@
 #define A2OOPGAME_QUADTREENODE_H
 
 #include "QuadTreeHelpers.h"
+#include "Renderer.h"
 
 #include <array>
 #include <vector>
 #include <memory>
 #include <iostream>
-#include "Renderer.h"
+
 
 /**
  * An internal or leaf node within a quad tree.
@@ -33,6 +34,8 @@ public:
     bool contains(const quad::rect &other);
     bool insert(quad::data<dataType> &item, int depth=0);
     void debugRender(Renderer *renderer);
+    // This will intersect itself. E.g.: Player passed in will return player out.
+    void getIntersecting(const quad::rect &element, std::vector<dataType> &hitItems);
 
 protected:
     void subdivide(int depth);
@@ -119,6 +122,24 @@ void QuadTreeNode<dataType>::debugRender(Renderer *renderer)
         mSubRegions[quad::NorthEast]->debugRender(renderer);
         mSubRegions[quad::SouthEast]->debugRender(renderer);
         mSubRegions[quad::SouthWest]->debugRender(renderer);
+    }
+}
+
+template<class dataType>
+void QuadTreeNode<dataType>::getIntersecting(const quad::rect &element, std::vector<dataType> &hitItems)
+{
+    if (!quad::isIntersecting(mBounds, element)) { return; }  // Nothing will be intersecting in this node.
+
+    // Check all items within this node.
+    for (quad::data<dataType> &item : mItems)
+    {
+        if (quad::isIntersecting(item.bounds, element)) { hitItems.emplace_back(item.value); }
+    }
+
+    // Check items within sub-nodes.
+    if (mSubRegions[0])
+    {
+        for (auto &region : mSubRegions) { region->getIntersecting(element, hitItems); }
     }
 }
 
