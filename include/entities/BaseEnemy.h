@@ -24,7 +24,7 @@ public:
     BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize);
 
     void update() override;
-    void onCollision(const Entity &other) override;
+    void onCollision(const std::shared_ptr<Entity> &other) override;
 };
 
 

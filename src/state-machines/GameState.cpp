@@ -131,9 +131,8 @@ void GameState::update(StateMachineManager *smm)
         bool hit = isIntersecting(mPlayer->mTransform.position, mPlayer->mHitBoxSize, item->mTransform.position, item->mHitBoxSize);
         if (hit)
         {
-            std::cout << "hit" << std::endl;
-            mPlayer->onCollision(*item);
-            item->onCollision(*mPlayer);
+            mPlayer->onCollision(item);
+            item->onCollision(mPlayer);
         }
     }
 }

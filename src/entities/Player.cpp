@@ -35,7 +35,7 @@ void Player::update()
     mTransform.position += mVelocity;
 }
 
-void Player::onCollision(const Entity &other)
+void Player::onCollision(const std::shared_ptr<Entity> &other)
 {
     mHitBoxColour = { 255, 0, 0, 255 };
 }

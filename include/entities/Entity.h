@@ -13,6 +13,7 @@
 
 #include <glm.hpp>
 #include <string>
+#include <memory>
 
 struct transform
 {
@@ -37,7 +38,7 @@ public:
     virtual ~Entity() = default;
 
     virtual void update() = 0;
-    virtual void onCollision(const Entity &other) = 0;
+    virtual void onCollision(const std::shared_ptr<Entity> &other) = 0;
 
 public:
     transform mTransform;

@@ -19,7 +19,7 @@ void BaseEnemy::update()
     mHitBoxColour = { 0, 0, 255, 255 };
 }
 
-void BaseEnemy::onCollision(const Entity &other)
+void BaseEnemy::onCollision(const std::shared_ptr<Entity> &other)
 {
     mHitBoxColour = { 255, 0, 0, 255 };
 }

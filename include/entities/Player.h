@@ -27,7 +27,7 @@ public:
 
     void event(const inputs& keysPressed);
     void update() override;
-    void onCollision(const Entity &other) override;
+    void onCollision(const std::shared_ptr<Entity> &other) override;
 
 protected:
     float mSpeed;
