@@ -12,6 +12,7 @@
 #include "GameState.h"
 #include "StateMachineManager.h"
 #include "BaseEnemy.h"
+#include "HelperFunctions.h"
 
 GameState::GameState(SDL_Window *window) :
     StateMachine(window),
@@ -120,6 +121,18 @@ void GameState::update(StateMachineManager *smm)
     for (auto &item : mEntities)
     {
         item->update();
+    }
+
+    // Crude collision
+    for (auto &item : mEntities)
+    {
+        bool hit = isIntersecting(mPlayer->mTransform.position, mPlayer->mHitBoxSize, item->mTransform.position, item->mHitBoxSize);
+        if (hit)
+        {
+            std::cout << "hit" << std::endl;
+            mPlayer->onCollision(*item);
+            item->onCollision(*mPlayer);
+        }
     }
 }
 

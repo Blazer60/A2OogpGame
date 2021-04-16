@@ -64,4 +64,6 @@ void throwError(const std::string &hint);
  */
 glm::ivec2 windowSizeToVec2(SDL_Window *window);
 
+bool isIntersecting(const glm::vec2 &pos1, const glm::vec2 &size1, const glm::vec2 &pos2, const glm::vec2 &size2);
+
 //#endif //A2OOPGAME_HELPERFUNCTIONS_H

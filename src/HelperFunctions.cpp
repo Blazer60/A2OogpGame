@@ -24,3 +24,16 @@ glm::ivec2 windowSizeToVec2(SDL_Window *window)
     SDL_GetWindowSize(window, &x, &y);
     return glm::ivec2(x, y);
 }
+
+bool isIntersecting(const glm::vec2 &pos1, const glm::vec2 &size1, const glm::vec2 &pos2, const glm::vec2 &size2)
+{
+    if (pos1.x + size1.x >= pos2.x && pos1.x <= pos2.x + size2.x)
+    {
+        // We have hit on the x-axis.
+        if (pos1.y + size1.y >= pos2.y && pos1.y <= pos2.y + size2.y)
+        {
+            return true;  // We have also hit on the y-axis.
+        }
+    }
+    return false;
+}
