@@ -112,3 +112,15 @@ void Renderer::renderHitBox(const std::shared_ptr<Entity> &entity)
     SDL_SetRenderDrawColor(mRenderer, entity->mHitBoxColour.r, entity->mHitBoxColour.g, entity->mHitBoxColour.b, entity->mHitBoxColour.a);
     SDL_RenderDrawRect(mRenderer, &dstRect);
 }
+
+void Renderer::renderHitBox(const glm::vec4 &rect)
+{
+    SDL_Rect dstRect = {
+            static_cast<int>(rect.x - mPosition.x),
+            static_cast<int>(rect.y - mPosition.y),
+            static_cast<int>(rect.z),
+            static_cast<int>(rect.w)
+    };
+    SDL_SetRenderDrawColor(mRenderer, 0, 0, 255, 255);
+    SDL_RenderDrawRect(mRenderer, &dstRect);
+}

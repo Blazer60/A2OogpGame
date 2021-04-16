@@ -13,6 +13,7 @@
 
 #include "StateMachine.h"
 #include "Player.h"
+#include "QuadTree.h"
 
 #include <memory>
 #include <vector>
@@ -45,6 +46,7 @@ protected:
     std::shared_ptr<Player> mPlayer;
     inputs mInputs;
     std::vector<std::shared_ptr<Entity>> mEntities;
+    std::unique_ptr<QuadTree<std::shared_ptr<Entity>>> mQuadTree;
 };
 
 
