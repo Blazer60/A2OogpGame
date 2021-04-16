@@ -13,7 +13,7 @@
 #include "GameState.h"
 
 Player::Player(const glm::vec2 &position, const glm::vec2 &hitBoxSize) :
-    Entity(position, hitBoxSize), mSpeed(5.f)
+    Entity(position, hitBoxSize), mSpeed(50.f)
 {
     mVelocity.x = mSpeed;
 }
@@ -25,7 +25,7 @@ void Player::event(const inputs &keysPressed)
     if (keysPressed.left) { axisInput.x -= 1; }
     if (keysPressed.up) { axisInput.y -= 1; }
     if (keysPressed.down) { axisInput.y += 1; }
-    glm::normalize(axisInput);
+    if (axisInput.x != 0 || axisInput.y != 0) { axisInput = glm::normalize(axisInput); }
     mVelocity = mSpeed * axisInput;
 }
 
