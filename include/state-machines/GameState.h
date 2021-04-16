@@ -31,6 +31,7 @@ struct inputs
  */
 class GameState : public StateMachine
 {
+    typedef QuadTree<std::shared_ptr<Entity>> entityTree;
 public:
     explicit GameState(SDL_Window *window);
     ~GameState() override = default;
@@ -46,7 +47,7 @@ protected:
     std::shared_ptr<Player> mPlayer;
     inputs mInputs;
     std::vector<std::shared_ptr<Entity>> mEntities;
-    std::unique_ptr<QuadTree<std::shared_ptr<Entity>>> mQuadTree;
+    std::unique_ptr<entityTree> mQuadTree;
 };
 
 

@@ -15,6 +15,9 @@
 #include "HelperFunctions.h"
 
 #include <iostream>
+#include <mutex>
+
+std::mutex mtx;
 
 GameState::GameState(SDL_Window *window) :
     StateMachine(window),
@@ -22,7 +25,12 @@ GameState::GameState(SDL_Window *window) :
 {
     mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(400, 500), glm::vec2(320.f, 240.f)));
     mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(900, -100), glm::vec2(320.f, 240.f)));
-    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(100, 700), glm::vec2(320.f, 240.f)));
+    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(000, 700), glm::vec2(320.f, 240.f)));
+    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(300, 700), glm::vec2(320.f, 240.f)));
+    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(600, 700), glm::vec2(320.f, 240.f)));
+    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(900, 700), glm::vec2(320.f, 240.f)));
+    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(1200, 700), glm::vec2(320.f, 240.f)));
+    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(1500, 700), glm::vec2(320.f, 240.f)));
 
     mRenderer.setTarget(mPlayer);
 }
@@ -39,14 +47,15 @@ void GameState::onAwake()
 
 void GameState::update(StateMachineManager *smm)
 {
-    //QuadTree<std::shared_ptr<Entity>> quadTree({ 0, 0, 1920, 1080 });
-    mQuadTree = std::make_unique<QuadTree<std::shared_ptr<Entity>>>(quad::rect{ -1920, -1080, 3840, 2160 });
+    mtx.lock();
+    mQuadTree = std::make_unique<entityTree>(quad::rect{ -1920, -1080, 3840, 2160 }, 1);
     mQuadTree->insert(mPlayer, quad::rect{ mPlayer->mTransform.position, mPlayer->mHitBoxSize });
 
     for (auto &item : mEntities)
     {
         mQuadTree->insert(item, quad::rect{ item->mTransform.position, item->mHitBoxSize });
     }
+    mtx.unlock();
 
     mPlayer->event(mInputs);
     mPlayer->update();
@@ -88,7 +97,9 @@ void GameState::render(StateMachineManager *smm, const float &interpolation)
 
     mRenderer.renderHitBox(mPlayer);
 
+    mtx.lock();
     mQuadTree->debugRender(&mRenderer);
+    mtx.unlock();
 #endif
 
     mRenderer.flip();  // Must be at the end of rendering.

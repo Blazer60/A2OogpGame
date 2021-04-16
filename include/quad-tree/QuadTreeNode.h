@@ -92,7 +92,7 @@ void QuadTreeNode<dataType>::subdivide(int depth)
     if (mItems.size() < mSplitThreshold) { return; }  // Don't subdivide.
     
     // Create the four regions.
-    float halfHeight = mBounds.w / 2, halfWidth = mBounds.h / 2;
+    float halfHeight = mBounds.h / 2, halfWidth = mBounds.w / 2;
     
     quad::rect northWestRegion = { mBounds.x,                   mBounds.y,                    halfWidth, halfHeight };
     quad::rect northEastRegion = { mBounds.x + halfWidth,   mBounds.y,                    halfWidth, halfHeight };
@@ -115,7 +115,14 @@ void QuadTreeNode<dataType>::debugRender(Renderer *renderer)
     renderer->renderHitBox(glm::vec4{ mBounds.x, mBounds.y, mBounds.w, mBounds.h });
     if (mSubRegions[0])
     {
-        for (auto &region : mSubRegions) { region->debugRender(renderer); }
+        mSubRegions[quad::NorthWest]->debugRender(renderer);
+        mSubRegions[quad::NorthEast]->debugRender(renderer);
+        mSubRegions[quad::SouthEast]->debugRender(renderer);
+        mSubRegions[quad::SouthWest]->debugRender(renderer);
+//        for (auto &region : mSubRegions)
+//        {
+//            region->debugRender(renderer);
+//        }
     }
 }
 
