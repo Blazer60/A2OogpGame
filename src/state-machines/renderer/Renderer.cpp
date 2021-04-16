@@ -16,7 +16,7 @@
 
 Renderer::Renderer(SDL_Window *window) :
         mRenderer(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED)),
-        mInterpolation(0.f)
+        mInterpolation(0.f), mPosition(0), mRendererSize(windowSizeToVec2(window))
 {}
 
 void Renderer::flip()
@@ -32,10 +32,11 @@ void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
         loadImage(entity->mImageRef);
     }
 
+    glm::vec2 screenPosition = entity->mTransform.position + entity->mVelocity * mInterpolation - mPosition;
     // Where the image is going to go and the size of the image.
     SDL_Rect dstRect = {
-            static_cast<int>(entity->mTransform.position.x + entity->mVelocity.x * mInterpolation),
-            static_cast<int>(entity->mTransform.position.y + entity->mVelocity.y * mInterpolation),
+            static_cast<int>(screenPosition.x),
+            static_cast<int>(screenPosition.y),
             mImages[entity->mImageRef].width, mImages[entity->mImageRef].height
     };
 
@@ -70,6 +71,18 @@ void Renderer::update(const float &interpolation)
     mInterpolation = interpolation;
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0);
     SDL_RenderClear(mRenderer);
+
+    // Convert Entity to Shared pointer to get data.
+    // Control blocks are thread safe.
+    if (auto tgtEntity = mTargetEntity.lock())
+    {
+        // Put the entity in the center of the screen.
+        mPosition = tgtEntity->mTransform.position - (glm::vec2(mRendererSize) / 2.f) + tgtEntity->mVelocity * mInterpolation;
+    }
+    else
+    {
+        mPosition = { 0.f, 0.f };
+    }
 }
 
 Renderer::~Renderer()
@@ -80,4 +93,9 @@ Renderer::~Renderer()
     }
     // We can't erase in place while iterating.
     mImages.clear();
+}
+
+void Renderer::setTarget(const std::weak_ptr<Entity> &entity)
+{
+    mTargetEntity = entity;
 }

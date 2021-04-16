@@ -15,7 +15,9 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
-#include <Entity.h>
+#include <glm.hpp>
+
+class Entity;
 
 struct imageData
 {
@@ -40,11 +42,15 @@ public:
     void flip();
     void loadImage(const std::string &imageRef);
     void freeImage(const std::string &imageRef);
+    void setTarget(const std::weak_ptr<Entity> &entity);
 
 protected:
+    glm::ivec2 mRendererSize;
     SDL_Renderer *mRenderer;
     imageMap mImages;
     float mInterpolation;
+    std::weak_ptr<Entity> mTargetEntity;
+    glm::vec2 mPosition;
 };
 
 
