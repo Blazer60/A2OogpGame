@@ -99,10 +99,10 @@ void QuadTreeNode<dataType>::subdivide(int depth)
     quad::rect southEastRegion = { mBounds.x + halfWidth,   mBounds.y + halfHeight,   halfWidth, halfHeight };
     quad::rect southWestRegion = { mBounds.x,                   mBounds.y + halfHeight,   halfWidth, halfHeight };
     
-    mSubRegions[quad::NorthWest] = std::make_unique<QuadTreeNode<dataType>>(northWestRegion);
-    mSubRegions[quad::NorthEast] = std::make_unique<QuadTreeNode<dataType>>(northEastRegion);
-    mSubRegions[quad::SouthEast] = std::make_unique<QuadTreeNode<dataType>>(southEastRegion);
-    mSubRegions[quad::SouthWest] = std::make_unique<QuadTreeNode<dataType>>(southWestRegion);
+    mSubRegions[quad::NorthWest] = std::make_unique<QuadTreeNode<dataType>>(northWestRegion, mSplitThreshold);
+    mSubRegions[quad::NorthEast] = std::make_unique<QuadTreeNode<dataType>>(northEastRegion, mSplitThreshold);
+    mSubRegions[quad::SouthEast] = std::make_unique<QuadTreeNode<dataType>>(southEastRegion, mSplitThreshold);
+    mSubRegions[quad::SouthWest] = std::make_unique<QuadTreeNode<dataType>>(southWestRegion, mSplitThreshold);
 
     std::vector<quad::data<dataType>> tmp = mItems;
     mItems.clear();
@@ -119,10 +119,6 @@ void QuadTreeNode<dataType>::debugRender(Renderer *renderer)
         mSubRegions[quad::NorthEast]->debugRender(renderer);
         mSubRegions[quad::SouthEast]->debugRender(renderer);
         mSubRegions[quad::SouthWest]->debugRender(renderer);
-//        for (auto &region : mSubRegions)
-//        {
-//            region->debugRender(renderer);
-//        }
     }
 }
 
