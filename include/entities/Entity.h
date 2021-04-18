@@ -21,10 +21,10 @@ namespace quad { struct rect; }
 struct transform
 {
     glm::vec2 position;
-    float rotation;
+    double rotation;
     glm::vec2 scale;
 
-    transform(const glm::vec2 &position, float rotation, const glm::vec2 &scale) :
+    transform(const glm::vec2 &position, double rotation, const glm::vec2 &scale) :
         position(position), rotation(rotation), scale(scale)
     {}
 };
@@ -57,6 +57,8 @@ public:  // todo: convert this to protected fields.
     glm::vec2 mHitBoxSize;
     glm::vec4 mHitBoxColour;
     const size_t mCollisionLayer;
+    bool mIsDead;
+    double mAngularVelocity;
 };
 
 

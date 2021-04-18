@@ -12,6 +12,7 @@
 #include "GameState.h"
 #include "StateMachineManager.h"
 #include "BaseEnemy.h"
+#include "BaseProjectile.h"
 #include "HelperFunctions.h"
 
 #include <iostream>
@@ -33,6 +34,8 @@ GameState::GameState(SDL_Window *window) :
     mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(900, 700), glm::vec2(320.f, 240.f)));
     mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(1200, 700), glm::vec2(320.f, 240.f)));
     mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(1500, 700), glm::vec2(320.f, 240.f)));
+    mEntities.emplace_back(std::make_shared<BaseProjectile>(glm::vec2(-50, -50), glm::vec2(1.f, 0.f)));
+
 
     mRenderer.setTarget(mPlayer);
 }
@@ -73,12 +76,22 @@ void GameState::update(StateMachineManager *smm)
 
     // Updated Collision
     std::vector<std::shared_ptr<Entity>> collidedWith = mQuadTree->getIntersecting(
-            mPlayer->getHitBoxRect(), quad::layers::Enemy);
+            mPlayer->getHitBoxRect(), quad::layers::Enemy | quad::layers::Projectile);
     for (auto &other : collidedWith)
     {
         if (other == mPlayer) { continue; }
         mPlayer->onCollision(other);
         other->onCollision(mPlayer);
+    }
+
+    // Clean Entity List.
+    for (int i = static_cast<int>(mEntities.size() ) - 1; i >= 0; --i)
+    {
+        if (mEntities[i]->mIsDead)
+        {
+            std::swap(mEntities[i], mEntities[mEntities.size() - 1]);
+            mEntities.pop_back();
+        }
     }
 }
 

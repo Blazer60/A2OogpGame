@@ -43,9 +43,11 @@ void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
             static_cast<int>(mImages[entity->mImageRef].height * entity->mTransform.scale.y)
     };
 
+    double screenRotation = entity->mTransform.rotation + entity->mAngularVelocity * mInterpolation;
+
     // srcrect is where to crop an image if it's within an atlas map.
-    SDL_RenderCopy(mRenderer, mImages[entity->mImageRef].src,
-                   nullptr, dstRect);
+    SDL_RenderCopyEx(mRenderer, mImages[entity->mImageRef].src, nullptr, &dstRect, screenRotation,
+                     nullptr, SDL_FLIP_NONE);
 }
 
 void Renderer::loadImage(const std::string &imageRef)
