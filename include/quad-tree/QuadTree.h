@@ -35,8 +35,9 @@ public:
      * Inserts an item into the tree.
      * @param data The item data you want to store.
      * @param aabb The bounding box to find said data.
+     * @param layer The layer that you want the data to be on.
      */
-    void insert(const dataType &data, const quad::rect &aabb);
+    void insert(const dataType &data, const quad::rect &aabb, const size_t &layer);
 
     /**
      * Renders the bounding boxes of the quad tree. Only to be used in debug mode.
@@ -50,9 +51,10 @@ public:
      * was inserted into the tree, and used to find what items will be intersected.
      * Player will be returned.
      * @param aabb The bounding box you want items to intersect.
-     * @return All elements intersecting your query.
+     * @param queryLayer The layer that you want to query.
+     * @returns All elements intersecting your query.
      */
-    std::vector<dataType> getIntersecting(const quad::rect &aabb);
+    std::vector<dataType> getIntersecting(const quad::rect &aabb, const size_t &queryLayer=quad::layers::Any);
 
 protected:
     const std::unique_ptr<QuadTreeNode<dataType>> mRootNode;
@@ -74,9 +76,9 @@ QuadTree<dataType>::QuadTree(const quad::rect &bounds, const size_t &splitThresh
 }
 
 template<class dataType>
-void QuadTree<dataType>::insert(const dataType &data, const quad::rect &aabb)
+void QuadTree<dataType>::insert(const dataType &data, const quad::rect &aabb, const size_t &layer)
 {
-    quad::data<dataType> item{ aabb, data };
+    quad::data<dataType> item{ aabb, data, layer };
     bool success = mRootNode->insert(item, mMaxDepth);
     if (!success) { mUnboundItems.emplace_back(item); }
 }
@@ -88,14 +90,17 @@ void QuadTree<dataType>::debugRender(Renderer *renderer)
 }
 
 template<class dataType>
-std::vector<dataType> QuadTree<dataType>::getIntersecting(const quad::rect &aabb)
+std::vector<dataType> QuadTree<dataType>::getIntersecting(const quad::rect &aabb, const size_t &queryLayer)
 {
     std::vector<dataType> hitItems;
     for (quad::data<dataType> &item : mUnboundItems)
     {
-        if (quad::isIntersecting(item.bounds, aabb)) { hitItems.emplace_back(item.value); }
+        if ((queryLayer & item.layer) > 0 && quad::isIntersecting(item.bounds, aabb))
+        {
+            hitItems.emplace_back(item.value);  // On the correct layer and intersecting.
+        }
     }
-    mRootNode->getIntersecting(aabb, hitItems);
+    mRootNode->getIntersecting(aabb, queryLayer, hitItems);
     return hitItems;
 }
 

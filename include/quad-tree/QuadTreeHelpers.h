@@ -27,11 +27,21 @@ namespace quad
 
     enum regions : int { NorthWest, SouthWest, SouthEast, NorthEast };
 
+    enum layers : size_t
+    {
+        Player      = 0b0001,
+        Enemy       = 0b0010,
+        Projectile  = 0b0100,
+        Boundary    = 0b1000,
+        Any         = 0b1111
+    };
+
     template<typename dataType>
     struct data
     {
         rect bounds;
         dataType value;
+        size_t layer;
     };
 
     bool isIntersecting(const rect &rec1, const rect &rec2);

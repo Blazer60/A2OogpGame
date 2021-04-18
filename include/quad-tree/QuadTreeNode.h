@@ -58,9 +58,10 @@ public:
      * was inserted into the tree, and used to find what items will be intersected.
      * Player will be returned.
      * @param aabb The bounding box you want items to intersect.
+     * @param queryLayer The layer that is being queried.
      * @param hitItems All items that that have been intersected.
      */
-    void getIntersecting(const quad::rect &aabb, std::vector<dataType> &hitItems);
+    void getIntersecting(const quad::rect &aabb, const size_t &queryLayer, std::vector<dataType> &hitItems);
 
 protected:
     /**
@@ -73,13 +74,15 @@ protected:
     const size_t mSplitThreshold;
     std::array<std::unique_ptr<QuadTreeNode<dataType>>, 4> mSubRegions;
     std::vector<quad::data<dataType>> mItems;
+    size_t mLayers;
 };
 
 
 template<class dataType>
 QuadTreeNode<dataType>::QuadTreeNode(const quad::rect &rect, const size_t &splitThreshold) :
     mBounds(rect),
-    mSplitThreshold(splitThreshold)
+    mSplitThreshold(splitThreshold),
+    mLayers(0)
 {
 
 }
@@ -101,7 +104,7 @@ bool QuadTreeNode<dataType>::insert(quad::data<dataType> &item, int depth)
         bool success = false;
         for (auto &region : mSubRegions)
         {
-            success |= region->insert(item, depth-1);
+            success |= region->insert(item, depth - 1);
         }
         if (!success)
         {
@@ -114,6 +117,7 @@ bool QuadTreeNode<dataType>::insert(quad::data<dataType> &item, int depth)
         mItems.emplace_back(item);
         subdivide(depth);  // Will try and subdivide if the number of elements exceeds the specified threshold.
     }
+    mLayers = mLayers | item.layer;  // Add item layer to this node.
     return true;
 }
 
@@ -155,20 +159,25 @@ void QuadTreeNode<dataType>::debugRender(Renderer *renderer)
 }
 
 template<class dataType>
-void QuadTreeNode<dataType>::getIntersecting(const quad::rect &aabb, std::vector<dataType> &hitItems)
+void QuadTreeNode<dataType>::getIntersecting(const quad::rect &aabb, const size_t &queryLayer,
+                                             std::vector<dataType> &hitItems)
 {
+    if ((queryLayer & mLayers) == 0) { return; }  // Nothing in this node matches the queried layer.
     if (!quad::isIntersecting(mBounds, aabb)) { return; }  // Nothing will be intersecting in this node.
 
     // Check all items within this node.
     for (quad::data<dataType> &item : mItems)
     {
-        if (quad::isIntersecting(item.bounds, aabb)) { hitItems.emplace_back(item.value); }
+        if ((queryLayer & item.layer) > 0 && quad::isIntersecting(item.bounds, aabb))
+        {
+            hitItems.emplace_back(item.value);  // On the correct layer and intersecting.
+        }
     }
 
     // Check items within sub-nodes.
     if (mSubRegions[0])
     {
-        for (auto &region : mSubRegions) { region->getIntersecting(aabb, hitItems); }
+        for (auto &region : mSubRegions) { region->getIntersecting(aabb, queryLayer, hitItems); }
     }
 }
 
