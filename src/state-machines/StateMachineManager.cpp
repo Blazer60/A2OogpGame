@@ -24,12 +24,10 @@ StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skip
     mInterpolation(0.0)
 {
     // Initialise all of SDL.
-    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-    {
-        std::cout << "Could not initialise SDL" << std::endl;
-        std::cout << SDL_GetError() << std::endl;
-        throw std::exception();
-    }
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) { throwError("Could not initialise SDL"); }
+
+    // Initialise SDL Image.
+    if (!IMG_Init(IMG_INIT_PNG)) { throwError("Could not load SDL Image with PNG images."); }
 
     mWindow = SDL_CreateWindow("A2 OOP Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mScreenSize.x, mScreenSize.y, SDL_WINDOW_SHOWN);
     changeState(skipToStateKey);

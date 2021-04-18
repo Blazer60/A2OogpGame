@@ -12,6 +12,7 @@
 #define A2OOPGAME_STATEMACHINEMANAGER_H
 
 #include <SDL.h>
+#include <SDL_image.h>
 #include <glm.hpp>
 #include <unordered_map>
 #include <memory>

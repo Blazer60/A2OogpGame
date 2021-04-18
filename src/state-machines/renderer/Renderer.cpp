@@ -13,6 +13,7 @@
 #include "Entity.h"
 
 #include <iostream>
+#include <SDL_image.h>
 
 Renderer::Renderer(SDL_Window *window) :
         mRenderer(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED)),
@@ -47,7 +48,7 @@ void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
 
 void Renderer::loadImage(const std::string &imageRef)
 {
-    SDL_Surface *loadedSurface = SDL_LoadBMP(imageRef.c_str());
+    SDL_Surface *loadedSurface = IMG_Load(imageRef.c_str());
     if (!loadedSurface)
     {
         throwError("Failed to find image: " + imageRef + ". Check location from executable");

@@ -53,6 +53,7 @@ endif()
 target_include_directories(${PROJECT_NAME} PUBLIC
         ${VENDOR_INCLUDE}
         ${VENDOR_INCLUDE}/sdl2
+        ${VENDOR_INCLUDE}/sdl2-image
         ${VENDOR_INCLUDE}/glm
         )
 
@@ -67,12 +68,15 @@ else()
 endif ()
 
 # Dynamic link to the SDL2 Library.
-target_link_libraries(${PROJECT_NAME} PUBLIC ${VENDOR_LIB}/SDL2.lib)
+target_link_libraries(${PROJECT_NAME} PUBLIC
+        ${VENDOR_LIB}/SDL2.lib
+        ${VENDOR_LIB}/SDL2_image.lib
+        )
 
 # Potentially not needed? Keeping here in case anything happens in the future.
-#add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E copy_directory
-#        ${VENDOR_LIB}
-#        "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
-#        )
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${VENDOR_LIB}
+        "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+        )
 
