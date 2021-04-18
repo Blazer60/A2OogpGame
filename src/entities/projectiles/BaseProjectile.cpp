@@ -16,13 +16,11 @@ BaseProjectile::BaseProjectile(const glm::vec2 &position, const glm::vec2 &veloc
         Entity(position, { 16, 16 }, { 8, 8 },quad::layers::Projectile, std::move(imageRef))
 {
     mVelocity = velocity;  // Assigning here rather than creating a new Entity Constructor.
-    mAngularVelocity = 20.0;
 }
 
 void BaseProjectile::update()
 {
     mTransform.position += mVelocity;
-    mTransform.rotation += mAngularVelocity;
 }
 
 void BaseProjectile::onCollision(const std::shared_ptr<Entity> &other)
