@@ -10,8 +10,8 @@
 
 #include "BaseEnemy.h"
 
-BaseEnemy::BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize) :
-    Entity(position, hitBoxSize)
+BaseEnemy::BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const size_t &collisionLayer) :
+        Entity(position, hitBoxSize, collisionLayer)
 {}
 
 void BaseEnemy::update()

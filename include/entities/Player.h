@@ -11,7 +11,8 @@
 #ifndef A2OOPGAME_PLAYER_H
 #define A2OOPGAME_PLAYER_H
 
-#include <Entity.h>
+#include "Entity.h"
+#include "QuadTreeHelpers.h"
 
 struct inputs;
 
@@ -23,7 +24,7 @@ struct inputs;
 class Player : public Entity
 {
 public:
-    Player(const glm::vec2 &position, const glm::vec2 &hitBoxSize);
+    Player(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const size_t &collisionLayer=quad::layers::Player);
 
     void event(const inputs& keysPressed);
     void update() override;
