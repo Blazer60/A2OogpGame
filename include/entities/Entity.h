@@ -39,17 +39,21 @@ class Entity
 public:
     Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const size_t &collisionLayer,
            std::string imageRef = "../tmp/chad.bmp");
+
+    Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const glm::vec2 &hitBoxOffSet,
+           const size_t &collisionLayer, std::string  imageRef = "../tmp/chad.bmp");
     virtual ~Entity() = default;
 
     virtual void update() = 0;
     virtual void onCollision(const std::shared_ptr<Entity> &other) = 0;
 
-    quad::rect getRect();
+    quad::rect getRect() const;
 
 public:  // todo: convert this to protected fields.
     transform mTransform;
     glm::vec2 mVelocity;
     const std::string mImageRef;
+    glm::vec2 mHitBoxOffset;
     glm::vec2 mHitBoxSize;
     glm::vec4 mHitBoxColour;
     const size_t mCollisionLayer;

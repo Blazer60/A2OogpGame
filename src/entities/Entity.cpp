@@ -20,10 +20,24 @@ Entity::Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const siz
     mImageRef(std::move(imageRef)),
     mVelocity({ 0.f, 0.f }),
     mHitBoxColour({ 0, 0, 255, 255 }),
-    mCollisionLayer(collisionLayer)
+    mCollisionLayer(collisionLayer),
+    mHitBoxOffset(0.f)
 {}
 
-quad::rect Entity::getRect()
+Entity::Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const glm::vec2 &hitBoxOffSet,
+               const size_t &collisionLayer, std::string  imageRef) :
+        mTransform(position, 0.f, glm::vec2(1.f, 1.f)),
+        mHitBoxSize(hitBoxSize),
+        mImageRef(std::move(imageRef)),
+        mVelocity({ 0.f, 0.f }),
+        mHitBoxOffset(hitBoxOffSet),
+        mHitBoxColour({0, 0, 255, 255}),
+        mCollisionLayer(collisionLayer)
 {
-    return quad::rect(mTransform.position, mHitBoxSize);
+
+}
+
+quad::rect Entity::getRect() const
+{
+    return { mTransform.position, mHitBoxSize };
 }

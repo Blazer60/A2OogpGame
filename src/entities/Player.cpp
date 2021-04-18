@@ -13,8 +13,9 @@
 #include "GameState.h"
 
 Player::Player(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const size_t &collisionLayer) :
-        Entity(position, hitBoxSize, collisionLayer, "../tmp/Georb-0001.png"), mSpeed(50.f)
+        Entity(position, { 16, 16 }, { 32, 32 }, collisionLayer, "../tmp/Georb-0001.png"), mSpeed(50.f)
 {
+    mTransform.scale = glm::vec2 (4.f);
     mVelocity.x = mSpeed;
 }
 

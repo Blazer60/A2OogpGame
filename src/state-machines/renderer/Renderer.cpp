@@ -38,7 +38,8 @@ void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
     SDL_Rect dstRect = {
             static_cast<int>(screenPosition.x),
             static_cast<int>(screenPosition.y),
-            mImages[entity->mImageRef].width, mImages[entity->mImageRef].height
+            static_cast<int>(mImages[entity->mImageRef].width * entity->mTransform.scale.x),
+            static_cast<int>(mImages[entity->mImageRef].height * entity->mTransform.scale.y)
     };
 
     // srcrect is where to crop an image if it's within an atlas map.
