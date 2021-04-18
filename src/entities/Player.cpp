@@ -13,7 +13,7 @@
 #include "GameState.h"
 
 Player::Player(const glm::vec2 &position) :
-        Entity(position,{ 16, 16 },{ 32, 32 },
+        Entity(position,{ 32, 32 },{ 16, 16 },
                quad::layers::Player, "../tmp/Georb-0001.png"),
         mSpeed(50.f)
 {

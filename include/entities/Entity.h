@@ -47,7 +47,7 @@ public:
     virtual void update() = 0;
     virtual void onCollision(const std::shared_ptr<Entity> &other) = 0;
 
-    quad::rect getRect() const;
+    quad::rect getHitBoxRect() const;
 
 public:  // todo: convert this to protected fields.
     transform mTransform;

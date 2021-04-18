@@ -37,7 +37,7 @@ Entity::Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const glm
 
 }
 
-quad::rect Entity::getRect() const
+quad::rect Entity::getHitBoxRect() const
 {
-    return { mTransform.position, mHitBoxSize };
+    return { mTransform.position + mHitBoxOffset, mHitBoxSize };
 }

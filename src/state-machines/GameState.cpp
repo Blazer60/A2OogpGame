@@ -53,11 +53,11 @@ void GameState::update(StateMachineManager *smm)
     mtx.lock();
 #endif
     mQuadTree = std::make_unique<entityTree>(quad::rect{ -1920, -1080, 3840, 2160 }, 1);
-    mQuadTree->insert(mPlayer, mPlayer->getRect(), mPlayer->mCollisionLayer);
+    mQuadTree->insert(mPlayer, mPlayer->getHitBoxRect(), mPlayer->mCollisionLayer);
 
     for (auto &item : mEntities)
     {
-        mQuadTree->insert(item, item->getRect(), item->mCollisionLayer);
+        mQuadTree->insert(item, item->getHitBoxRect(), item->mCollisionLayer);
     }
 #if DEBUG_DRAW_HIT_BOXES
     mtx.unlock();
@@ -73,7 +73,7 @@ void GameState::update(StateMachineManager *smm)
 
     // Updated Collision
     std::vector<std::shared_ptr<Entity>> collidedWith = mQuadTree->getIntersecting(
-            mPlayer->getRect(), quad::layers::Enemy);
+            mPlayer->getHitBoxRect(), quad::layers::Enemy);
     for (auto &other : collidedWith)
     {
         if (other == mPlayer) { continue; }

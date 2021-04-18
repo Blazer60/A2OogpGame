@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include <SDL_image.h>
+#include <QuadTreeHelpers.h>
 
 Renderer::Renderer(SDL_Window *window) :
         mRenderer(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED)),
@@ -104,12 +105,14 @@ void Renderer::setTarget(const std::weak_ptr<Entity> &entity)
 
 void Renderer::renderHitBox(const std::shared_ptr<Entity> &entity)
 {
-    glm::vec2 screenPosition = entity->mTransform.position - mPosition;
+    quad::rect entityHitBox = entity->getHitBoxRect();
+    entityHitBox.x -= mPosition.x;
+    entityHitBox.y -= mPosition.y;
     SDL_Rect dstRect = {
-            static_cast<int>(screenPosition.x),
-            static_cast<int>(screenPosition.y),
-            static_cast<int>(entity->mHitBoxSize.x),
-            static_cast<int>(entity->mHitBoxSize.y)
+            static_cast<int>(entityHitBox.x),
+            static_cast<int>(entityHitBox.y),
+            static_cast<int>(entityHitBox.w),
+            static_cast<int>(entityHitBox.h)
     };
     SDL_SetRenderDrawColor(mRenderer, entity->mHitBoxColour.r, entity->mHitBoxColour.g, entity->mHitBoxColour.b, entity->mHitBoxColour.a);
     SDL_RenderDrawRect(mRenderer, &dstRect);
