@@ -24,7 +24,7 @@ struct inputs;
 class Player : public Entity
 {
 public:
-    Player(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const size_t &collisionLayer=quad::layers::Player);
+    explicit Player(const glm::vec2 &position);
 
     void event(const inputs& keysPressed);
     void update() override;

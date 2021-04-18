@@ -23,7 +23,7 @@ std::mutex mtx;  // Used to stop race conditions on Quad Tree (that should only 
 
 GameState::GameState(SDL_Window *window) :
     StateMachine(window),
-    mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f }, glm::vec2{ 320.f, 240.f }))
+    mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f }))
 {
     mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(400, 500), glm::vec2(320.f, 240.f)));
     mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(900, -100), glm::vec2(320.f, 240.f)));
