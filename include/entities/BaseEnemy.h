@@ -30,7 +30,7 @@ class BaseEnemy :  public Entity
 {
 public:
     BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize, GameState *attachToState,
-              const size_t &collisionLayer = quad::layers::Enemy);
+              std::weak_ptr<Entity> targetEntity, const size_t &collisionLayer = quad::layers::Enemy);
 
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;
@@ -40,7 +40,6 @@ protected:
 
     GameState *mGame;
     std::weak_ptr<Entity> mTargetEntity;
-    std::shared_ptr<BaseProjectile> mProjectiles;
 };
 
 

@@ -9,15 +9,16 @@
 
 #include "GameState.h"
 #include "BaseEnemy.h"
+#include "Player.h"
 #include <glm.hpp>
 #include <gtc/constants.hpp>
 #include <utility>
 
-BaseEnemy::BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize,
-                     GameState *attachToState,
-                     const size_t &collisionLayer) :
+BaseEnemy::BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize, GameState *attachToState,
+                     std::weak_ptr<Entity> targetEntity, const size_t &collisionLayer) :
         Entity(position, hitBoxSize, collisionLayer),
-        mGame(attachToState)
+        mGame(attachToState),
+        mTargetEntity(std::move(targetEntity))
 {}
 
 void BaseEnemy::update()
@@ -29,7 +30,7 @@ void BaseEnemy::update()
     }
     mVelocity = targetDirection * 5.f;
     mTransform.position += mVelocity;
-    mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position, glm::vec2(1.f, 0.f)));
+    mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position, glm::vec2(10.f, 0.f)));
 }
 
 void BaseEnemy::onCollision(const std::shared_ptr<Entity> &other)
