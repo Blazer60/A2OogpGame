@@ -14,6 +14,7 @@
 #include "BaseEnemy.h"
 #include "BaseProjectile.h"
 #include "HelperFunctions.h"
+#include "MechaChad.h"
 
 #include <iostream>
 #include <mutex>
@@ -27,7 +28,7 @@ GameState::GameState(SDL_Window *window) :
     mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f }))
 {
     mEntities.reserve(100);
-    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(400, 500), glm::vec2(320.f, 240.f), this, std::weak_ptr<Player>(mPlayer)));
+    mEntities.emplace_back(std::make_shared<MechaChad>(glm::vec2(0, 0), this, std::weak_ptr<Entity>(mPlayer)));
     mRenderer.setTarget(mPlayer);
 }
 
@@ -106,7 +107,7 @@ void GameState::render(StateMachineManager *smm, const float &interpolation)
     mRenderer.renderHitBox(mPlayer);
 
     mtx.lock();
-    mQuadTree->debugRender(&mRenderer);
+    if (mQuadTree) { mQuadTree->debugRender(&mRenderer); }
     mtx.unlock();
 #endif
 

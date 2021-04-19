@@ -32,11 +32,8 @@ public:
     BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize, GameState *attachToState,
               std::weak_ptr<Entity> targetEntity, const size_t &collisionLayer = quad::layers::Enemy);
 
-    void update() override;
-    void onCollision(const std::shared_ptr<Entity> &other) override;
-
 protected:
-    static std::vector<glm::vec2> getUnitCirclePoints(unsigned int n, const float &offSet);
+    static std::vector<glm::vec2> getUnitCirclePoints(unsigned int n, const float &offSet=0);
 
     GameState *mGame;
     std::weak_ptr<Entity> mTargetEntity;
