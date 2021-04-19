@@ -30,7 +30,7 @@ void BaseEnemy::update()
     }
     mVelocity = targetDirection * 5.f;
     mTransform.position += mVelocity;
-    mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position, glm::vec2(10.f, 0.f)));
+    mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position, glm::vec2(10.f, 0.f), quad::layers::EnemyProjectile));
 }
 
 void BaseEnemy::onCollision(const std::shared_ptr<Entity> &other)

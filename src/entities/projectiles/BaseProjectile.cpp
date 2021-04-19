@@ -12,8 +12,9 @@
 #include "BaseProjectile.h"
 #include "QuadTreeHelpers.h"
 
-BaseProjectile::BaseProjectile(const glm::vec2 &position, const glm::vec2 &velocity, std::string imageRef) :
-        Entity(position, { 16, 16 }, { 8, 8 },quad::layers::Projectile, std::move(imageRef))
+BaseProjectile::BaseProjectile(const glm::vec2 &position, const glm::vec2 &velocity, const size_t &collisionLayer,
+                               std::string imageRef) :
+        Entity(position, { 16, 16 }, { 8, 8 }, collisionLayer, std::move(imageRef))
 {
     mVelocity = velocity;  // Assigning here rather than creating a new Entity Constructor.
 }

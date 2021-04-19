@@ -23,7 +23,8 @@
 class BaseProjectile : public Entity
 {
 public:
-    BaseProjectile(const glm::vec2 &position, const glm::vec2 &velocity, std::string imageRef="../tmp/BaseProjectile-0001.png");
+    BaseProjectile(const glm::vec2 &position, const glm::vec2 &velocity, const size_t &collisionLayer,
+                   std::string imageRef = "../tmp/BaseProjectile-0001.png");
 
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;
