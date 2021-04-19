@@ -14,6 +14,7 @@
 #include <glm.hpp>
 #include <string>
 #include <memory>
+#include <SDL.h>
 
 namespace quad { struct rect; }
 

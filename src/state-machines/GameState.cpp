@@ -16,9 +16,9 @@
 #include "HelperFunctions.h"
 
 #include <iostream>
+#include <mutex>
 
 #if DEBUG_DRAW_HIT_BOXES  // Used to draw the quadtree to the screen. Not seen in release mode.
-#include <mutex>
 std::mutex mtx;  // Used to stop race conditions on Quad Tree (that should only be accessed by update functions).
 #endif
 
@@ -26,16 +26,8 @@ GameState::GameState(SDL_Window *window) :
     StateMachine(window),
     mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f }))
 {
-    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(400, 500), glm::vec2(320.f, 240.f)));
-    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(900, -100), glm::vec2(320.f, 240.f)));
-    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(000, 700), glm::vec2(320.f, 240.f)));
-    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(300, 700), glm::vec2(320.f, 240.f)));
-    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(600, 700), glm::vec2(320.f, 240.f)));
-    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(900, 700), glm::vec2(320.f, 240.f)));
-    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(1200, 700), glm::vec2(320.f, 240.f)));
-    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(1500, 700), glm::vec2(320.f, 240.f)));
-    mEntities.emplace_back(std::make_shared<BaseProjectile>(glm::vec2(-50, -50), glm::vec2(1.f, 0.f)));
-
+    mEntities.reserve(100);
+    mEntities.emplace_back(std::make_shared<BaseEnemy>(glm::vec2(400, 500), glm::vec2(320.f, 240.f), this));
 
     mRenderer.setTarget(mPlayer);
 }
@@ -55,7 +47,7 @@ void GameState::update(StateMachineManager *smm)
 #if DEBUG_DRAW_HIT_BOXES
     mtx.lock();
 #endif
-    mQuadTree = std::make_unique<entityTree>(quad::rect{ -1920, -1080, 3840, 2160 }, 1);
+    mQuadTree = std::make_unique<entityTree>(quad::rect{ -1920, -1080, 3840, 2160 }, 10);
     mQuadTree->insert(mPlayer, mPlayer->getHitBoxRect(), mPlayer->mCollisionLayer);
 
     for (auto &item : mEntities)
@@ -84,15 +76,14 @@ void GameState::update(StateMachineManager *smm)
         other->onCollision(mPlayer);
     }
 
-    // Clean Entity List.
-    for (int i = static_cast<int>(mEntities.size() ) - 1; i >= 0; --i)
-    {
-        if (mEntities[i]->mIsDead)
-        {
-            std::swap(mEntities[i], mEntities[mEntities.size() - 1]);
-            mEntities.pop_back();
-        }
-    }
+    // Creation and deletion of entities can cause the vector to move in memory causing access violations.
+    std::mutex mutex;
+    mutex.lock();
+
+    cleanEntities();  // Remove dead entities.
+    moveBufferedEntities();  // Add Buffered Entities to main vector.
+
+    mutex.unlock();
 }
 
 void GameState::render(StateMachineManager *smm, const float &interpolation)
@@ -100,7 +91,7 @@ void GameState::render(StateMachineManager *smm, const float &interpolation)
     // Items are ordered from back to front.
     mRenderer.update(interpolation);  // Must be at the start of rendering
 
-    for (auto &item : mEntities)
+    for (std::shared_ptr<Entity>& item : mEntities)
     {
         mRenderer.renderItem(item);
     }
@@ -108,7 +99,7 @@ void GameState::render(StateMachineManager *smm, const float &interpolation)
     mRenderer.renderItem(mPlayer);
 
 #if DEBUG_DRAW_HIT_BOXES  // Set in CMakeLists.txt
-    for (auto &item : mEntities)
+    for (const auto &item : mEntities)
     {
         mRenderer.renderHitBox(item);
     }
@@ -201,6 +192,32 @@ void GameState::event(StateMachineManager *smm)
         {
             mInputs.mousePosition.x = static_cast<float>(event.motion.x);
             mInputs.mousePosition.y = static_cast<float>(event.motion.y);
+        }
+    }
+}
+
+void GameState::createEntity(const std::shared_ptr<Entity>& entity)
+{
+    mBufferedEntities.push_back(entity);
+}
+
+void GameState::moveBufferedEntities()
+{
+    for (auto &item : mBufferedEntities)
+    {
+        mEntities.push_back(item);
+    }
+    mBufferedEntities.clear();
+}
+
+void GameState::cleanEntities()
+{
+    for (int i = static_cast<int>(mEntities.size() ) - 1; i >= 0; --i)
+    {
+        if (mEntities[i]->mIsDead)
+        {
+            std::swap(mEntities[i], mEntities[mEntities.size() - 1]);
+            mEntities.pop_back();
         }
     }
 }

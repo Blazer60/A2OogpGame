@@ -29,11 +29,13 @@ namespace quad
 
     enum layers : size_t
     {
-        Player      = 0b0001,
-        Enemy       = 0b0010,
-        Projectile  = 0b0100,
-        Boundary    = 0b1000,
-        Any         = 0b1111
+        Player              = 0b00001,
+        Enemy               = 0b00010,
+        EnemyProjectile     = 0b00100,
+        PlayerProjectile    = 0b01000,
+        Projectile          = 0b01100,
+        Boundary            = 0b10000,
+        Any                 = 0b11111
     };
 
     template<typename dataType>

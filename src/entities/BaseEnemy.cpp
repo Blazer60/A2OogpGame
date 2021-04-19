@@ -7,19 +7,46 @@
  * Initial Version: 15/04/2021
  */
 
-
+#include "GameState.h"
 #include "BaseEnemy.h"
+#include <glm.hpp>
+#include <gtc/constants.hpp>
+#include <utility>
 
-BaseEnemy::BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const size_t &collisionLayer) :
-        Entity(position, hitBoxSize, collisionLayer)
+BaseEnemy::BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize,
+                     GameState *attachToState,
+                     const size_t &collisionLayer) :
+        Entity(position, hitBoxSize, collisionLayer),
+        mGame(attachToState)
 {}
 
 void BaseEnemy::update()
 {
-    mHitBoxColour = { 0, 0, 255, 255 };
+    glm::vec2 targetDirection(0);
+    if (auto player = mTargetEntity.lock())
+    {
+        targetDirection = glm::normalize(player->mTransform.position - mTransform.position);
+    }
+    mVelocity = targetDirection * 5.f;
+    mTransform.position += mVelocity;
+    mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position, glm::vec2(1.f, 0.f)));
 }
 
 void BaseEnemy::onCollision(const std::shared_ptr<Entity> &other)
 {
-    mHitBoxColour = { 255, 0, 0, 255 };
+
+}
+
+std::vector<glm::vec2> BaseEnemy::getUnitCirclePoints(unsigned int n, const float &offSet)
+{
+    std::vector<glm::vec2> points;
+    points.reserve(n);
+    for (int i = 0; i < n; ++i)
+    {
+        float theta = static_cast<float>(i) / static_cast<float>(n) * glm::two_pi<float>() + offSet;
+        float y = -glm::sin(theta);
+        float x = glm::cos(theta);
+        points.emplace_back(glm::vec2{ x, y });
+    }
+    return points;
 }
