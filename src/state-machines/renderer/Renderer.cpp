@@ -120,13 +120,13 @@ void Renderer::renderHitBox(const std::shared_ptr<Entity> &entity)
     SDL_RenderDrawRect(mRenderer, &dstRect);
 }
 
-void Renderer::renderHitBox(const glm::vec4 &rect)
+void Renderer::renderHitBox(const quad::rect &aabb)
 {
     SDL_Rect dstRect = {
-            static_cast<int>(rect.x - mPosition.x),
-            static_cast<int>(rect.y - mPosition.y),
-            static_cast<int>(rect.z),
-            static_cast<int>(rect.w)
+            static_cast<int>(aabb.x - mPosition.x),
+            static_cast<int>(aabb.y - mPosition.y),
+            static_cast<int>(aabb.w),
+            static_cast<int>(aabb.h)
     };
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 255, 255);
     SDL_RenderDrawRect(mRenderer, &dstRect);

@@ -16,6 +16,7 @@
 #include <unordered_map>
 #include <memory>
 #include <glm.hpp>
+#include <QuadTreeHelpers.h>
 
 class Entity;
 
@@ -40,7 +41,7 @@ public:
     void update(const float &interpolation);
     void renderItem(const std::shared_ptr<Entity> &entity);
     void renderHitBox(const std::shared_ptr<Entity> &entity);
-    void renderHitBox(const glm::vec4 &rect);
+    void renderHitBox(const quad::rect &aabb);
     void flip();
     void loadImage(const std::string &imageRef);
     void freeImage(const std::string &imageRef);

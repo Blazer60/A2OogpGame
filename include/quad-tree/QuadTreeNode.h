@@ -148,7 +148,7 @@ void QuadTreeNode<dataType>::subdivide(int depth)
 template<class dataType>
 void QuadTreeNode<dataType>::debugRender(Renderer *renderer)
 {
-    renderer->renderHitBox(glm::vec4{ mBounds.x, mBounds.y, mBounds.w, mBounds.h });
+    renderer->renderHitBox(mBounds);
     if (mSubRegions[0])
     {
         mSubRegions[quad::NorthWest]->debugRender(renderer);
