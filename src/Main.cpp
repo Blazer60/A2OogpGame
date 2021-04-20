@@ -3,6 +3,6 @@
 int main(int argc, char *argv[])
 {
     StateMachineManager game({ 1920, 1080 }, statesList::InGame);
-    game.run();
+    game.runSynchronous();
     return 0;
 }

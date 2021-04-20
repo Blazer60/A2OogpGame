@@ -15,6 +15,7 @@
 #include "BaseProjectile.h"
 #include "HelperFunctions.h"
 #include "MechaChad.h"
+#include "Barrier.h"
 
 #include <iostream>
 #include <mutex>
@@ -27,7 +28,8 @@ GameState::GameState(SDL_Window *window) :
     StateMachine(window),
     mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f }))
 {
-    mEntities.reserve(100);
+    mEntities.reserve(1000);
+    mEntities.emplace_back(std::make_shared<Barrier>(glm::vec2(-2048, -2048)));
     mEntities.emplace_back(std::make_shared<MechaChad>(glm::vec2(0, 0), this, std::weak_ptr<Entity>(mPlayer)));
     mRenderer.setTarget(mPlayer);
 }
@@ -47,7 +49,7 @@ void GameState::update(StateMachineManager *smm)
 #if DEBUG_DRAW_HIT_BOXES
     mtx.lock();
 #endif
-    mQuadTree = std::make_unique<entityTree>(quad::rect{ -1920, -1080, 3840, 2160 }, 10);
+    mQuadTree = std::make_unique<entityTree>(quad::rect{ -2048, -2048, 4096, 4096 }, 10);
     mQuadTree->insert(mPlayer, mPlayer->getHitBoxRect(), mPlayer->mCollisionLayer);
 
     for (auto &item : mEntities)
@@ -76,14 +78,17 @@ void GameState::update(StateMachineManager *smm)
         other->onCollision(mPlayer);
     }
 
-    // Creation and deletion of entities can cause the vector to move in memory causing access violations.
-    std::mutex mutex;
-    mutex.lock();
 
     cleanEntities();  // Remove dead entities.
     moveBufferedEntities();  // Add Buffered Entities to main vector.
 
-    mutex.unlock();
+    static unsigned int loops = 0;
+    loops++;
+    if (loops > 30)
+    {
+        loops = 0;
+        std::cout << mEntities.size() << std::endl;
+    }
 }
 
 void GameState::render(StateMachineManager *smm, const float &interpolation)

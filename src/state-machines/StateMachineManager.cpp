@@ -88,6 +88,27 @@ void StateMachineManager::render()
     mCurrentState->render(this, static_cast<float>(mInterpolation));
 }
 
+void StateMachineManager::runSynchronous()
+{
+    mNextUpdateTick = getTicks<double>();
+    unsigned int loopAmount;
+    while (mIsRunning)
+    {
+        loopAmount = 0;
+        while (getTicks<double>() > mNextUpdateTick && loopAmount < mUpdateFrameSkip)
+        {
+            event();
+            update();
+
+            mNextUpdateTick += mUpdateDelta;
+            loopAmount++;
+        }
+
+        mInterpolation = (getTicks<double>() + mUpdateDelta - mNextUpdateTick) / mUpdateDelta;
+        render();
+    }
+}
+
 void StateMachineManager::runLogic()
 {
     mNextUpdateTick = getTicks<double>();

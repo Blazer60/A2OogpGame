@@ -40,6 +40,7 @@ public:
     ~StateMachineManager();
 
     void run();
+    void runSynchronous();
     void changeState(char stateKey);
 
     bool mIsRunning;
