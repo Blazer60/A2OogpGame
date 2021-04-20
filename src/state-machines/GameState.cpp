@@ -31,7 +31,6 @@ GameState::GameState(SDL_Window *window) :
 
 void GameState::onPause()
 {
-
 }
 
 void GameState::onAwake()

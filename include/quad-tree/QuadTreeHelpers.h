@@ -20,7 +20,6 @@ namespace quad
         float x, y, w, h;
 
         rect() = default;
-
         rect(float x, float y, float w, float h) : x(x), y(y), w(w), h(h) {}
         rect(const glm::vec2 &pos, const glm::vec2 &size) : x(pos.x), y(pos.y), w(size.x), h(size.y) {}
     };
