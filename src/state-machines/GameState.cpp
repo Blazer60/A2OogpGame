@@ -18,11 +18,6 @@
 #include "Barrier.h"
 
 #include <iostream>
-#include <mutex>
-
-#if DEBUG_DRAW_HIT_BOXES  // Used to draw the quadtree to the screen. Not seen in release mode.
-std::mutex mtx;  // Used to stop race conditions on Quad Tree (that should only be accessed by update functions).
-#endif
 
 GameState::GameState(SDL_Window *window) :
     StateMachine(window),
@@ -46,9 +41,6 @@ void GameState::onAwake()
 
 void GameState::update(StateMachineManager *smm)
 {
-#if DEBUG_DRAW_HIT_BOXES
-    mtx.lock();
-#endif
     mQuadTree = std::make_unique<entityTree>(quad::rect{ -2048, -2048, 4096, 4096 }, 10);
     mQuadTree->insert(mPlayer, mPlayer->getHitBoxRect(), mPlayer->mCollisionLayer);
 
@@ -56,9 +48,6 @@ void GameState::update(StateMachineManager *smm)
     {
         mQuadTree->insert(item, item->getHitBoxRect(), item->mCollisionLayer);
     }
-#if DEBUG_DRAW_HIT_BOXES
-    mtx.unlock();
-#endif
 
     mPlayer->event(mInputs);
     mPlayer->update();
@@ -111,9 +100,7 @@ void GameState::render(StateMachineManager *smm, const float &interpolation)
 
     mRenderer.renderHitBox(mPlayer);
 
-    mtx.lock();
     if (mQuadTree) { mQuadTree->debugRender(&mRenderer); }
-    mtx.unlock();
 #endif
 
     mRenderer.flip();  // Must be at the end of rendering.
