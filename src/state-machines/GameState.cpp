@@ -53,7 +53,6 @@ void GameState::update(StateMachineManager *smm)
         if (item->mIsCollidable) { mQuadTree->insert(item, item->getHitBoxRect(), item->mCollisionLayer); }
     }
 
-    mPlayer->event(mInputs);
     mPlayer->update();
 
     for (auto &item : mEntities)

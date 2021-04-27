@@ -26,7 +26,6 @@ class Player : public Entity
 public:
     explicit Player(const glm::vec2 &position);
 
-    void event(const inputs& keysPressed);
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;
 

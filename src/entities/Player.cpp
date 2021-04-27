@@ -16,26 +16,24 @@
 Player::Player(const glm::vec2 &position) :
         Entity(position,{ 32, 32 },{ 16, 16 },
                quad::layers::Player, "../tmp/Georb-0001.png"),
-        mSpeed(50.f)
+        mSpeed(25.f)
 {
     mTransform.scale = glm::vec2 (4.f);
     mVelocity.x = mSpeed;
     mQueryLayers = quad::layers::EnemyProjectile | quad::layers::Enemy | quad::layers::Boundary;
 }
 
-void Player::event(const inputs &keysPressed)
-{
-    glm::vec2 axisInput(0);
-    if (keysPressed.right) { axisInput.x += 1; }
-    if (keysPressed.left) { axisInput.x -= 1; }
-    if (keysPressed.up) { axisInput.y -= 1; }
-    if (keysPressed.down) { axisInput.y += 1; }
-    if (axisInput.x != 0 || axisInput.y != 0) { axisInput = glm::normalize(axisInput); }
-    mVelocity = mSpeed * axisInput;
-}
-
 void Player::update()
 {
+    const unsigned char* keys = SDL_GetKeyboardState(nullptr);
+    glm::vec2 axisInput(0);
+    if (keys[SDL_SCANCODE_D]) { axisInput.x += 1; }
+    if (keys[SDL_SCANCODE_A]) { axisInput.x -= 1; }
+    if (keys[SDL_SCANCODE_W]) { axisInput.y -= 1; }
+    if (keys[SDL_SCANCODE_S]) { axisInput.y += 1; }
+    if (axisInput.x != 0 || axisInput.y != 0) { axisInput = glm::normalize(axisInput); }
+    mVelocity = mSpeed * axisInput;
+
     mHitBoxColour = { 0, 0, 255, 255 };
     mTransform.position += mVelocity;
 }
