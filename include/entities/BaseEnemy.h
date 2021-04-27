@@ -34,6 +34,7 @@ public:
 
 protected:
     static std::vector<glm::vec2> getUnitCirclePoints(unsigned int n, const float &offSet=0);
+    static std::vector<glm::vec2> getUnitConePoints(unsigned int n, const glm::vec2 &direction, float coneSpread=20.f);
 
     GameState *mGame;
     std::weak_ptr<Entity> mTargetEntity;

@@ -53,6 +53,7 @@ public:
     virtual void onCollision(const std::shared_ptr<Entity> &other) = 0;
 
     quad::rect getHitBoxRect() const;
+    glm::vec2 getHitBoxCenter() const;
 
 protected:
     void pushOffWall(const std::shared_ptr<BarrierCollider> &barrierCollider);

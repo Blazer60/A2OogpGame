@@ -100,3 +100,8 @@ void Entity::pushOffWall(const std::shared_ptr<BarrierCollider> &barrierCollider
     // Prevents the camera from trying to guess where the player will be.
     mVelocity = glm::vec2(0);
 }
+
+glm::vec2 Entity::getHitBoxCenter() const
+{
+    return mTransform.position + mHitBoxOffset + (mHitBoxSize / 2.f);
+}

@@ -23,14 +23,24 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
 void MechaChad::update()
 {
     timer++;
-    if (timer > 120)
+    if (timer > 30)
     {
-        timer = 0;
-        std::vector<glm::vec2> points = getUnitCirclePoints(64);
-        for (const auto &point : points)
+        if (auto target = mTargetEntity.lock())
         {
-            mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(10), quad::layers::EnemyProjectile));
+            glm::vec2 targetDirection = glm::normalize(target->getHitBoxCenter() - getHitBoxCenter());
+            auto points = getUnitConePoints(10, targetDirection, 40.f);
+            for (const auto &point : points)
+            {
+                mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(10), quad::layers::EnemyProjectile));
+            }
         }
+
+        timer = 0;
+//        std::vector<glm::vec2> points = getUnitCirclePoints(8);
+//        for (const auto &point : points)
+//        {
+//            mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(10), quad::layers::EnemyProjectile));
+//        }
     }
 
 }
