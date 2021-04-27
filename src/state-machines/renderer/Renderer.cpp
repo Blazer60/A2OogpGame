@@ -28,6 +28,7 @@ void Renderer::flip()
 
 void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
 {
+    if (!entity->mIsRenderable) { return; }  // The entity has been marked as non-renderable.
     auto imageIt = mImages.find(entity->mImageRef);
     if (imageIt == mImages.end())
     {

@@ -20,7 +20,7 @@ add_executable(${PROJECT_NAME}
         include/quad-tree/QuadTreeHelpers.h src/quad-tree/QuadTreeHelpers.cpp
         src/entities/projectiles/BaseProjectile.cpp include/entities/projectiles/BaseProjectile.h
         src/entities/MechaChad.cpp include/entities/MechaChad.h
-        src/entities/Barrier.cpp include/entities/Barrier.h)
+        src/entities/BarrierImage.cpp include/entities/BarrierImage.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         include

@@ -23,6 +23,8 @@ Entity::Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const siz
     mCollisionLayer(collisionLayer),
     mHitBoxOffset(0.f),
     mIsDead(false),
+    mIsCollidable(true),
+    mIsRenderable(true),
     mAngularVelocity(0)
 {}
 
@@ -36,7 +38,42 @@ Entity::Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const glm
         mHitBoxColour({0, 0, 255, 255}),
         mCollisionLayer(collisionLayer),
         mIsDead(false),
+        mIsCollidable(true),
+        mIsRenderable(true),
         mAngularVelocity(0)
+{
+
+}
+
+// Entity with hit box only. No image will be rendered.
+Entity::Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const size_t &collisionLayer) :
+    mTransform(position, 0.0, glm::vec2(1.f, 1.f)),
+    mHitBoxSize(hitBoxSize),
+    mVelocity({ 0.f, 0.f }),
+    mHitBoxOffset(0.f),
+    mHitBoxColour({0, 0, 255, 255}),
+    mCollisionLayer(collisionLayer),
+    mIsDead(false),
+    mIsCollidable(true),
+    mIsRenderable(false),
+    mAngularVelocity(0)
+{
+
+}
+
+// Entity with image only. It will not be added to the tree.
+Entity::Entity(const glm::vec2 &position, const glm::vec2 &imageSize, std::string imageRef) :
+    mTransform(position, 0.0, imageSize),
+    mHitBoxSize(0.f),
+    mImageRef(std::move(imageRef)),
+    mVelocity(0.f),
+    mHitBoxOffset(0.f),
+    mHitBoxColour({0, 0, 255, 255}),
+    mCollisionLayer(0),
+    mIsDead(false),
+    mIsCollidable(false),
+    mIsRenderable(true),
+    mAngularVelocity(0)
 {
 
 }

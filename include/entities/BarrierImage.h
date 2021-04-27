@@ -8,8 +8,8 @@
  */
 
 
-#ifndef A2OOPGAME_BARRIER_H
-#define A2OOPGAME_BARRIER_H
+#ifndef A2OOPGAME_BARRIERIMAGE_H
+#define A2OOPGAME_BARRIERIMAGE_H
 
 #include "Entity.h"
 #include <glm.hpp>
@@ -19,14 +19,14 @@
  * @author Ryan Purse
  * @version 1.0.0 [Initial Version: 19/04/2021]
  */
-class Barrier : public Entity
+class BarrierImage : public Entity
 {
 public:
-    explicit Barrier(const glm::vec2 &position=glm::vec2(0.f));
+    explicit BarrierImage(const glm::vec2 &position=glm::vec2(0.f));
 
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;
 };
 
 
-#endif //A2OOPGAME_BARRIER_H
+#endif //A2OOPGAME_BARRIERIMAGE_H

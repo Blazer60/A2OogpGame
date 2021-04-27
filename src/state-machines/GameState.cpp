@@ -15,7 +15,7 @@
 #include "BaseProjectile.h"
 #include "HelperFunctions.h"
 #include "MechaChad.h"
-#include "Barrier.h"
+#include "BarrierImage.h"
 
 #include <iostream>
 
@@ -24,7 +24,7 @@ GameState::GameState(SDL_Window *window) :
     mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f }))
 {
     mEntities.reserve(1000);
-    mEntities.emplace_back(std::make_shared<Barrier>(glm::vec2(-2048, -2048)));
+    mEntities.emplace_back(std::make_shared<BarrierImage>(glm::vec2(-2048, -2048)));
     mEntities.emplace_back(std::make_shared<MechaChad>(glm::vec2(0, 0), this, std::weak_ptr<Entity>(mPlayer)));
     mRenderer.setTarget(mPlayer);
 }
@@ -45,7 +45,7 @@ void GameState::update(StateMachineManager *smm)
 
     for (auto &item : mEntities)
     {
-        mQuadTree->insert(item, item->getHitBoxRect(), item->mCollisionLayer);
+        if (item->mIsCollidable) { mQuadTree->insert(item, item->getHitBoxRect(), item->mCollisionLayer); }
     }
 
     mPlayer->event(mInputs);
