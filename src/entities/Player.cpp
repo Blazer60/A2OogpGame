@@ -27,7 +27,8 @@ Player::Player(const glm::vec2 &position) :
         mInDash(false),
         mDashTimer(0),
         mDashLength(15),
-        mDashDirection(0.f)
+        mDashDirection(0.f),
+        mGodMode(true)
 {
     mTransform.scale = glm::vec2 (4.f);
     mVelocity.x = mSpeed;

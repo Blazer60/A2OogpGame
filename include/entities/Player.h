@@ -50,6 +50,8 @@ protected:
     int mInvulnerableTimer;  // Counts Down
     bool mIsInvulnerable;
     glm::vec2 mDashDirection;
+
+    bool mGodMode;
 };
 
 
