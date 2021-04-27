@@ -39,13 +39,10 @@ class Entity
 {
 public:
     Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const size_t &collisionLayer,
-           std::string imageRef = "../tmp/chad.bmp");
+           std::string imageRef = "");
 
     Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const glm::vec2 &hitBoxOffSet,
            const size_t &collisionLayer, std::string  imageRef = "../tmp/chad.bmp");
-
-    /** Entity with hit box only. */
-    Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const size_t &collisionLayer);
 
     /** Entity with image only. */
     Entity(const glm::vec2 &position, const glm::vec2 &imageSize, std::string imageRef = "../tmp/chad.bmp");

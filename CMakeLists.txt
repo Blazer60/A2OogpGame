@@ -3,7 +3,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(PROJECT_NAME A2OOPGame)
 project(${PROJECT_NAME})
 
-set(MAIN_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/Main.cpp)
+set(MAIN_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/Main.cpp src/entities/Barrier/BarrierCollider.cpp include/entities/barrier/BarrierCollider.h)
 
 add_executable(${PROJECT_NAME}
         ${MAIN_SOURCE_DIR}
@@ -20,7 +20,7 @@ add_executable(${PROJECT_NAME}
         include/quad-tree/QuadTreeHelpers.h src/quad-tree/QuadTreeHelpers.cpp
         src/entities/projectiles/BaseProjectile.cpp include/entities/projectiles/BaseProjectile.h
         src/entities/MechaChad.cpp include/entities/MechaChad.h
-        src/entities/BarrierImage.cpp include/entities/BarrierImage.h)
+        src/entities/Barrier/BarrierImage.cpp include/entities/barrier/BarrierImage.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         include
@@ -28,6 +28,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         include/state-machines/renderer
         include/entities
         include/entities/projectiles
+        include/entities/barrier
         include/quad-tree
         )
 

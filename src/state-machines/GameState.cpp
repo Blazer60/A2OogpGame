@@ -16,6 +16,7 @@
 #include "HelperFunctions.h"
 #include "MechaChad.h"
 #include "BarrierImage.h"
+#include "BarrierCollider.h"
 
 #include <iostream>
 
@@ -25,6 +26,10 @@ GameState::GameState(SDL_Window *window) :
 {
     mEntities.reserve(1000);
     mEntities.emplace_back(std::make_shared<BarrierImage>(glm::vec2(-2048, -2048)));
+    mEntities.emplace_back(std::make_shared<BarrierCollider>(glm::vec2(-2048, -2048), BarrierCollider::EastFacing));
+    mEntities.emplace_back(std::make_shared<BarrierCollider>(glm::vec2(1920, -2048), BarrierCollider::WestFacing));
+    mEntities.emplace_back(std::make_shared<BarrierCollider>(glm::vec2(-1920, -2048), BarrierCollider::SouthFacing));
+    mEntities.emplace_back(std::make_shared<BarrierCollider>(glm::vec2(-1920, 1920), BarrierCollider::NorthFacing));
     mEntities.emplace_back(std::make_shared<MechaChad>(glm::vec2(0, 0), this, std::weak_ptr<Entity>(mPlayer)));
     mRenderer.setTarget(mPlayer);
 }
@@ -40,7 +45,7 @@ void GameState::onAwake()
 
 void GameState::update(StateMachineManager *smm)
 {
-    mQuadTree = std::make_unique<entityTree>(quad::rect{ -2048, -2048, 4096, 4096 }, 10);
+    mQuadTree = std::make_unique<entityTree>(quad::rect{ -2098, -2098, 4146, 4146 }, 10);
     mQuadTree->insert(mPlayer, mPlayer->getHitBoxRect(), mPlayer->mCollisionLayer);
 
     for (auto &item : mEntities)
@@ -58,7 +63,7 @@ void GameState::update(StateMachineManager *smm)
 
     // Updated Collision
     std::vector<std::shared_ptr<Entity>> collidedWith = mQuadTree->getIntersecting(
-            mPlayer->getHitBoxRect(), quad::layers::Enemy | quad::layers::Projectile);
+            mPlayer->getHitBoxRect(), quad::layers::Enemy | quad::layers::Projectile | quad::layers::Boundary);
     for (auto &other : collidedWith)
     {
         if (other == mPlayer) { continue; }
