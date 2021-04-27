@@ -16,7 +16,18 @@
 Player::Player(const glm::vec2 &position) :
         Entity(position,{ 32, 32 },{ 16, 16 },
                quad::layers::Player, "../tmp/Georb-0001.png"),
-        mSpeed(25.f)
+        mSpeed(25.f),
+        mDashSpeedMultiplier(2.f),
+        mCanDash(true),
+        mDashCoolDownFrames(0),
+        mDashCoolDownTimer(60),
+        mIsInvulnerable(false),
+        mInvulnerableTimer(0),
+        mDashInvulnerableFrames(30),
+        mInDash(false),
+        mDashTimer(0),
+        mDashLength(15),
+        mDashDirection(0.f)
 {
     mTransform.scale = glm::vec2 (4.f);
     mVelocity.x = mSpeed;
@@ -25,6 +36,28 @@ Player::Player(const glm::vec2 &position) :
 
 void Player::update()
 {
+    // Dash cool down.
+    if (!mCanDash)
+    {
+        mDashCoolDownFrames++;
+        if (mDashCoolDownFrames >= mDashCoolDownTimer) { mCanDash = true; }
+    }
+
+    // Invulnerable cool down.
+    if (mIsInvulnerable)
+    {
+        mInvulnerableTimer--;
+        if (mInvulnerableTimer < 0) { makeVulnerable(); }
+    }
+
+    // In dash length
+    if (mInDash)
+    {
+        mDashTimer--;
+        if (mDashTimer <= 0) { mInDash = false; }
+    }
+
+    // Movements
     const unsigned char* keys = SDL_GetKeyboardState(nullptr);
     glm::vec2 axisInput(0);
     if (keys[SDL_SCANCODE_D]) { axisInput.x += 1; }
@@ -32,10 +65,45 @@ void Player::update()
     if (keys[SDL_SCANCODE_W]) { axisInput.y -= 1; }
     if (keys[SDL_SCANCODE_S]) { axisInput.y += 1; }
     if (axisInput.x != 0 || axisInput.y != 0) { axisInput = glm::normalize(axisInput); }
-    mVelocity = mSpeed * axisInput;
+    if (mCanDash)
+    {
+        if (keys[SDL_SCANCODE_SPACE])
+        {
+            mInDash = true;
+            mDashTimer = mDashLength;
+            mCanDash = false;
+            mDashCoolDownFrames = 0;
+            mDashDirection = axisInput;
+            makeInvulnerable(mDashInvulnerableFrames);
+        }
+    }
 
-    mHitBoxColour = { 0, 0, 255, 255 };
+
+    if (!mInDash)
+    {
+        mVelocity = mSpeed * axisInput;
+        mHitBoxColour = { 0, 0, 255, 255 };  // Reset hit box colour.
+    }
+    else
+    {
+        mVelocity = mSpeed * mDashSpeedMultiplier * mDashDirection;
+        mHitBoxColour = { 255, 255, 255, 255 };  // Reset hit box colour.
+    }
+
     mTransform.position += mVelocity;
+}
+
+void Player::makeInvulnerable(int frames)
+{
+    mIsInvulnerable = true;
+    mInvulnerableTimer = frames;
+    mQueryLayers = quad::layers::Boundary;
+}
+
+void Player::makeVulnerable()
+{
+    mIsInvulnerable = false;
+    mQueryLayers = quad::layers::EnemyProjectile | quad::layers::Enemy | quad::layers::Boundary;
 }
 
 void Player::onCollision(const std::shared_ptr<Entity> &other)
@@ -48,4 +116,9 @@ void Player::onCollision(const std::shared_ptr<Entity> &other)
         auto barrierCollider = std::dynamic_pointer_cast<BarrierCollider>(other);
         pushOffWall(barrierCollider);
     }
+}
+
+bool Player::isInvulnerable() const
+{
+    return mIsInvulnerable;
 }

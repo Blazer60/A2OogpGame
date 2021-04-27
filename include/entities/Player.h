@@ -29,8 +29,27 @@ public:
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;
 
+    bool isInvulnerable() const;
+
 protected:
+    void makeInvulnerable(int frames);
+    void makeVulnerable();
+
     float mSpeed;
+    float mDashSpeedMultiplier;
+    bool mCanDash;
+    bool mInDash;
+    int mDashLength;
+    int mDashTimer;  // Count Down
+
+    int mDashCoolDownFrames;
+    int mDashCoolDownTimer;  // Counts up
+    int mDashInvulnerableFrames;
+
+
+    int mInvulnerableTimer;  // Counts Down
+    bool mIsInvulnerable;
+    glm::vec2 mDashDirection;
 };
 
 
