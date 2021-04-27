@@ -65,13 +65,13 @@ void GameState::update(StateMachineManager *smm)
     cleanEntities();            // Remove dead entities.
     moveBufferedEntities();     // Add Buffered Entities to main vector.
 
-    static unsigned int loops = 0;
-    loops++;
-    if (loops > 30)
-    {
-        loops = 0;
-        std::cout << mEntities.size() << std::endl;
-    }
+//    static unsigned int loops = 0;
+//    loops++;
+//    if (loops > 30)
+//    {
+//        loops = 0;
+//        std::cout << mEntities.size() << std::endl;
+//    }
 }
 
 void GameState::render(StateMachineManager *smm, const float &interpolation)

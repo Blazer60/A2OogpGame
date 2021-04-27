@@ -10,6 +10,7 @@
 
 #include "Entity.h"
 #include "QuadTreeHelpers.h"
+#include "BarrierCollider.h"
 
 #include <iostream>
 #include <utility>
@@ -71,4 +72,31 @@ Entity::Entity(const glm::vec2 &position, const glm::vec2 &imageSize, std::strin
 quad::rect Entity::getHitBoxRect() const
 {
     return { mTransform.position + mHitBoxOffset, mHitBoxSize };
+}
+
+void Entity::pushOffWall(const std::shared_ptr<BarrierCollider> &barrierCollider)
+{
+    glm::vec2 pushBackDirection(0);
+    switch (barrierCollider->mDirectionFacing)
+    {
+        case BarrierCollider::NorthFacing:
+            pushBackDirection.y = barrierCollider->mTransform.position.y - (mHitBoxSize.y + mHitBoxOffset.y);
+            pushBackDirection.x = mTransform.position.x;
+            break;
+        case BarrierCollider::EastFacing:
+            pushBackDirection.x = barrierCollider->mTransform.position.x + barrierCollider->mHitBoxSize.x;
+            pushBackDirection.y = mTransform.position.y;
+            break;
+        case BarrierCollider::SouthFacing:
+            pushBackDirection.y = barrierCollider->mTransform.position.y + barrierCollider->mHitBoxSize.y;
+            pushBackDirection.x = mTransform.position.x;
+            break;
+        default:
+            pushBackDirection.x = barrierCollider->mTransform.position.x - (mHitBoxSize.x + mHitBoxOffset.x);
+            pushBackDirection.y = mTransform.position.y;
+            break;
+    }
+    mTransform.position = pushBackDirection;
+    // Prevents the camera from trying to guess where the player will be.
+    mVelocity = glm::vec2(0);
 }

@@ -17,7 +17,7 @@
 #include <SDL.h>
 
 namespace quad { struct rect; }
-
+class BarrierCollider;
 
 struct transform
 {
@@ -53,6 +53,9 @@ public:
     virtual void onCollision(const std::shared_ptr<Entity> &other) = 0;
 
     quad::rect getHitBoxRect() const;
+
+protected:
+    void pushOffWall(const std::shared_ptr<BarrierCollider> &barrierCollider);
 
 public:  // todo: convert this to protected fields.
     transform mTransform;

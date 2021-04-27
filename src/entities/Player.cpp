@@ -11,6 +11,7 @@
 #include "Player.h"
 
 #include "GameState.h"
+#include "BarrierCollider.h"
 
 Player::Player(const glm::vec2 &position) :
         Entity(position,{ 32, 32 },{ 16, 16 },
@@ -42,4 +43,11 @@ void Player::update()
 void Player::onCollision(const std::shared_ptr<Entity> &other)
 {
     mHitBoxColour = { 255, 0, 0, 255 };
+    // Check the type of the other and go from their.
+    if (typeid(*other).hash_code() == typeid(BarrierCollider).hash_code())  // If the player hit a wall.
+    {
+        // Push back the player depending on the orientation of the wall they just hit.
+        auto barrierCollider = std::dynamic_pointer_cast<BarrierCollider>(other);
+        pushOffWall(barrierCollider);
+    }
 }
