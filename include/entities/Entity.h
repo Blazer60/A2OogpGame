@@ -66,6 +66,7 @@ public:  // todo: convert this to protected fields.
     bool mIsCollidable;
     bool mIsRenderable;
     double mAngularVelocity;
+    size_t mQueryLayers;
 };
 
 

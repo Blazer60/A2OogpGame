@@ -26,7 +26,8 @@ Entity::Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const siz
     mIsDead(false),
     mIsCollidable(true),
     mIsRenderable(true),
-    mAngularVelocity(0)
+    mAngularVelocity(0),
+    mQueryLayers(0)
 {
     if (mImageRef.empty()) { mIsRenderable = false; }
 }
@@ -43,7 +44,8 @@ Entity::Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const glm
         mIsDead(false),
         mIsCollidable(true),
         mIsRenderable(true),
-        mAngularVelocity(0)
+        mAngularVelocity(0),
+        mQueryLayers(0)
 {
 
 }
@@ -60,7 +62,8 @@ Entity::Entity(const glm::vec2 &position, const glm::vec2 &imageSize, std::strin
     mIsDead(false),
     mIsCollidable(false),
     mIsRenderable(true),
-    mAngularVelocity(0)
+    mAngularVelocity(0),
+    mQueryLayers(0)
 {
 
 }
