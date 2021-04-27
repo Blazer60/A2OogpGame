@@ -12,7 +12,7 @@
 #include "QuadTreeHelpers.h"
 
 Barrier::Barrier(const glm::vec2 &position) :
-    Entity(position, glm::vec2(4096), quad::layers::Boundary, "../tmp/TheRing-0001.png")
+    Entity(position, glm::vec2(4096), quad::layers::Boundary, "../tmp/Walls-0001.png")
 {
     mTransform.scale = glm::vec2(4.f);
 }
