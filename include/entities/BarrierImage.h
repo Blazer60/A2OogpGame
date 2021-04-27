@@ -1,6 +1,7 @@
 /**
  * @file Barrier.h
- * @brief [fill in this secton]
+ * @brief The Wall for the arena that entities are held in. This is only the image part.
+ * See wall collider for actual bounding boxes
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -15,7 +16,8 @@
 #include <glm.hpp>
 
 /**
- * The Wall for the arena that entities are held in.
+ * The Wall for the arena that entities are held in. This is only the image part.
+ * See wall collider for actual bounding boxes
  * @author Ryan Purse
  * @version 1.0.0 [Initial Version: 19/04/2021]
  */

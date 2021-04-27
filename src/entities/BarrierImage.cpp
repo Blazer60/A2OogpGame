@@ -1,6 +1,7 @@
 /**
  * @file Barrier.cpp.cc
- * @brief [fill in this secton]
+ * @brief The Wall for the arena that entities are held in. This is only the image part.
+ * See wall collider for actual bounding boxes
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
