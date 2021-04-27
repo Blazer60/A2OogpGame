@@ -19,6 +19,7 @@ Player::Player(const glm::vec2 &position) :
 {
     mTransform.scale = glm::vec2 (4.f);
     mVelocity.x = mSpeed;
+    mQueryLayers = quad::layers::EnemyProjectile | quad::layers::Enemy | quad::layers::Boundary;
 }
 
 void Player::event(const inputs &keysPressed)

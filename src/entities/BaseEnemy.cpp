@@ -19,7 +19,9 @@ BaseEnemy::BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize, Gam
         Entity(position, hitBoxSize, collisionLayer, "../tmp/MechaChad-0001.png"),
         mGame(attachToState),
         mTargetEntity(std::move(targetEntity))
-{}
+{
+    mQueryLayers = quad::layers::Boundary | quad::layers::PlayerProjectile;
+}
 
 std::vector<glm::vec2> BaseEnemy::getUnitCirclePoints(unsigned int n, const float &offSet)
 {

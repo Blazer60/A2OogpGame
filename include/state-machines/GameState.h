@@ -48,6 +48,8 @@ public:
     void cleanEntities();
 
 protected:
+    void collisionUpdateCheck();
+
     std::shared_ptr<Player> mPlayer;
     inputs mInputs;
     std::vector<std::shared_ptr<Entity>> mEntities;

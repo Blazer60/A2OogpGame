@@ -61,19 +61,9 @@ void GameState::update(StateMachineManager *smm)
         item->update();
     }
 
-    // Updated Collision
-    std::vector<std::shared_ptr<Entity>> collidedWith = mQuadTree->getIntersecting(
-            mPlayer->getHitBoxRect(), quad::layers::Enemy | quad::layers::Projectile | quad::layers::Boundary);
-    for (auto &other : collidedWith)
-    {
-        if (other == mPlayer) { continue; }
-        mPlayer->onCollision(other);
-        other->onCollision(mPlayer);
-    }
-
-
-    cleanEntities();  // Remove dead entities.
-    moveBufferedEntities();  // Add Buffered Entities to main vector.
+    collisionUpdateCheck();     // Check collisions between all entities.
+    cleanEntities();            // Remove dead entities.
+    moveBufferedEntities();     // Add Buffered Entities to main vector.
 
     static unsigned int loops = 0;
     loops++;
@@ -214,6 +204,29 @@ void GameState::cleanEntities()
         {
             std::swap(mEntities[i], mEntities[mEntities.size() - 1]);
             mEntities.pop_back();
+        }
+    }
+}
+
+void GameState::collisionUpdateCheck()
+{
+    // Handle player collision
+    auto playerCollisions = mQuadTree->getIntersecting(mPlayer->getHitBoxRect(), mPlayer->mQueryLayers);
+    for (auto &other : playerCollisions)
+    {
+        mPlayer->onCollision(other);
+    }
+
+    // Handle all other entities collision.
+    for (auto &currentEntity : mEntities)
+    {
+        if (!currentEntity->mIsCollidable) { continue; }  // No need to check if the entity has no hit box.
+
+        auto otherEntities = mQuadTree->getIntersecting(currentEntity->getHitBoxRect(), currentEntity->mQueryLayers);
+        for (auto &other : otherEntities)
+        {
+            if (currentEntity == other) { continue; }  // Entities could collide with themself.
+            currentEntity->onCollision(other);
         }
     }
 }
