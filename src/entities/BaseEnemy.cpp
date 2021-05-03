@@ -26,11 +26,12 @@ BaseEnemy::BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize, Gam
 
 std::vector<glm::vec2> BaseEnemy::getUnitCirclePoints(unsigned int n, const float &offSet)
 {
+    const float offSetRadians = glm::radians(offSet);
     std::vector<glm::vec2> points;
     points.reserve(n);
     for (int i = 0; i < n; ++i)
     {
-        float theta = static_cast<float>(i) / static_cast<float>(n) * glm::two_pi<float>() + offSet;
+        float theta = static_cast<float>(i) / static_cast<float>(n) * glm::two_pi<float>() + offSetRadians;
         float y = -glm::sin(theta);
         float x = glm::cos(theta);
         points.emplace_back(glm::vec2{ x, y });
