@@ -17,12 +17,14 @@
 #include "MechaChad.h"
 #include "BarrierImage.h"
 #include "BarrierCollider.h"
+#include "Music.h"
 
 #include <iostream>
 
 GameState::GameState(SDL_Window *window) :
     StateMachine(window),
-    mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f }))
+    mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f })),
+    mMusic(std::make_unique<Music>("../tmp/FeelThePower.mp3"))
 {
     mEntities.reserve(1000);
     mEntities.emplace_back(std::make_shared<BarrierImage>(glm::vec2(-2048, -2048)));
@@ -32,6 +34,7 @@ GameState::GameState(SDL_Window *window) :
     mEntities.emplace_back(std::make_shared<BarrierCollider>(glm::vec2(-1920, 1920), BarrierCollider::NorthFacing));
     mEntities.emplace_back(std::make_shared<MechaChad>(glm::vec2(0, 0), this, std::weak_ptr<Entity>(mPlayer)));
     mRenderer.setTarget(mPlayer);
+    mMusic->play();
 }
 
 void GameState::onPause()

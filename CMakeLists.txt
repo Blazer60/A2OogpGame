@@ -22,7 +22,8 @@ add_executable(${PROJECT_NAME}
         src/entities/MechaChad.cpp include/entities/MechaChad.h
         src/entities/Barrier/BarrierImage.cpp include/entities/barrier/BarrierImage.h
         src/entities/Barrier/BarrierCollider.cpp include/entities/barrier/BarrierCollider.h
-        src/Sfx.cpp include/Sfx.h
+        src/SoundFx.cpp include/SoundFx.h
+        src/Music.cpp include/Music.h
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC

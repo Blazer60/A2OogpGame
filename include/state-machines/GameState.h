@@ -17,6 +17,9 @@
 
 #include <memory>
 #include <vector>
+#include <SDL_mixer.h>
+
+class Music;
 
 struct inputs
 {
@@ -55,6 +58,8 @@ protected:
     std::vector<std::shared_ptr<Entity>> mEntities;
     std::vector<std::shared_ptr<Entity>> mBufferedEntities;
     std::unique_ptr<entityTree> mQuadTree;
+
+    std::unique_ptr<Music> mMusic;
 };
 
 
