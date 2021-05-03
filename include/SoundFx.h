@@ -8,8 +8,8 @@
  */
 
 
-#ifndef A2OOPGAME_SFX_H
-#define A2OOPGAME_SFX_H
+#ifndef A2OOPGAME_SOUNDFX_H
+#define A2OOPGAME_SOUNDFX_H
 
 #include <SDL_mixer.h>
 #include <string>
@@ -19,11 +19,11 @@
  * @author Ryan Purse
  * @version 1.0.0 [Initial Version: 03/05/2021]
  */
-class Sfx
+class SoundFx
 {
 public:
-    explicit Sfx(const std::string& filePath);
-    ~Sfx();
+    explicit SoundFx(const std::string& filePath);
+    ~SoundFx();
 
     void play();
 
@@ -32,4 +32,4 @@ protected:
 };
 
 
-#endif //A2OOPGAME_SFX_H
+#endif //A2OOPGAME_SOUNDFX_H

@@ -8,21 +8,21 @@
  */
 
 
-#include "Sfx.h"
+#include "SoundFx.h"
 #include "HelperFunctions.h"
 
-Sfx::Sfx(const std::string& filePath) : mSound(Mix_LoadWAV(filePath.c_str()))
+SoundFx::SoundFx(const std::string& filePath) : mSound(Mix_LoadWAV(filePath.c_str()))
 {
     if (!mSound) { throwError("Could not load specified sound."); }
 }
 
-Sfx::~Sfx()
+SoundFx::~SoundFx()
 {
     Mix_FreeChunk(mSound);
     mSound = nullptr;
 }
 
-void Sfx::play()
+void SoundFx::play()
 {
     Mix_PlayChannelTimed(-1, mSound, 0, -1);
 }
