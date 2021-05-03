@@ -18,6 +18,12 @@ void throwError(const std::string &hint)
     throw std::exception();
 }
 
+void throwWarning(const std::string &hint)
+{
+    std::cout << hint << std::endl;
+    std::cout << SDL_GetError() << std::endl;
+}
+
 glm::ivec2 windowSizeToVec2(SDL_Window *window)
 {
     int x, y;

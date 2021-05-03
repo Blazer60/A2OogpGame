@@ -58,6 +58,14 @@ T normalise(const T &x, const T &lB, const T &uB)
 void throwError(const std::string &hint);
 
 /**
+ * Throws a warning to console but does not stop execution.
+ * E.g.: Sound files could not be loaded but the game can
+ * continue.
+ * @param hint Additional information for debugging
+ */
+void throwWarning(const std::string &hint);
+
+/**
  * Converts an SDL window size into a glm vec2
  * @param window The window with the size
  * @return The width and height of the window.
