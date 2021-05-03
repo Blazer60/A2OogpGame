@@ -14,7 +14,7 @@
 
 #include "Entity.h"
 
-class Sfx;
+class SoundFx;
 
 /**
  * The base projectile class that all projectiles inherit from.
@@ -32,7 +32,7 @@ public:
     void onCollision(const std::shared_ptr<Entity> &other) override;
 
 protected:
-    std::unique_ptr<Sfx> mSpawnSound;
+    std::unique_ptr<SoundFx> mSpawnSound;
 };
 
 
