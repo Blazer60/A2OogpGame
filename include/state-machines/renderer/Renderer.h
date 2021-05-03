@@ -24,6 +24,7 @@ struct imageData
 {
     SDL_Texture *src;
     int width, height;
+    size_t refCount;
 };
 
 /**

@@ -26,13 +26,14 @@ GameState::GameState(SDL_Window *window) :
     mPlayer(std::make_shared<Player>(glm::vec2{ 50.f, 50.f })),
     mMusic(std::make_unique<Music>("../tmp/FeelThePower.mp3"))
 {
+    mRenderer.loadImage(mPlayer->mImageRef);
     mEntities.reserve(1000);
-    mEntities.emplace_back(std::make_shared<BarrierImage>(glm::vec2(-2048, -2048)));
-    mEntities.emplace_back(std::make_shared<BarrierCollider>(glm::vec2(-2048, -2048), BarrierCollider::EastFacing));
-    mEntities.emplace_back(std::make_shared<BarrierCollider>(glm::vec2(1920, -2048), BarrierCollider::WestFacing));
-    mEntities.emplace_back(std::make_shared<BarrierCollider>(glm::vec2(-1920, -2048), BarrierCollider::SouthFacing));
-    mEntities.emplace_back(std::make_shared<BarrierCollider>(glm::vec2(-1920, 1920), BarrierCollider::NorthFacing));
-    mEntities.emplace_back(std::make_shared<MechaChad>(glm::vec2(0, 0), this, std::weak_ptr<Entity>(mPlayer)));
+    createEntity(std::make_shared<BarrierImage>(glm::vec2(-2048, -2048)));
+    createEntity(std::make_shared<BarrierCollider>(glm::vec2(-2048, -2048), BarrierCollider::EastFacing));
+    createEntity(std::make_shared<BarrierCollider>(glm::vec2(1920, -2048), BarrierCollider::WestFacing));
+    createEntity(std::make_shared<BarrierCollider>(glm::vec2(-1920, -2048), BarrierCollider::SouthFacing));
+    createEntity(std::make_shared<BarrierCollider>(glm::vec2(-1920, 1920), BarrierCollider::NorthFacing));
+    createEntity(std::make_shared<MechaChad>(glm::vec2(0, 0), this, std::weak_ptr<Entity>(mPlayer)));
     mRenderer.setTarget(mPlayer);
     mMusic->play();
 }
@@ -187,6 +188,7 @@ void GameState::event(StateMachineManager *smm)
 void GameState::createEntity(const std::shared_ptr<Entity>& entity)
 {
     mBufferedEntities.push_back(entity);
+    mRenderer.loadImage(entity->mImageRef);
 }
 
 void GameState::moveBufferedEntities()
@@ -204,6 +206,7 @@ void GameState::cleanEntities()
     {
         if (mEntities[i]->mIsDead)
         {
+            mRenderer.freeImage(mEntities[i]->mImageRef);
             std::swap(mEntities[i], mEntities[mEntities.size() - 1]);
             mEntities.pop_back();
         }

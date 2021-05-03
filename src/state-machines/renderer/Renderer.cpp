@@ -30,10 +30,7 @@ void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
 {
     if (!entity->mIsRenderable) { return; }  // The entity has been marked as non-renderable.
     auto imageIt = mImages.find(entity->mImageRef);
-    if (imageIt == mImages.end())
-    {
-        loadImage(entity->mImageRef);
-    }
+    if (imageIt == mImages.end()) { throwError("Could not find entities image src."); }
 
     glm::vec2 screenPosition = entity->mTransform.position + entity->mVelocity * mInterpolation - mPosition;
     // Where the image is going to go and the size of the image.
@@ -53,6 +50,15 @@ void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
 
 void Renderer::loadImage(const std::string &imageRef)
 {
+    if (imageRef.empty()) { return; }  // Item has no image ref.
+    auto imageIt = mImages.find(imageRef);
+    if (imageIt != mImages.end())  // Check to see if the image is already in the map.
+    {
+        imageIt->second.refCount++;
+        return;
+    }
+
+    // Creat and add the image to map.
     SDL_Surface *loadedSurface = IMG_Load(imageRef.c_str());
     if (!loadedSurface)
     {
@@ -61,15 +67,22 @@ void Renderer::loadImage(const std::string &imageRef)
     // Convert surface to an optimised texture for renderer.
     SDL_Texture *optimisedTexture = SDL_CreateTextureFromSurface(mRenderer, loadedSurface);
 
-    mImages[imageRef] = { optimisedTexture, loadedSurface->w, loadedSurface->h };
+    mImages[imageRef] = { optimisedTexture, loadedSurface->w, loadedSurface->h, 1 };
     // Free the surface that we just use to load the image.
     SDL_FreeSurface(loadedSurface);
 }
 
 void Renderer::freeImage(const std::string &imageRef)
 {
-    SDL_DestroyTexture(mImages[imageRef].src);
-    mImages.erase(imageRef);
+    if (imageRef.empty()) { return; }  // Item has not image ref.
+    auto imageIt = mImages.find(imageRef);
+    auto imageData = imageIt->second;
+    imageData.refCount--;
+    if (imageData.refCount <= 0)  // Remove if there is no count to the object.
+    {
+        SDL_DestroyTexture(imageData.src);
+        mImages.erase(imageIt);
+    }
 }
 
 void Renderer::update(const float &interpolation)
