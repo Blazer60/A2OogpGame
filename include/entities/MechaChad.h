@@ -14,7 +14,6 @@
 #include "BaseEnemy.h"
 #include "Entity.h"
 
-
 #include <glm.hpp>
 #include <memory>
 

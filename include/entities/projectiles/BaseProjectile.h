@@ -14,6 +14,8 @@
 
 #include "Entity.h"
 
+class Sfx;
+
 /**
  * The base projectile class that all projectiles inherit from.
  * Additionally provides basic functionality for a projectile.
@@ -28,6 +30,9 @@ public:
 
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;
+
+protected:
+    std::unique_ptr<Sfx> mSpawnSound;
 };
 
 

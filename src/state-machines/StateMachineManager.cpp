@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <thread>
+#include <SDL_mixer.h>
 
 StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skipToStateKey) :
     mIsRunning(true), mWindow(nullptr), mScreenSize(screenSize),
@@ -29,12 +30,21 @@ StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skip
     // Initialise SDL Image.
     if (!IMG_Init(IMG_INIT_PNG)) { throwError("Could not load SDL Image with PNG images."); }
 
+    // Initialise SDL Mixer.
+    if (!Mix_Init(MIX_INIT_MP3)) { throwError("Could not load SDL Mixer with MP3 enabled."); }
+    if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
+    {
+        throwError("Could not load SDL Mixer. Make sure that it is using the correct dlls.");
+    }
+
     mWindow = SDL_CreateWindow("A2 OOP Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mScreenSize.x, mScreenSize.y, SDL_WINDOW_SHOWN);
     changeState(skipToStateKey);
 }
 
 StateMachineManager::~StateMachineManager()
 {
+    Mix_Quit();
+    IMG_Quit();
     SDL_DestroyWindow(mWindow);
     mWindow = nullptr;
 }

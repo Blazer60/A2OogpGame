@@ -13,12 +13,16 @@
 #include "QuadTreeHelpers.h"
 #include "Player.h"
 
+#include "Sfx.h"
+
 BaseProjectile::BaseProjectile(const glm::vec2 &position, const glm::vec2 &velocity, const size_t &collisionLayer,
                                std::string imageRef) :
-        Entity(position, { 16, 16 }, { 8, 8 }, collisionLayer, std::move(imageRef))
+        Entity(position, { 16, 16 }, { 8, 8 }, collisionLayer, std::move(imageRef)),
+        mSpawnSound(std::make_unique<Sfx>("../sfx/shurikenThrow.mp3"))
 {
     mVelocity = velocity;  // Assigning here rather than creating a new Entity Constructor.
     mQueryLayers = quad::layers::Boundary | quad::layers::Player;
+    mSpawnSound->play();
 }
 
 void BaseProjectile::update()
