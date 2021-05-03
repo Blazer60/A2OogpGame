@@ -28,7 +28,7 @@ void BaseProjectile::update()
 
 void BaseProjectile::onCollision(const std::shared_ptr<Entity> &other)
 {
-    if (typeid(other.get()).hash_code() == typeid(Player).hash_code())
+    if (typeid(*other).hash_code() == typeid(Player).hash_code())
     {
         auto player = std::dynamic_pointer_cast<Player>(other);
         if (player->isInvulnerable())
