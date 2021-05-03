@@ -43,7 +43,10 @@ std::vector<glm::vec2> BaseEnemy::getUnitConePoints(unsigned int n, const glm::v
 {
     std::vector<glm::vec2> points;
     const float coneSpreadRadians = glm::radians(coneSpread);
+    // Find the 'left most' vector angle.
     auto angle = glm::orientedAngle(direction, glm::vec2(-1.f, 0.f)) + glm::pi<float>() - coneSpreadRadians / 2;
+
+    // Then work toward the 'right most' vector.
     for (int i = 0; i < n; ++i)
     {
         float y = -glm::sin(angle);
