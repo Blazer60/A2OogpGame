@@ -17,6 +17,7 @@
 #include <iostream>
 #include <thread>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 
 StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skipToStateKey) :
     mIsRunning(true), mWindow(nullptr), mScreenSize(screenSize),
@@ -36,6 +37,9 @@ StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skip
     {
         throwError("Could not load SDL Mixer. Make sure that it is using the correct dlls.");
     }
+
+    // Initialise SDL ttf. TTF is weird and has -1 as the fail flag.
+    if (TTF_Init() == -1) { throwError("Could not load SDL ttf. Make sure that all of the dll files exists."); }
 
     mWindow = SDL_CreateWindow("A2 OOP Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mScreenSize.x, mScreenSize.y, SDL_WINDOW_SHOWN);
     changeState(skipToStateKey);

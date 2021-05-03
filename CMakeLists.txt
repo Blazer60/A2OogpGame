@@ -65,6 +65,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ${VENDOR_INCLUDE}/sdl2-image
         ${VENDOR_INCLUDE}/glm
         ${VENDOR_INCLUDE}/sdl2-mixer
+        ${VENDOR_INCLUDE}/sdl2-ttf
         )
 
 # Check to see if vendor lib folder exists. Bail out if it doesn't.
@@ -82,6 +83,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
         ${VENDOR_LIB}/SDL2.lib
         ${VENDOR_LIB}/SDL2_image.lib
         ${VENDOR_LIB}/SDL2_mixer.lib
+        ${VENDOR_LIB}/SDL2_ttf.lib
         )
 
 # Potentially not needed? Keeping here in case anything happens in the future.
