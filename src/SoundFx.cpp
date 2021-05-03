@@ -13,7 +13,7 @@
 
 SoundFx::SoundFx(const std::string& filePath) : mSound(Mix_LoadWAV(filePath.c_str()))
 {
-    if (!mSound) { throwError("Could not load specified sound."); }
+    if (!mSound) { throwWarning("Could not load specified sound."); }
 }
 
 SoundFx::~SoundFx()
