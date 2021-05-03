@@ -47,7 +47,13 @@ StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skip
 
 StateMachineManager::~StateMachineManager()
 {
-    Mix_Quit();
+    // Destroy all states before continuing.
+    mStates.erase(mStates.begin(), mStates.end());
+
+    // Something in SDL Mixer is handled async. Attempting to free memory
+    // causes a crash. Luckily this is called right at the end of the program
+    // so it isn't too much of a problem. (Crashes in ~Music())
+    //Mix_Quit();
     IMG_Quit();
     SDL_DestroyWindow(mWindow);
     mWindow = nullptr;

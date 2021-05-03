@@ -28,9 +28,9 @@ public:
     ~Music();
 
     void play();
-    void pause();
-    void reset();
-    void mute();
+//    void pause();
+//    void reset();
+//    void mute();
 
 protected:
     Mix_Music *mMusic;
