@@ -14,7 +14,8 @@
 
 MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::weak_ptr<Entity> targetEntity) :
     BaseEnemy(position, { 128, 128 }, attachToState, std::move(targetEntity)),
-    timer(0)
+    timer(1),
+    currentOption(ChargeTarget)
 {
     mTransform.scale = glm::vec2(4.f);
     mHitBoxOffset = glm::vec2(64.f);
@@ -22,30 +23,93 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
 
 void MechaChad::update()
 {
-    timer++;
-    if (timer > 30)
+    timer--;
+    switch (currentOption)
     {
-        if (auto target = mTargetEntity.lock())
-        {
-            glm::vec2 targetDirection = glm::normalize(target->getHitBoxCenter() - getHitBoxCenter());
-            auto points = getUnitConePoints(10, targetDirection, 40.f);
-            for (const auto &point : points)
-            {
-                mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(10), quad::layers::EnemyProjectile));
-            }
-        }
-
-        timer = 0;
-//        std::vector<glm::vec2> points = getUnitCirclePoints(8);
-//        for (const auto &point : points)
-//        {
-//            mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(10), quad::layers::EnemyProjectile));
-//        }
+        case ChargeTarget:
+            chargeTarget();
+            break;
+        case ShootInCircle:
+            shootInCircle();
+            break;
+        case ShootAtTarget:
+        default:
+            shootAtTarget();
+            break;
     }
 
+    if (timer <= 0)
+    {
+        changeOption();
+    }
+}
+
+void MechaChad::shootAtTarget()
+{
+    shootTargetData.fireRateTimer++;
+    if (shootTargetData.fireRateTimer >= shootTargetData.fireRate)
+    {
+        auto targetDirection = getTargetDirection();
+        auto points = getUnitConePoints(9, targetDirection, 45.f);
+        for (const auto &point : points)
+        {
+            mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(10), quad::layers::EnemyProjectile));
+        }
+        shootTargetData.fireRateTimer = 0;
+    }
+}
+
+void MechaChad::shootInCircle()
+{
+    shootCircleData.fireRateTimer++;
+    if (shootCircleData.fireRateTimer >= shootCircleData.fireRate)
+    {
+        shootCircleData.offSet += 0.1;
+        auto points = getUnitCirclePoints(8, shootCircleData.offSet);
+        for (const auto &point : points)
+        {
+            mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(10), quad::layers::EnemyProjectile));
+        }
+        shootCircleData.fireRateTimer = 0;
+    }
+}
+
+void MechaChad::changeOption()
+{
+    mVelocity = glm::vec2(0.f);
+    currentOption = (currentOption + 1) % 3;
+    std::cout << "switching state" << std::endl;
+    switch (currentOption)
+    {
+        case ChargeTarget:
+            timer = chargeData.amountOfTime;
+            break;
+        case ShootInCircle:
+            timer = shootCircleData.amountOfTime;
+            break;
+        default:
+        case ShootAtTarget:
+            timer = shootTargetData.amountOfTime;
+    }
+}
+
+void MechaChad::chargeTarget()
+{
+    auto targetDirection = getTargetDirection();
+    mVelocity = targetDirection * chargeData.speed;
+    mTransform.position += mVelocity;
 }
 
 void MechaChad::onCollision(const std::shared_ptr<Entity> &other)
 {
 
+}
+
+glm::vec2 MechaChad::getTargetDirection()
+{
+    if (auto target = mTargetEntity.lock())
+    {
+        return glm::normalize(target->getHitBoxCenter() - getHitBoxCenter());
+    }
+    return glm::vec2(0.f);
 }

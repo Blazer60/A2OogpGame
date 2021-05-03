@@ -18,6 +18,27 @@
 #include <glm.hpp>
 #include <memory>
 
+struct chargeTargetData
+{
+    float speed = 10;
+    int amountOfTime = 60;
+};
+
+struct shootAtTargetData
+{
+    int amountOfTime = 90;
+    int fireRate = 30;
+    int fireRateTimer = 0;
+};
+
+struct shootInCircleData
+{
+    int amountOfTime = 30;
+    int fireRate = 5;
+    int fireRateTimer = 0;
+    float offSet = 0;
+};
+
 /**
  * The main boss that the player faces against.
  * @author Ryan Purse
@@ -32,6 +53,17 @@ public:
     void onCollision(const std::shared_ptr<Entity> &other) override;
 
 protected:
+    void changeOption();
+    void chargeTarget();
+    void shootAtTarget();
+    void shootInCircle();
+    glm::vec2 getTargetDirection();
+    chargeTargetData chargeData;
+    shootAtTargetData shootTargetData;
+    shootInCircleData shootCircleData;
+
+    enum options : char { ChargeTarget, ShootAtTarget, ShootInCircle };
+    char currentOption;
     unsigned int timer;
 };
 
