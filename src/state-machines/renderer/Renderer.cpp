@@ -11,15 +11,28 @@
 #include "Renderer.h"
 #include "HelperFunctions.h"
 #include "Entity.h"
+#include "HudText.h"
 
 #include <iostream>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <QuadTreeHelpers.h>
 
 Renderer::Renderer(SDL_Window *window) :
         mRenderer(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED)),
-        mInterpolation(0.f), mPosition(0), mRendererSize(windowSizeToVec2(window))
+        mInterpolation(0.f), mPosition(0), mRendererSize(windowSizeToVec2(window)),
+        mNextTextId(1)
 {}
+
+Renderer::~Renderer()
+{
+    for (auto &item : mImages)
+    {
+        SDL_DestroyTexture(item.second.src);
+    }
+    // We can't erase in place while iterating.
+    mImages.clear();
+}
 
 void Renderer::flip()
 {
@@ -48,6 +61,25 @@ void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
                      nullptr, SDL_FLIP_NONE);
 }
 
+void Renderer::renderItem(std::shared_ptr<HudText> &text)
+{
+    if (!text->isRenderValid()) { changeText(text); }
+
+    auto textIt = mTexts.find(text->getId());
+    if (textIt == mTexts.end()) { throwError("Could not find Text."); }
+
+    auto textData = textIt->second;
+
+    SDL_Rect dstRect = {
+            text->getPosition().x,
+            text->getPosition().y,
+            textData.width,
+            textData.height
+    };
+
+    SDL_RenderCopyEx(mRenderer, textData.src, nullptr, &dstRect, 0.0, nullptr, SDL_FLIP_NONE);
+}
+
 void Renderer::loadImage(const std::string &imageRef)
 {
     if (imageRef.empty()) { return; }  // Item has no image ref.
@@ -72,6 +104,33 @@ void Renderer::loadImage(const std::string &imageRef)
     SDL_FreeSurface(loadedSurface);
 }
 
+void Renderer::loadText(std::shared_ptr<HudText> &text)
+{
+    auto id = text->getId();
+    if (id != 0)  // Check to see if this text already exists (This should really never happen).
+    {
+        mTexts[id].refCount++;
+        return;
+    }
+
+    // Create Text
+    auto *font = text->getTextData();
+    if (!font) { throwError("Font Could not be found or loaded properly."); }
+
+    SDL_Color color { 255, 255, 255, 255 };
+    SDL_Surface *textSurface = TTF_RenderText_Solid(font, text->getText().c_str(), color);
+    if (!textSurface) { throwError("Failed to render text."); }
+    SDL_Texture *optimisedText = SDL_CreateTextureFromSurface(mRenderer, textSurface);
+
+    mTexts[mNextTextId] = imageData{ optimisedText, textSurface->w, textSurface->h, 1 };
+
+    SDL_FreeSurface(textSurface);
+
+    text->setId(mNextTextId);
+    text->setRenderValid(true);
+    mNextTextId++;
+}
+
 void Renderer::freeImage(const std::string &imageRef)
 {
     if (imageRef.empty()) { return; }  // Item has not image ref.
@@ -83,6 +142,45 @@ void Renderer::freeImage(const std::string &imageRef)
         SDL_DestroyTexture(imageData.src);
         mImages.erase(imageIt);
     }
+}
+
+void Renderer::freeText(size_t id)
+{
+    if (id == 0) { return; }  // 0 explicitly doesn't exist with the map.
+    auto textIt = mTexts.find(id);
+    auto textData = textIt->second;
+    textData.refCount--;
+    if (textData.refCount <= 0)  // Remove if there's nothing else pointing to this bit of text.
+    {
+        SDL_DestroyTexture(textData.src);
+        mTexts.erase(textIt);
+    }
+}
+
+void Renderer::changeText(std::shared_ptr<HudText> &text)
+{
+    auto textIt = mTexts.find(text->getId());
+    auto textData = textIt->second;
+
+    // Destroy old texture.
+    SDL_DestroyTexture(textData.src);
+
+    auto *font = text->getTextData();
+    if (!font) { throwError("Font Could not be found or loaded properly."); }
+
+    SDL_Color color { 255, 255, 255, 255 };
+    SDL_Surface *textSurface = TTF_RenderText_Solid(font, text->getText().c_str(), color);
+    if (!textSurface) { throwError("Failed to render text."); }
+    SDL_Texture *optimisedText = SDL_CreateTextureFromSurface(mRenderer, textSurface);
+
+    textData.src = optimisedText;
+    textData.width = textSurface->w;
+    textData.height = textSurface->h;
+
+    SDL_FreeSurface(textSurface);
+
+
+    text->setRenderValid(true);
 }
 
 void Renderer::update(const float &interpolation)
@@ -102,16 +200,6 @@ void Renderer::update(const float &interpolation)
     {
         mPosition = { 0.f, 0.f };
     }
-}
-
-Renderer::~Renderer()
-{
-    for (auto &item : mImages)
-    {
-        SDL_DestroyTexture(item.second.src);
-    }
-    // We can't erase in place while iterating.
-    mImages.clear();
 }
 
 void Renderer::setTarget(const std::weak_ptr<Entity> &entity)

@@ -15,6 +15,7 @@
 
 #include <string>
 #include <glm.hpp>
+#include <SDL_ttf.h>
 
 /**
  * Text that can appear on the HUD.
@@ -25,16 +26,35 @@ class HudText : public HudElement
 {
 public:
     explicit HudText(const glm::ivec2 &position, char anchorPoint=0);
-    ~HudText() override = default;
+    ~HudText() override;
+
+    void update() override;
 
     void setText(const std::string &text);
+    std::string getText() const;
+
+    void setId(size_t newId);
+    size_t getId() const;
+
+    int getSize() const;
+    TTF_Font *getTextData() const;
+
+    bool isRenderValid() const;
+    void setRenderValid(bool isValid);
+
+    glm::ivec2 getPosition() const;
 
 protected:
+    void createTextData();
+    void freeTextData();
+
+    TTF_Font *mTextData;
     std::string mFontPath;
     std::string mText;
     int mSize;
     glm::vec4 mColour;
-    size_t *mId;
+    size_t mId;
+    bool mIsRendererValid;
 };
 
 

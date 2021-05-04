@@ -19,6 +19,7 @@
 #include <QuadTreeHelpers.h>
 
 class Entity;
+class HudText;
 
 struct imageData
 {
@@ -35,23 +36,30 @@ struct imageData
 class Renderer
 {
     typedef std::unordered_map<std::string, imageData> imageMap;
+    typedef std::unordered_map<size_t, imageData> textMap;
 public:
     explicit Renderer(SDL_Window *window);
     ~Renderer();
 
     void update(const float &interpolation);
     void renderItem(const std::shared_ptr<Entity> &entity);
+    void renderItem(std::shared_ptr<HudText> &text);
     void renderHitBox(const std::shared_ptr<Entity> &entity);
     void renderHitBox(const quad::rect &aabb);
     void flip();
     void loadImage(const std::string &imageRef);
     void freeImage(const std::string &imageRef);
     void setTarget(const std::weak_ptr<Entity> &entity);
+    void loadText(std::shared_ptr<HudText> &text);
+    void changeText(std::shared_ptr<HudText> &text);
+    void freeText(size_t id);
 
 protected:
     glm::ivec2 mRendererSize;
     SDL_Renderer *mRenderer;
     imageMap mImages;
+    textMap mTexts;
+    size_t mNextTextId;
     float mInterpolation;
     std::weak_ptr<Entity> mTargetEntity;
     glm::vec2 mPosition;

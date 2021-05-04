@@ -34,6 +34,8 @@ GameState::GameState(SDL_Window *window) :
     createEntity(std::make_shared<BarrierCollider>(glm::vec2(-1920, -2048), BarrierCollider::SouthFacing));
     createEntity(std::make_shared<BarrierCollider>(glm::vec2(-1920, 1920), BarrierCollider::NorthFacing));
     createEntity(std::make_shared<MechaChad>(glm::vec2(0, 0), this, std::weak_ptr<Entity>(mPlayer)));
+
+    createHudText(std::make_shared<HudText>(glm::ivec2(20, 20)));
     mRenderer.setTarget(mPlayer);
     mMusic->play();
 }
@@ -99,6 +101,11 @@ void GameState::render(StateMachineManager *smm, const float &interpolation)
 
     if (mQuadTree) { mQuadTree->debugRender(&mRenderer); }
 #endif
+
+    for (auto &text : mHudTexts)
+    {
+        mRenderer.renderItem(text);
+    }
 
     mRenderer.flip();  // Must be at the end of rendering.
 }
@@ -234,4 +241,10 @@ void GameState::collisionUpdateCheck()
             currentEntity->onCollision(other);
         }
     }
+}
+
+void GameState::createHudText(std::shared_ptr<HudText> text)
+{
+    mHudTexts.push_back(text);
+    mRenderer.loadText(text);
 }

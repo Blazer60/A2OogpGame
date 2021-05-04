@@ -14,6 +14,7 @@
 #include "StateMachine.h"
 #include "Player.h"
 #include "QuadTree.h"
+#include "HudText.h"
 
 #include <memory>
 #include <vector>
@@ -46,7 +47,8 @@ public:
     void update(StateMachineManager *smm) override;
     void render(StateMachineManager *smm, const float &interpolation) override;
 
-    void createEntity(const std::shared_ptr<Entity>& entity);
+    void createHudText(std::shared_ptr<HudText> text);
+    void createEntity(const std::shared_ptr<Entity> &entity);
     void moveBufferedEntities();
     void cleanEntities();
 
@@ -57,6 +59,7 @@ protected:
     inputs mInputs;
     std::vector<std::shared_ptr<Entity>> mEntities;
     std::vector<std::shared_ptr<Entity>> mBufferedEntities;
+    std::vector<std::shared_ptr<HudText>> mHudTexts;
     std::unique_ptr<entityTree> mQuadTree;
 
     std::unique_ptr<Music> mMusic;
