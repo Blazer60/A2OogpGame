@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
         src/entities/Barrier/BarrierCollider.cpp include/entities/barrier/BarrierCollider.h
         src/SoundFx.cpp include/SoundFx.h
         src/Music.cpp include/Music.h
+        src/hud/HudElement.cpp include/hud/HudElement.h
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
@@ -34,6 +35,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         include/entities/projectiles
         include/entities/barrier
         include/quad-tree
+        include/hud
         )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC DEBUG_DRAW_HIT_BOXES=1)
