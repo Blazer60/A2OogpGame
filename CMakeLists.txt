@@ -25,6 +25,7 @@ add_executable(${PROJECT_NAME}
         src/SoundFx.cpp include/SoundFx.h
         src/Music.cpp include/Music.h
         src/hud/HudElement.cpp include/hud/HudElement.h
+        src/hud/HudText.cpp include/hud/HudText.h
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
