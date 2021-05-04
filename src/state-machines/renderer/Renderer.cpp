@@ -32,6 +32,14 @@ Renderer::~Renderer()
     }
     // We can't erase in place while iterating.
     mImages.clear();
+
+    // Do the same for all of the HUD elements
+    for (auto &item : mTexts)
+    {
+        SDL_DestroyTexture(item.second.src);
+    }
+
+    mTexts.clear();
 }
 
 void Renderer::flip()
@@ -68,11 +76,20 @@ void Renderer::renderItem(std::shared_ptr<HudText> &text)
     auto textIt = mTexts.find(text->getId());
     if (textIt == mTexts.end()) { throwError("Could not find Text."); }
 
-    auto textData = textIt->second;
+    auto &textData = textIt->second;
+
+    glm::ivec2 position = text->getPosition();
+    char anchorPoint = text->getAnchorPoint();
+
+    // Align the text compared to its anchor point.
+    if ((anchorPoint & HudElement::Bottom) > 0)         { position.y += mRendererSize.y; }
+    else if ((anchorPoint & HudElement::Center) > 0)    { position.y += mRendererSize.y / 2; }
+    if ((anchorPoint & HudElement::Right) > 0)          { position.x += mRendererSize.x; }
+    else if ((anchorPoint & HudElement::Middle) > 0)    { position.x += mRendererSize.x / 2; }
 
     SDL_Rect dstRect = {
-            text->getPosition().x,
-            text->getPosition().y,
+            position.x,
+            position.y,
             textData.width,
             textData.height
     };
@@ -121,6 +138,7 @@ void Renderer::loadText(std::shared_ptr<HudText> &text)
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, text->getText().c_str(), color);
     if (!textSurface) { throwError("Failed to render text."); }
     SDL_Texture *optimisedText = SDL_CreateTextureFromSurface(mRenderer, textSurface);
+    if (!optimisedText) { throwError("Could not optimise text."); }
 
     mTexts[mNextTextId] = imageData{ optimisedText, textSurface->w, textSurface->h, 1 };
 
@@ -135,7 +153,7 @@ void Renderer::freeImage(const std::string &imageRef)
 {
     if (imageRef.empty()) { return; }  // Item has not image ref.
     auto imageIt = mImages.find(imageRef);
-    auto imageData = imageIt->second;
+    auto &imageData = imageIt->second;
     imageData.refCount--;
     if (imageData.refCount <= 0)  // Remove if there is no count to the object.
     {
@@ -148,7 +166,7 @@ void Renderer::freeText(size_t id)
 {
     if (id == 0) { return; }  // 0 explicitly doesn't exist with the map.
     auto textIt = mTexts.find(id);
-    auto textData = textIt->second;
+    auto &textData = textIt->second;
     textData.refCount--;
     if (textData.refCount <= 0)  // Remove if there's nothing else pointing to this bit of text.
     {
@@ -160,22 +178,25 @@ void Renderer::freeText(size_t id)
 void Renderer::changeText(std::shared_ptr<HudText> &text)
 {
     auto textIt = mTexts.find(text->getId());
-    auto textData = textIt->second;
-
+    auto &textData = textIt->second;
     // Destroy old texture.
     SDL_DestroyTexture(textData.src);
+    textData.src = nullptr;
 
-    auto *font = text->getTextData();
+    TTF_Font *font = text->getTextData();
     if (!font) { throwError("Font Could not be found or loaded properly."); }
 
     SDL_Color color { 255, 255, 255, 255 };
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, text->getText().c_str(), color);
     if (!textSurface) { throwError("Failed to render text."); }
     SDL_Texture *optimisedText = SDL_CreateTextureFromSurface(mRenderer, textSurface);
+    if (!optimisedText) { throwError("Could not load optimised text."); }
 
     textData.src = optimisedText;
+
     textData.width = textSurface->w;
     textData.height = textSurface->h;
+
 
     SDL_FreeSurface(textSurface);
 

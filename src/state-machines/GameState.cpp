@@ -18,6 +18,7 @@
 #include "BarrierImage.h"
 #include "BarrierCollider.h"
 #include "Music.h"
+#include "Timer.h"
 
 #include <iostream>
 
@@ -35,7 +36,7 @@ GameState::GameState(SDL_Window *window) :
     createEntity(std::make_shared<BarrierCollider>(glm::vec2(-1920, 1920), BarrierCollider::NorthFacing));
     createEntity(std::make_shared<MechaChad>(glm::vec2(0, 0), this, std::weak_ptr<Entity>(mPlayer)));
 
-    createHudText(std::make_shared<HudText>(glm::ivec2(20, 20)));
+    createHudText(std::make_shared<Timer>(glm::ivec2(-80, -100), HudElement::Bottom | HudElement::Middle));
     mRenderer.setTarget(mPlayer);
     mMusic->play();
 }
@@ -66,17 +67,14 @@ void GameState::update(StateMachineManager *smm)
         item->update();
     }
 
+    for (auto &item : mHudTexts)
+    {
+        item->update();
+    }
+
     collisionUpdateCheck();     // Check collisions between all entities.
     cleanEntities();            // Remove dead entities.
     moveBufferedEntities();     // Add Buffered Entities to main vector.
-
-//    static unsigned int loops = 0;
-//    loops++;
-//    if (loops > 30)
-//    {
-//        loops = 0;
-//        std::cout << mEntities.size() << std::endl;
-//    }
 }
 
 void GameState::render(StateMachineManager *smm, const float &interpolation)

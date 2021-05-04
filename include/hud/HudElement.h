@@ -38,6 +38,7 @@ struct hudTransform
  */
 class HudElement
 {
+public:
     enum anchorPoints : char {
         Top     = 0b0000,
         Bottom  = 0b0001,
@@ -46,11 +47,14 @@ class HudElement
         Right   = 0b0100,
         Middle  = 0b1000
     };
-public:
+
     explicit HudElement(const glm::ivec2 &position, char anchorPoint=0);
     virtual ~HudElement() = default;
 
     virtual void update() = 0;
+
+    char getAnchorPoint() const;
+    void setAnchorPoint(char anchorPoint);
 
 protected:
     hudTransform mTransform;

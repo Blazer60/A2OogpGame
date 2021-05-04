@@ -24,7 +24,8 @@ Music::~Music()
 
 void Music::play()
 {
-    Mix_FadeInMusic(mMusic, -1, 5000);
+    // Todo: Make sure to uncomment this when you want the music back.
+    //Mix_FadeInMusic(mMusic, -1, 5000);
 }
 
 

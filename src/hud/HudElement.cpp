@@ -22,3 +22,13 @@ HudElement::HudElement(const glm::ivec2 &position, char anchorPoint) :
 {
 
 }
+
+char HudElement::getAnchorPoint() const
+{
+    return mAnchorPoint;
+}
+
+void HudElement::setAnchorPoint(char anchorPoint)
+{
+    HudElement::mAnchorPoint = anchorPoint;
+}
