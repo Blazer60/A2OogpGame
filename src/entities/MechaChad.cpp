@@ -67,7 +67,7 @@ void MechaChad::shootInCircle()
     shootCircleData.fireRateTimer++;
     if (shootCircleData.fireRateTimer >= shootCircleData.fireRate)
     {
-        shootCircleData.offSet += 10;
+        shootCircleData.offSet += 47.12f;
         auto points = getUnitCirclePoints(shootCircleData.amountOfProjectiles, shootCircleData.offSet);
         for (const auto &point : points)
         {
