@@ -36,6 +36,7 @@ public:
     void setId(size_t newId);
     size_t getId() const;
 
+    void setSize(int newSize);
     int getSize() const;
     TTF_Font *getTextData() const;
 

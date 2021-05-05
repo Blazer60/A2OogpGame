@@ -25,6 +25,7 @@ PauseState::PauseState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, std
     mRenderer.loadImage(mPauseIcon->getImageRef());
 
     mPauseText = std::make_shared<HudText>(glm::ivec2(50, -50), HudElement::Bottom);
+    mPauseText->setSize(20);
     mPauseText->setText("Press [esc] or [p] to unpause");
     mRenderer.loadText(mPauseText);
 }

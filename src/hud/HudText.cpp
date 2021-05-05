@@ -59,6 +59,14 @@ size_t HudText::getId() const
     return mId;
 }
 
+void HudText::setSize(int newSize)
+{
+    freeTextData();
+    mSize = newSize;
+    createTextData();
+    mIsRendererValid = false;
+}
+
 int HudText::getSize() const
 {
     return mSize;
