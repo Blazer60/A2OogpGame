@@ -46,7 +46,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         include/hud
         )
 
-target_compile_definitions(${PROJECT_NAME} PUBLIC DEBUG_DRAW_HIT_BOXES=1)
+target_compile_definitions(${PROJECT_NAME} PUBLIC DEBUG_DRAW_HIT_BOXES=0)
 
 #---------- Adding Vendor elements to project. ----------#
 
