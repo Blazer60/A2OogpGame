@@ -13,6 +13,7 @@
 #include "MenuState.h"
 #include "GameState.h"
 #include "HelperFunctions.h"
+#include "PauseState.h"
 
 #include <iostream>
 #include <thread>
@@ -97,6 +98,13 @@ void StateMachineManager::addState(char stateKey)
         case statesList::InGame:
             mStates[stateKey] = std::make_shared<GameState>(mRenderer, windowSizeToVec2(mWindow));
             break;
+        case statesList::Paused:
+            mStates[stateKey] = std::make_shared<PauseState>(
+                    mRenderer,
+                    windowSizeToVec2(mWindow),
+                    std::weak_ptr<StateMachine>(mStates[statesList::InGame])
+                    );
+            break;
     }
 }
 
@@ -118,6 +126,7 @@ void StateMachineManager::update()
 void StateMachineManager::render()
 {
     mCurrentState->render(this, static_cast<float>(mInterpolation));
+    mCurrentState->flip();
 }
 
 void StateMachineManager::runSynchronous()

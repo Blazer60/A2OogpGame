@@ -23,7 +23,7 @@ class StateMachineManager;
 class StateMachine
 {
 public:
-    explicit StateMachine(SDL_Renderer *renderer, const glm::ivec2 &windowSize);
+    explicit StateMachine(SDL_Renderer *renderer, const glm::ivec2 &windowSize, char stateKey);
     virtual ~StateMachine() = default;
 
     virtual void onPause() = 0;
@@ -34,8 +34,12 @@ public:
     virtual void render(StateMachineManager *smm, const float &interpolation) = 0;
     static void changeState(StateMachineManager *smm, char stateKey);
 
+    char getStateKey() const;
+    void flip();
+
 protected:
     Renderer mRenderer;
+    const char mStateKey;
 };
 
 

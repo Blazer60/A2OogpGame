@@ -27,7 +27,7 @@
 #include <iostream>
 
 GameState::GameState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) :
-        StateMachine(renderer, windowSize),
+        StateMachine(renderer, windowSize, statesList::InGame),
     mPlayer(std::make_shared<Player>(glm::vec2{ -400.f, 50.f })),
     mMusic(std::make_unique<Music>("../tmp/FeelThePower.mp3"))
 {
@@ -98,8 +98,6 @@ void GameState::render(StateMachineManager *smm, const float &interpolation)
     {
         mRenderer.renderItem(text);
     }
-
-    mRenderer.flip();  // Must be at the end of rendering.
 }
 
 void GameState::createEntity(const std::shared_ptr<Entity>& entity)
@@ -184,10 +182,15 @@ void GameState::event(StateMachineManager *smm)
     while (SDL_PollEvent(&event) != 0)
     {
         if (event.type == SDL_QUIT) { smm->mIsRunning = false; }
+        if (event.type == SDL_KEYDOWN)
+        {
+            switch (event.key.keysym.sym)
+            {
+                case SDLK_ESCAPE:
+                    smm->changeState(statesList::Paused);
+                    break;
+            }
+        }
     }
-
-    // This method can sometimes not recognise when something was inputted by the user.
-    const unsigned char* keys = SDL_GetKeyboardState(nullptr);
-    if (keys[SDL_SCANCODE_ESCAPE]) { smm->changeState(statesList::MainMenu); }
 }
 

@@ -22,7 +22,7 @@ class StateMachine;
 namespace statesList
 {
     enum states : char {
-        MainMenu, InGame
+        MainMenu, InGame, Paused
     };
 }
 

@@ -28,7 +28,9 @@ add_executable(${PROJECT_NAME}
         src/hud/HudText.cpp include/hud/HudText.h
         src/hud/Timer.cpp include/hud/Timer.h
         src/hud/LifeGauge.cpp include/hud/LifeGauge.h
-        src/hud/HudImage.cpp include/hud/HudImage.h)
+        src/hud/HudImage.cpp include/hud/HudImage.h
+        src/state-machines/PauseState.cpp include/state-machines/PauseState.h
+        )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         include

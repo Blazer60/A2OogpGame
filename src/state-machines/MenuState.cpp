@@ -13,7 +13,8 @@
 
 #include "HudText.h"
 
-MenuState::MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) : StateMachine(renderer, windowSize)
+MenuState::MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) :
+    StateMachine(renderer, windowSize, statesList::MainMenu)
 {
     mTitle = std::make_shared<HudText>(glm::ivec2(10, 10));
     mTitle->setText("Press P to play the game.");
@@ -52,6 +53,4 @@ void MenuState::render(StateMachineManager *smm, const float &interpolation)
     mRenderer.update(interpolation);
 
     mRenderer.renderItem(mTitle);
-
-    mRenderer.flip();
 }
