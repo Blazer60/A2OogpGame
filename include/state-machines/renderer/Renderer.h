@@ -20,6 +20,7 @@
 
 class Entity;
 class HudText;
+class HudImage;
 
 struct imageData
 {
@@ -44,6 +45,7 @@ public:
     void update(const float &interpolation);
     void renderItem(const std::shared_ptr<Entity> &entity);
     void renderItem(std::shared_ptr<HudText> &text);
+    void renderItem(const std::shared_ptr<HudImage> &hudImage);
     void renderHitBox(const std::shared_ptr<Entity> &entity);
     void renderHitBox(const quad::rect &aabb);
     void flip();

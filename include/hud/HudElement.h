@@ -13,6 +13,9 @@
 #define A2OOPGAME_HUDELEMENT_H
 
 #include <glm.hpp>
+#include <string>
+#include <unordered_map>
+#include <SDL_ttf.h>
 
 /**
  * Transforms for HUD Elements. Similar to Transform
@@ -55,6 +58,9 @@ public:
 
     char getAnchorPoint() const;
     void setAnchorPoint(char anchorPoint);
+
+    glm::ivec2 getPosition() const;
+    glm::vec2  getScale() const;
 
 protected:
     hudTransform mTransform;

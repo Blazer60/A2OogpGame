@@ -26,7 +26,9 @@ add_executable(${PROJECT_NAME}
         src/Music.cpp include/Music.h
         src/hud/HudElement.cpp include/hud/HudElement.h
         src/hud/HudText.cpp include/hud/HudText.h
-        src/hud/Timer.cpp include/hud/Timer.h)
+        src/hud/Timer.cpp include/hud/Timer.h
+        src/hud/LifeGauge.cpp include/hud/LifeGauge.h
+        src/hud/HudImage.cpp include/hud/HudImage.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         include

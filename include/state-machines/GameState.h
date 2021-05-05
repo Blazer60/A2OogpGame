@@ -12,15 +12,19 @@
 #define A2OOPGAME_GAMESTATE_H
 
 #include "StateMachine.h"
-#include "Player.h"
-#include "QuadTree.h"
-#include "HudText.h"
 
 #include <memory>
 #include <vector>
 #include <SDL_mixer.h>
 
 class Music;
+class HudImage;
+class HudText;
+class Player;
+template<class dataType>
+class QuadTree;
+class LifeGauge;
+
 
 struct inputs
 {
@@ -48,6 +52,7 @@ public:
     void render(StateMachineManager *smm, const float &interpolation) override;
 
     void createHudText(std::shared_ptr<HudText> text);
+
     void createEntity(const std::shared_ptr<Entity> &entity);
     void moveBufferedEntities();
     void cleanEntities();
@@ -60,6 +65,8 @@ protected:
     std::vector<std::shared_ptr<Entity>> mEntities;
     std::vector<std::shared_ptr<Entity>> mBufferedEntities;
     std::vector<std::shared_ptr<HudText>> mHudTexts;
+//    std::vector<std::shared_ptr<HudImage>> mHudImages;
+    std::shared_ptr<LifeGauge> mLifeGauge;
     std::unique_ptr<entityTree> mQuadTree;
 
     std::unique_ptr<Music> mMusic;

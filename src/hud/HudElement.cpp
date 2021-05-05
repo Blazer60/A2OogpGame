@@ -9,6 +9,9 @@
  */
 
 
+#include "HelperFunctions.h"
+#include "HudText.h"
+#include "LifeGauge.h"
 #include "HudElement.h"
 
 hudTransform::hudTransform(const glm::ivec2 &position, double rotation, const glm::vec2 &scale) : position(position),
@@ -31,4 +34,14 @@ char HudElement::getAnchorPoint() const
 void HudElement::setAnchorPoint(char anchorPoint)
 {
     HudElement::mAnchorPoint = anchorPoint;
+}
+
+glm::ivec2 HudElement::getPosition() const
+{
+    return mTransform.position;
+}
+
+glm::vec2 HudElement::getScale() const
+{
+    return mTransform.scale;
 }

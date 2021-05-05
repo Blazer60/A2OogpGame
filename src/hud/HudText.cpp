@@ -10,6 +10,7 @@
 
 #include "HudText.h"
 #include "HelperFunctions.h"
+#include "HudElement.h"
 
 
 HudText::HudText(const glm::ivec2 &position, char anchorPoint) :
@@ -76,11 +77,6 @@ bool HudText::isRenderValid() const
 void HudText::setRenderValid(bool isValid)
 {
     mIsRendererValid = isValid;
-}
-
-glm::ivec2 HudText::getPosition() const
-{
-    return mTransform.position;
 }
 
 void HudText::update()

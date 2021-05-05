@@ -12,6 +12,8 @@
 #include "HelperFunctions.h"
 #include "Entity.h"
 #include "HudText.h"
+#include "HudImage.h"
+#include "HudElement.h"
 
 #include <iostream>
 #include <SDL_image.h>
@@ -95,6 +97,32 @@ void Renderer::renderItem(std::shared_ptr<HudText> &text)
     };
 
     SDL_RenderCopyEx(mRenderer, textData.src, nullptr, &dstRect, 0.0, nullptr, SDL_FLIP_NONE);
+}
+
+void Renderer::renderItem(const std::shared_ptr<HudImage> &hudImage)
+{
+    auto imageIt = mImages.find(hudImage->getImageRef());
+    if (imageIt == mImages.end()) { throwError("Could not find entities image src."); }
+
+    auto &imageData = imageIt->second;
+
+    glm::ivec2 position = hudImage->getPosition();
+    char anchorPoint = hudImage->getAnchorPoint();
+
+    // Align the text compared to its anchor point.
+    if ((anchorPoint & HudElement::Bottom) > 0)         { position.y += mRendererSize.y; }
+    else if ((anchorPoint & HudElement::Center) > 0)    { position.y += mRendererSize.y / 2; }
+    if ((anchorPoint & HudElement::Right) > 0)          { position.x += mRendererSize.x; }
+    else if ((anchorPoint & HudElement::Middle) > 0)    { position.x += mRendererSize.x / 2; }
+
+    SDL_Rect dstRect = {
+            position.x,
+            position.y,
+            static_cast<int>(static_cast<float>(imageData.width) * hudImage->getScale().x),
+            static_cast<int>(static_cast<float>(imageData.height) * hudImage->getScale().y)
+    };
+
+    SDL_RenderCopyEx(mRenderer, imageData.src, nullptr, &dstRect, 0.0, nullptr, SDL_FLIP_NONE);
 }
 
 void Renderer::loadImage(const std::string &imageRef)

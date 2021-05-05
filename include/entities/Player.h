@@ -29,6 +29,8 @@ public:
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;
 
+    int getLives() const;
+
     bool isInvulnerable() const;
 
 protected:
@@ -50,6 +52,8 @@ protected:
     int mInvulnerableTimer;  // Counts Down
     bool mIsInvulnerable;
     glm::vec2 mDashDirection;
+
+    int mLives;
 
     bool mGodMode;
 };

@@ -8,6 +8,7 @@
  */
 
 
+#include <iostream>
 #include "Player.h"
 
 #include "GameState.h"
@@ -28,7 +29,8 @@ Player::Player(const glm::vec2 &position) :
         mDashTimer(0),
         mDashLength(15),
         mDashDirection(0.f),
-        mGodMode(true)
+        mGodMode(true),
+        mLives(3)
 {
     mTransform.scale = glm::vec2 (4.f);
     mVelocity.x = mSpeed;
@@ -116,10 +118,20 @@ void Player::onCollision(const std::shared_ptr<Entity> &other)
         // Push back the player depending on the orientation of the wall they just hit.
         auto barrierCollider = std::dynamic_pointer_cast<BarrierCollider>(other);
         pushOffWall(barrierCollider);
+        return;
     }
+
+    // It's collided with something dangerous
+    mLives--;
+    makeInvulnerable(30);
 }
 
 bool Player::isInvulnerable() const
 {
     return mIsInvulnerable;
+}
+
+int Player::getLives() const
+{
+    return mLives;
 }

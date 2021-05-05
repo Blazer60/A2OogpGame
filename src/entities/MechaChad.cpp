@@ -12,6 +12,8 @@
 #include "GameState.h"
 #include "QuadTreeHelpers.h"
 
+#include <iostream>
+
 MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::weak_ptr<Entity> targetEntity) :
     BaseEnemy(position, { 128, 128 }, attachToState, std::move(targetEntity)),
     timer(1),

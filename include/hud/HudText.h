@@ -42,8 +42,6 @@ public:
     bool isRenderValid() const;
     void setRenderValid(bool isValid);
 
-    glm::ivec2 getPosition() const;
-
 protected:
     void createTextData();
     void freeTextData();
