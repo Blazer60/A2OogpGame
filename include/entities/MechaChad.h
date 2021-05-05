@@ -13,6 +13,7 @@
 
 #include "BaseEnemy.h"
 #include "Entity.h"
+#include "SoundFx.h"
 
 #include <glm.hpp>
 #include <memory>
@@ -67,6 +68,7 @@ protected:
     enum options : char { ChargeTarget, ShootAtTarget, ShootInCircle };
     char currentOption;
     unsigned int timer;
+    SoundFx mFireProjectileSound;
 };
 
 

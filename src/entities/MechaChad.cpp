@@ -17,7 +17,7 @@
 MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::weak_ptr<Entity> targetEntity) :
     BaseEnemy(position, { 128, 128 }, attachToState, std::move(targetEntity)),
     timer(1),
-    currentOption(ChargeTarget)
+    currentOption(ChargeTarget), mFireProjectileSound("../sfx/shurikenThrow.mp3")
 {
     mTransform.scale = glm::vec2(4.f);
     mHitBoxOffset = glm::vec2(64.f);
@@ -57,6 +57,7 @@ void MechaChad::shootAtTarget()
         {
             mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(15), quad::layers::EnemyProjectile));
         }
+//        mFireProjectileSound.play();
         shootTargetData.fireRateTimer = 0;
     }
 }
@@ -72,6 +73,7 @@ void MechaChad::shootInCircle()
         {
             mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(10), quad::layers::EnemyProjectile));
         }
+//        mFireProjectileSound.play();
         shootCircleData.fireRateTimer = 0;
     }
 }

@@ -24,6 +24,7 @@ SoundFx::~SoundFx()
 
 void SoundFx::play()
 {
+    if (Mix_Playing(mChannel)) { return; }
     mChannel = Mix_PlayChannelTimed(-1, mSound, 0, -1);
-    Mix_Volume(mChannel, 2);
+//    Mix_Volume(mChannel, 2);
 }

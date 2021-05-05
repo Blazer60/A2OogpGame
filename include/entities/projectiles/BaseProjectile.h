@@ -30,9 +30,6 @@ public:
 
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;
-
-protected:
-    std::unique_ptr<SoundFx> mSpawnSound;
 };
 
 
