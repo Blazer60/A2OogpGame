@@ -53,3 +53,8 @@ bool HudElement::isRenderable() const
 {
     return mIsRenderable;
 }
+
+void HudElement::setScale(const glm::vec2 &newScale)
+{
+    mTransform.scale = newScale;
+}

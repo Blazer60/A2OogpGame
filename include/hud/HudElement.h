@@ -61,6 +61,8 @@ public:
     void setAnchorPoint(char anchorPoint);
 
     glm::ivec2 getPosition() const;
+
+    void setScale(const glm::vec2 &newScale);
     glm::vec2  getScale() const;
 
     bool isRenderable() const;
