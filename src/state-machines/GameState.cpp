@@ -66,7 +66,7 @@ void GameState::update(StateMachineManager *smm)
     collisionUpdateCheck();     // Check collisions between all entities.
     cleanEntities();            // Remove dead entities.
     moveBufferedEntities();     // Add Buffered Entities to main vector.
-    if (mPlayer->getLives() <= 0) { smm->changeState(statesList::MainMenu); }
+    if (mPlayer->getLives() <= 0) { smm->changeState(statesList::DeathScreen); }
 }
 
 void GameState::render(StateMachineManager *smm, const float &interpolation)

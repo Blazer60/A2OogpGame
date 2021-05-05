@@ -14,6 +14,7 @@
 #include "GameState.h"
 #include "HelperFunctions.h"
 #include "PauseState.h"
+#include "DeathState.h"
 
 #include <iostream>
 #include <thread>
@@ -79,27 +80,37 @@ void StateMachineManager::changeState(char stateKey)
 
     mCurrentState = mStates[stateKey];
 
-    // Going to the menu attempts to destroy all states
+    // Going to the menu attempts to destroy all other states
     if (stateKey == statesList::MainMenu)
     {
         removeState(statesList::InGame);
+        removeState(statesList::Paused);
+        removeState(statesList::DeathScreen);
     }
 
 }
 
-void StateMachineManager::addState(char stateKey)
+void StateMachineManager::addState(char &stateKey)
 {
     switch (stateKey)
     {
         case statesList::MainMenu:
         default:
-            mStates[stateKey] = std::make_shared<MenuState>(mRenderer, windowSizeToVec2(mWindow));
+            stateKey = statesList::MainMenu;  // Fail safe in case the state doesn't exist.
+            mStates[statesList::MainMenu] = std::make_shared<MenuState>(mRenderer, windowSizeToVec2(mWindow));
             break;
         case statesList::InGame:
             mStates[stateKey] = std::make_shared<GameState>(mRenderer, windowSizeToVec2(mWindow));
             break;
         case statesList::Paused:
             mStates[stateKey] = std::make_shared<PauseState>(
+                    mRenderer,
+                    windowSizeToVec2(mWindow),
+                    std::weak_ptr<StateMachine>(mStates[statesList::InGame])
+                    );
+            break;
+        case statesList::DeathScreen:
+            mStates[stateKey] = std::make_shared<DeathState>(
                     mRenderer,
                     windowSizeToVec2(mWindow),
                     std::weak_ptr<StateMachine>(mStates[statesList::InGame])

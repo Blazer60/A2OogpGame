@@ -22,7 +22,7 @@ class StateMachine;
 namespace statesList
 {
     enum states : char {
-        MainMenu, InGame, Paused
+        MainMenu, InGame, Paused, DeathScreen
     };
 }
 
@@ -53,7 +53,7 @@ protected:
     void update();
     void render();
 
-    void addState(char stateKey);
+    void addState(char &stateKey);
     void removeState(char stateKey);
 
     stateMap mStates;

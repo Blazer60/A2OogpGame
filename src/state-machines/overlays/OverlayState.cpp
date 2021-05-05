@@ -29,7 +29,6 @@ void OverlayState::event(StateMachineManager *smm)
             switch (event.key.keysym.sym)
             {
                 case SDLK_ESCAPE:
-                case SDLK_p:
                     if (auto state = mAttachedToState.lock()) { smm->changeState(state->getStateKey()); }
                     break;
             }
