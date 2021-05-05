@@ -35,6 +35,7 @@ public:
 protected:
     std::weak_ptr<StateMachine> mAttachedToState;
     std::shared_ptr<HudImage> mPauseIcon;
+    std::shared_ptr<HudText> mPauseText;
 };
 
 

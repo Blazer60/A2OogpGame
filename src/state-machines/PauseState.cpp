@@ -13,14 +13,20 @@
 #include "StateMachineManager.h"
 #include "HudElement.h"
 #include "HudImage.h"
+#include "HudText.h"
 
 #include <utility>
 
 PauseState::PauseState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, std::weak_ptr<StateMachine> attachedTo) :
         StateMachine(renderer, windowSize, statesList::Paused), mAttachedToState(std::move(attachedTo))
 {
-    mPauseIcon = std::make_shared<HudImage>(glm::ivec2(40), HudElement::Left, "../tmp/PauseIcon-0001.png");
+    mPauseIcon = std::make_shared<HudImage>(glm::ivec2(-32), HudElement::Center | HudElement::Middle, "../tmp/PauseIcon-0001.png");
+    mPauseIcon->setScale(glm::vec2(4.f));
     mRenderer.loadImage(mPauseIcon->getImageRef());
+
+    mPauseText = std::make_shared<HudText>(glm::ivec2(50, -50), HudElement::Bottom);
+    mPauseText->setText("Press [esc] or [p] to unpause");
+    mRenderer.loadText(mPauseText);
 }
 
 void PauseState::onPause()
@@ -44,6 +50,7 @@ void PauseState::event(StateMachineManager *smm)
             switch (event.key.keysym.sym)
             {
                 case SDLK_ESCAPE:
+                case SDLK_p:
                     if (auto state = mAttachedToState.lock()) { smm->changeState(state->getStateKey()); }
                     break;
             }
@@ -65,4 +72,5 @@ void PauseState::render(StateMachineManager *smm, const float &interpolation)
     }
 
     mRenderer.renderItem(mPauseIcon);
+    mRenderer.renderItem(mPauseText);
 }

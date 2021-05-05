@@ -187,6 +187,7 @@ void GameState::event(StateMachineManager *smm)
             switch (event.key.keysym.sym)
             {
                 case SDLK_ESCAPE:
+                case SDLK_p:
                     smm->changeState(statesList::Paused);
                     break;
             }
