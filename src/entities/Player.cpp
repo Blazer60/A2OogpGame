@@ -29,7 +29,7 @@ Player::Player(const glm::vec2 &position) :
         mDashTimer(0),
         mDashLength(2),
         mDashDirection(0.f),
-        mGodMode(false),
+        mGodMode(true),
         mLives(3)
 {
     mTransform.scale = glm::vec2 (4.f);
@@ -112,6 +112,7 @@ void Player::makeVulnerable()
 void Player::onCollision(const std::shared_ptr<Entity> &other)
 {
     mHitBoxColour = { 255, 0, 0, 255 };
+    if (mGodMode) { return; }
     // Check the type of the other and go from their.
     if (typeid(*other).hash_code() == typeid(BarrierCollider).hash_code())  // If the player hit a wall.
     {
