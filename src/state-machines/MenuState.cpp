@@ -1,6 +1,7 @@
 /**
  * @file MenuState.cpp.cc
- * @brief [fill in this secton]
+ * @brief The first state that is loaded when the game is created.
+ * Allows the user to play the game.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -37,6 +38,15 @@ void MenuState::event(StateMachineManager *smm)
     while (SDL_PollEvent(&event) != 0)
     {
         if (event.type == SDL_QUIT) { smm->mIsRunning = false; }
+        if (event.type == SDL_KEYDOWN)
+        {
+            switch (event.key.keysym.sym)
+            {
+                case SDLK_ESCAPE:
+                    smm->mIsRunning = false;
+                    break;
+            }
+        }
     }
 
     const unsigned char* keys = SDL_GetKeyboardState(nullptr);

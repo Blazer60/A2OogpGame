@@ -1,6 +1,7 @@
 /**
  * @file MenuState.h
- * @brief [fill in this secton]
+ * @brief The first state that is loaded when the game is created.
+ * Allows the user to play the game.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -18,7 +19,8 @@
 #include <SDL_mixer.h>
 
 /**
- * [Description goes here.]
+ * The first state that is loaded when the game is created.
+ * Allows the user to play the game.
  * @author Ryan Purse
  * @version 1.0.0 [Initial Version: 14/04/2021]
  */
