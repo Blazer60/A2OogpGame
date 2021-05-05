@@ -34,11 +34,8 @@ public:
 
     std::string getImageRef();
 
-    bool isRenderable() const;
-
 protected:
     std::string mImageRef;
-    bool mIsRenderable;
 };
 
 

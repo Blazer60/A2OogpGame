@@ -73,6 +73,7 @@ void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
 
 void Renderer::renderItem(std::shared_ptr<HudText> &text)
 {
+    if (!text->isRenderable()) { return; }  // Text has been explicitly marked as non-renderable.
     if (!text->isRenderValid()) { changeText(text); }
 
     auto textIt = mTexts.find(text->getId());

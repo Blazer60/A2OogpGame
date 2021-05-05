@@ -16,6 +16,7 @@
 #include <string>
 #include <unordered_map>
 #include <SDL_ttf.h>
+#include <memory>
 
 /**
  * Transforms for HUD Elements. Similar to Transform
@@ -62,9 +63,12 @@ public:
     glm::ivec2 getPosition() const;
     glm::vec2  getScale() const;
 
+    bool isRenderable() const;
+
 protected:
     hudTransform mTransform;
     char mAnchorPoint;
+    bool mIsRenderable;
 };
 
 

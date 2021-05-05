@@ -18,7 +18,7 @@
 #include <utility>
 
 HudImage::HudImage(const glm::ivec2 &position, char anchorPoint, std::string imageRef) :
-    HudElement(position, anchorPoint), mImageRef(std::move(imageRef)), mIsRenderable(true)
+    HudElement(position, anchorPoint), mImageRef(std::move(imageRef))
 {
     if (mImageRef.empty()) { mIsRenderable = false; }
 }
@@ -33,7 +33,3 @@ std::string HudImage::getImageRef()
     return mImageRef;
 }
 
-bool HudImage::isRenderable() const
-{
-    return mIsRenderable;
-}

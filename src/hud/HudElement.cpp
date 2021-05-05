@@ -9,6 +9,9 @@
  */
 
 
+#include <utility>
+#include <HudImage.h>
+#include "Player.h"
 #include "HelperFunctions.h"
 #include "HudText.h"
 #include "LifeGauge.h"
@@ -21,7 +24,7 @@ hudTransform::hudTransform(const glm::ivec2 &position, double rotation, const gl
 
 HudElement::HudElement(const glm::ivec2 &position, char anchorPoint) :
         mTransform(position, 0, glm::vec2(1)),
-        mAnchorPoint(anchorPoint)
+        mAnchorPoint(anchorPoint), mIsRenderable(true)
 {
 
 }
@@ -44,4 +47,9 @@ glm::ivec2 HudElement::getPosition() const
 glm::vec2 HudElement::getScale() const
 {
     return mTransform.scale;
+}
+
+bool HudElement::isRenderable() const
+{
+    return mIsRenderable;
 }

@@ -10,6 +10,7 @@
 
 #include "LifeGauge.h"
 #include "HudImage.h"
+#include "HudElement.h"
 
 LifeGauge::LifeGauge(const glm::ivec2 &position, char anchorPoint) :
     HudImage(position, anchorPoint, "../tmp/ThreeHearts-0001.png"),
