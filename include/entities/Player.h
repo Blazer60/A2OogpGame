@@ -14,8 +14,6 @@
 #include "Entity.h"
 #include "QuadTreeHelpers.h"
 
-struct inputs;
-
 /**
  * The main player class that the they can control.
  * @author Ryan Purse

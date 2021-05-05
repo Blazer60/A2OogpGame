@@ -26,12 +26,6 @@ class QuadTree;
 class LifeGauge;
 
 
-struct inputs
-{
-    bool up = false, down = false, left = false, right = false, space = false, leftClick = false, rightClick = false, esc = false;
-    glm::vec2 mousePosition;
-};
-
 /**
  * The game state that runs the actual game.
  * @author Ryan Purse
@@ -61,7 +55,6 @@ protected:
     void collisionUpdateCheck();
 
     std::shared_ptr<Player> mPlayer;
-    inputs mInputs;
     std::vector<std::shared_ptr<Entity>> mEntities;
     std::vector<std::shared_ptr<Entity>> mBufferedEntities;
     std::vector<std::shared_ptr<HudText>> mHudTexts;
