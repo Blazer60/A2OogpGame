@@ -42,6 +42,8 @@ StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skip
     if (TTF_Init() == -1) { throwError("Could not load SDL ttf. Make sure that all of the dll files exists."); }
 
     mWindow = SDL_CreateWindow("A2 OOP Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mScreenSize.x, mScreenSize.y, SDL_WINDOW_SHOWN);
+
+    mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
     changeState(skipToStateKey);
 }
 
@@ -90,10 +92,10 @@ void StateMachineManager::addState(char stateKey)
     {
         case statesList::MainMenu:
         default:
-            mStates[stateKey] = std::make_shared<MenuState>(mWindow);
+            mStates[stateKey] = std::make_shared<MenuState>(mRenderer, windowSizeToVec2(mWindow));
             break;
         case statesList::InGame:
-            mStates[stateKey] = std::make_shared<GameState>(mWindow);
+            mStates[stateKey] = std::make_shared<GameState>(mRenderer, windowSizeToVec2(mWindow));
             break;
     }
 }

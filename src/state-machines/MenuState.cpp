@@ -11,8 +11,14 @@
 #include "state-machines/MenuState.h"
 #include "state-machines/StateMachineManager.h"
 
-MenuState::MenuState(SDL_Window *window) : StateMachine(window)
-{}
+#include "HudText.h"
+
+MenuState::MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) : StateMachine(renderer, windowSize)
+{
+    mTitle = std::make_shared<HudText>(glm::ivec2(10, 10));
+    mTitle->setText("Hello.");
+    mRenderer.loadText(mTitle);
+}
 
 void MenuState::onPause()
 {
@@ -42,7 +48,7 @@ void MenuState::render(StateMachineManager *smm, const float &interpolation)
 {
     mRenderer.update(interpolation);
 
-
+    mRenderer.renderItem(mTitle);
 
     mRenderer.flip();
 }

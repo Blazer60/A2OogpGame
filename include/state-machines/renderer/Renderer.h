@@ -39,7 +39,7 @@ class Renderer
     typedef std::unordered_map<std::string, imageData> imageMap;
     typedef std::unordered_map<size_t, imageData> textMap;
 public:
-    explicit Renderer(SDL_Window *window);
+    Renderer(SDL_Renderer *renderer, const glm::ivec2 &windowSize);
     ~Renderer();
 
     void update(const float &interpolation);

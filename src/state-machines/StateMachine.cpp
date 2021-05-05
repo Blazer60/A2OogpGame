@@ -16,5 +16,6 @@ void StateMachine::changeState(StateMachineManager *smm, char stateKey)
     smm->changeState(stateKey);
 }
 
-StateMachine::StateMachine(SDL_Window *window) : mRenderer(window) {}
+StateMachine::StateMachine(SDL_Renderer *renderer, const glm::ivec2 &windowSize) : mRenderer(renderer, windowSize)
+{}
 

@@ -26,8 +26,8 @@
 
 #include <iostream>
 
-GameState::GameState(SDL_Window *window) :
-    StateMachine(window),
+GameState::GameState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) :
+        StateMachine(renderer, windowSize),
     mPlayer(std::make_shared<Player>(glm::vec2{ -400.f, 50.f })),
     mMusic(std::make_unique<Music>("../tmp/FeelThePower.mp3"))
 {

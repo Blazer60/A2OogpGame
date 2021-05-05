@@ -23,7 +23,7 @@ class StateMachineManager;
 class StateMachine
 {
 public:
-    explicit StateMachine(SDL_Window *window);
+    explicit StateMachine(SDL_Renderer *renderer, const glm::ivec2 &windowSize);
     virtual ~StateMachine() = default;
 
     virtual void onPause() = 0;

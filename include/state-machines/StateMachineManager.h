@@ -61,6 +61,7 @@ protected:
 
     glm::ivec2 mScreenSize;
     SDL_Window *mWindow;
+    SDL_Renderer *mRenderer;
 
     // Frame rate control
     const double mUpdateRatePerSecond;

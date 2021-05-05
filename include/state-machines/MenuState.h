@@ -13,6 +13,10 @@
 
 #include "StateMachine.h"
 
+#include <memory>
+#include <vector>
+#include <SDL_mixer.h>
+
 /**
  * [Description goes here.]
  * @author Ryan Purse
@@ -21,7 +25,7 @@
 class MenuState : public StateMachine
 {
 public:
-    explicit MenuState(SDL_Window *window);
+    explicit MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize);
     ~MenuState() override = default;
 
     void onPause() override;
@@ -30,6 +34,8 @@ public:
     void event(StateMachineManager *smm) override;
     void update(StateMachineManager *smm) override;
     void render(StateMachineManager *smm, const float &interpolation) override;
+
+    std::shared_ptr<HudText> mTitle;
 };
 
 

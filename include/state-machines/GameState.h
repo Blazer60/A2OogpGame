@@ -35,7 +35,7 @@ class GameState : public StateMachine
 {
     typedef QuadTree<std::shared_ptr<Entity>> entityTree;
 public:
-    explicit GameState(SDL_Window *window);
+    GameState(SDL_Renderer *renderer, const glm::ivec2 &windowSize);
     ~GameState() override = default;
 
     void onPause() override;
