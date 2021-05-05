@@ -57,7 +57,7 @@ void MechaChad::shootAtTarget()
         {
             mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(15), quad::layers::EnemyProjectile));
         }
-//        mFireProjectileSound.play();
+        mFireProjectileSound.play();
         shootTargetData.fireRateTimer = 0;
     }
 }
@@ -73,7 +73,7 @@ void MechaChad::shootInCircle()
         {
             mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(10), quad::layers::EnemyProjectile));
         }
-//        mFireProjectileSound.play();
+        mFireProjectileSound.play();
         shootCircleData.fireRateTimer = 0;
     }
 }
