@@ -24,10 +24,7 @@ Renderer::Renderer(SDL_Renderer *renderer, const glm::ivec2 &windowSize) :
         mRenderer(renderer),
         mInterpolation(0.f), mPosition(0), mRendererSize(windowSize),
         mNextTextId(1)
-{
-    std::cout << "hello" << std::endl;
-    std::cout << SDL_GetError() << std::endl;
-}
+{}
 
 Renderer::~Renderer()
 {
