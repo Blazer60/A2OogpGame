@@ -79,8 +79,7 @@ void MechaChad::shootInCircle()
 void MechaChad::changeOption()
 {
     mVelocity = glm::vec2(0.f);
-    currentOption = (currentOption + 1) % 3;
-    std::cout << "switching state" << std::endl;
+    currentOption = static_cast<char>((currentOption + 1) % 3);
     switch (currentOption)
     {
         case ChargeTarget:
@@ -92,7 +91,7 @@ void MechaChad::changeOption()
             shootTargetData.fireRate = glm::max(5, shootTargetData.fireRate - 1);
             shootTargetData.coneSpread *= 1.1f;
 
-            chargeData.speed += 1;
+            chargeData.speed = glm::min(25.f, chargeData.speed + 0.5f);
             break;
         case ShootInCircle:
             timer = shootCircleData.amountOfTime;
