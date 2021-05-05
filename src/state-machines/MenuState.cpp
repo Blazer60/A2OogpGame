@@ -29,10 +29,7 @@ void MenuState::event(StateMachineManager *smm)
     SDL_Event event;
     while (SDL_PollEvent(&event) != 0)
     {
-        if (event.type == SDL_QUIT)
-        {
-            smm->mIsRunning = false;
-        }
+        if (event.type == SDL_QUIT) { smm->mIsRunning = false; }
     }
 }
 
@@ -43,6 +40,9 @@ void MenuState::update(StateMachineManager *smm)
 
 void MenuState::render(StateMachineManager *smm, const float &interpolation)
 {
-    mRenderer.update(52);
+    mRenderer.update(interpolation);
+
+
+
     mRenderer.flip();
 }

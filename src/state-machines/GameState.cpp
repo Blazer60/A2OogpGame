@@ -182,10 +182,11 @@ void GameState::event(StateMachineManager *smm)
     SDL_Event event;
     while (SDL_PollEvent(&event) != 0)
     {
-        if (event.type == SDL_QUIT)
-        {
-            smm->mIsRunning = false;
-        }
+        if (event.type == SDL_QUIT) { smm->mIsRunning = false; }
     }
+
+    // This method can sometimes not recognise when something was inputted by the user.
+    const unsigned char* keys = SDL_GetKeyboardState(nullptr);
+    if (keys[SDL_SCANCODE_ESCAPE]) { smm->changeState(statesList::MainMenu); }
 }
 

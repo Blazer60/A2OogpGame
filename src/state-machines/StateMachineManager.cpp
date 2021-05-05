@@ -73,7 +73,15 @@ void StateMachineManager::changeState(char stateKey)
     {
         addState(stateKey);
     }
+
     mCurrentState = mStates[stateKey];
+
+    // Going to the menu attempts to destroy all states
+    if (stateKey == statesList::MainMenu)
+    {
+        removeState(statesList::InGame);
+    }
+
 }
 
 void StateMachineManager::addState(char stateKey)
@@ -83,8 +91,10 @@ void StateMachineManager::addState(char stateKey)
         case statesList::MainMenu:
         default:
             mStates[stateKey] = std::make_shared<MenuState>(mWindow);
+            break;
         case statesList::InGame:
             mStates[stateKey] = std::make_shared<GameState>(mWindow);
+            break;
     }
 }
 
