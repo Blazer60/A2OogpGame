@@ -11,7 +11,7 @@
 #include "SoundFx.h"
 #include "HelperFunctions.h"
 
-SoundFx::SoundFx(const std::string& filePath) : mSound(Mix_LoadWAV(filePath.c_str()))
+SoundFx::SoundFx(const std::string& filePath) : mSound(Mix_LoadWAV(filePath.c_str())), mChannel(0)
 {
     if (!mSound) { throwWarning("Could not load specified sound."); }
 }
@@ -24,5 +24,6 @@ SoundFx::~SoundFx()
 
 void SoundFx::play()
 {
-    Mix_PlayChannelTimed(-1, mSound, 0, -1);
+    mChannel = Mix_PlayChannelTimed(-1, mSound, 0, -1);
+    Mix_Volume(mChannel, 2);
 }

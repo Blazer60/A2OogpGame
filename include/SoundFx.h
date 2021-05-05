@@ -29,6 +29,7 @@ public:
 
 protected:
     Mix_Chunk *mSound;
+    int mChannel;
 };
 
 
