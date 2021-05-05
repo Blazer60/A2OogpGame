@@ -162,7 +162,7 @@ void GameState::collisionUpdateCheck()
         mPlayer->onCollision(other);
 
         // Check to see if we have to update the life gauge.
-        if (mPlayer->getLives() != mLifeGauge->getCurrentRefNumber() && mPlayer->getLives() > 0)
+        if (mPlayer->getLives() != mLifeGauge->getCurrentRefNumber() && mPlayer->getLives() >= 0)
         {
             mRenderer.freeImage(mLifeGauge->getImageRef());
             mLifeGauge->setImageRef(mPlayer->getLives());

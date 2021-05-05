@@ -15,6 +15,7 @@
 #include <string>
 #include <unordered_map>
 #include <glm.hpp>
+#include <memory>
 #include "HudElement.h"
 
 /**
@@ -33,8 +34,11 @@ public:
 
     std::string getImageRef();
 
+    bool isRenderable() const;
+
 protected:
     std::string mImageRef;
+    bool mIsRenderable;
 };
 
 

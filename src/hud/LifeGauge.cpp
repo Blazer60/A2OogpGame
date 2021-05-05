@@ -9,17 +9,14 @@
 
 
 #include "LifeGauge.h"
-
-#include <utility>
-#include "HudElement.h"
 #include "HudImage.h"
-#include "Player.h"
 
 LifeGauge::LifeGauge(const glm::ivec2 &position, char anchorPoint) :
     HudImage(position, anchorPoint, "../tmp/ThreeHearts-0001.png"),
     mCurrentRefNumber(3)
 {
     mTransform.scale = glm::vec2(2.f);
+    mLifeImages[0] = "";
     mLifeImages[1] = "../tmp/OneHeart-0001.png";
     mLifeImages[2] = "../tmp/TwoHearts-0001.png";
     mLifeImages[3] = "../tmp/ThreeHearts-0001.png";
@@ -27,8 +24,11 @@ LifeGauge::LifeGauge(const glm::ivec2 &position, char anchorPoint) :
 
 void LifeGauge::setImageRef(int refNumber)
 {
+    if (!(0 <= refNumber && refNumber <= 3)) { refNumber = 0; }
     mImageRef = mLifeImages[refNumber];
     mCurrentRefNumber = refNumber;
+
+    mIsRenderable = !mImageRef.empty();
 }
 
 int LifeGauge::getCurrentRefNumber() const

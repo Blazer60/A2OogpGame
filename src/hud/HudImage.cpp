@@ -8,6 +8,7 @@
  */
 
 
+#include "Player.h"
 #include <HudImage.h>
 
 #include "HudElement.h"
@@ -17,9 +18,9 @@
 #include <utility>
 
 HudImage::HudImage(const glm::ivec2 &position, char anchorPoint, std::string imageRef) :
-    HudElement(position, anchorPoint), mImageRef(std::move(imageRef))
+    HudElement(position, anchorPoint), mImageRef(std::move(imageRef)), mIsRenderable(true)
 {
-
+    if (mImageRef.empty()) { mIsRenderable = false; }
 }
 
 void HudImage::update()
@@ -30,4 +31,9 @@ void HudImage::update()
 std::string HudImage::getImageRef()
 {
     return mImageRef;
+}
+
+bool HudImage::isRenderable() const
+{
+    return mIsRenderable;
 }

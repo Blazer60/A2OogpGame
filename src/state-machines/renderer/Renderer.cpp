@@ -101,6 +101,7 @@ void Renderer::renderItem(std::shared_ptr<HudText> &text)
 
 void Renderer::renderItem(const std::shared_ptr<HudImage> &hudImage)
 {
+    if (!hudImage->isRenderable()) { return; }  // The image has explicitly been marked as non-renderable.
     auto imageIt = mImages.find(hudImage->getImageRef());
     if (imageIt == mImages.end()) { throwError("Could not find entities image src."); }
 
