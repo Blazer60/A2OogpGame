@@ -37,7 +37,14 @@ public:
     void update(StateMachineManager *smm) override;
     void render(StateMachineManager *smm, const float &interpolation) override;
 
+protected:
+    void addText(const std::string& text);
+
     std::shared_ptr<HudText> mTitle;
+    std::vector<std::shared_ptr<HudText>> mTexts;
+    int mTextYAdvance;
+    int mTextYPos;
+    int mSize;
 };
 
 
