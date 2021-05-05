@@ -25,7 +25,7 @@
 class MenuState : public StateMachine
 {
 public:
-    explicit MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize);
+    MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize);
     ~MenuState() override = default;
 
     void onPause() override;
