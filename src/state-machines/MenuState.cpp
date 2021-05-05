@@ -16,7 +16,7 @@
 MenuState::MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) : StateMachine(renderer, windowSize)
 {
     mTitle = std::make_shared<HudText>(glm::ivec2(10, 10));
-    mTitle->setText("Hello.");
+    mTitle->setText("Press P to play the game.");
     mRenderer.loadText(mTitle);
 }
 
@@ -37,6 +37,9 @@ void MenuState::event(StateMachineManager *smm)
     {
         if (event.type == SDL_QUIT) { smm->mIsRunning = false; }
     }
+
+    const unsigned char* keys = SDL_GetKeyboardState(nullptr);
+    if (keys[SDL_SCANCODE_P]) { smm->changeState(statesList::InGame); }
 }
 
 void MenuState::update(StateMachineManager *smm)
