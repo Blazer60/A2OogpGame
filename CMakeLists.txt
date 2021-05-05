@@ -29,13 +29,16 @@ add_executable(${PROJECT_NAME}
         src/hud/Timer.cpp include/hud/Timer.h
         src/hud/LifeGauge.cpp include/hud/LifeGauge.h
         src/hud/HudImage.cpp include/hud/HudImage.h
-        src/state-machines/PauseState.cpp include/state-machines/PauseState.h
+        src/state-machines/overlays/PauseState.cpp include/state-machines/overlays/PauseState.h
+        src/state-machines/overlays/DeathState.cpp include/state-machines/overlays/DeathState.h
+        src/state-machines/overlays/OverlayState.cpp include/state-machines/overlays/OverlayState.h
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         include
         include/state-machines
         include/state-machines/renderer
+        include/state-machines/overlays
         include/entities
         include/entities/projectiles
         include/entities/barrier

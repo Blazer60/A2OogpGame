@@ -14,11 +14,12 @@
 #include "HudElement.h"
 #include "HudImage.h"
 #include "HudText.h"
+#include "OverlayState.h"
 
 #include <utility>
 
 PauseState::PauseState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, std::weak_ptr<StateMachine> attachedTo) :
-        StateMachine(renderer, windowSize, statesList::Paused), mAttachedToState(std::move(attachedTo))
+        OverlayState(renderer, windowSize, std::move(attachedTo) ,statesList::Paused)
 {
     mPauseIcon = std::make_shared<HudImage>(glm::ivec2(-32), HudElement::Center | HudElement::Middle, "../tmp/PauseIcon-0001.png");
     mPauseIcon->setScale(glm::vec2(4.f));
@@ -66,11 +67,7 @@ void PauseState::update(StateMachineManager *smm)
 
 void PauseState::render(StateMachineManager *smm, const float &interpolation)
 {
-    mRenderer.update(interpolation);
-    if (auto state = mAttachedToState.lock())
-    {
-        state->render(smm, 0);
-    }
+    OverlayState::render(smm, interpolation);
 
     mRenderer.renderItem(mPauseIcon);
     mRenderer.renderItem(mPauseText);
