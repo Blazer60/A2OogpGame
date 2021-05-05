@@ -28,6 +28,8 @@ struct shootAtTargetData
     int amountOfTime = 90;
     int fireRate = 30;
     int fireRateTimer = 0;
+    int amountOfProjectiles = 3;
+    float coneSpread = 45.f;
 };
 
 struct shootInCircleData
@@ -35,6 +37,7 @@ struct shootInCircleData
     int amountOfTime = 30;
     int fireRate = 5;
     int fireRateTimer = 0;
+    int amountOfProjectiles = 4;
     float offSet = 0;
 };
 

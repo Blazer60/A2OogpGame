@@ -52,10 +52,10 @@ void MechaChad::shootAtTarget()
     if (shootTargetData.fireRateTimer >= shootTargetData.fireRate)
     {
         auto targetDirection = getTargetDirection();
-        auto points = getUnitConePoints(9, targetDirection, 45.f);
+        auto points = getUnitConePoints(shootTargetData.amountOfProjectiles, targetDirection, shootTargetData.coneSpread);
         for (const auto &point : points)
         {
-            mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(10), quad::layers::EnemyProjectile));
+            mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(15), quad::layers::EnemyProjectile));
         }
         shootTargetData.fireRateTimer = 0;
     }
@@ -67,7 +67,7 @@ void MechaChad::shootInCircle()
     if (shootCircleData.fireRateTimer >= shootCircleData.fireRate)
     {
         shootCircleData.offSet += 10;
-        auto points = getUnitCirclePoints(8, shootCircleData.offSet);
+        auto points = getUnitCirclePoints(shootCircleData.amountOfProjectiles, shootCircleData.offSet);
         for (const auto &point : points)
         {
             mGame->createEntity(std::make_shared<BaseProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(10), quad::layers::EnemyProjectile));
@@ -85,6 +85,14 @@ void MechaChad::changeOption()
     {
         case ChargeTarget:
             timer = chargeData.amountOfTime;
+            shootCircleData.amountOfTime += 5;
+            shootCircleData.amountOfProjectiles++;
+
+            shootTargetData.amountOfProjectiles++;
+            shootTargetData.fireRate = glm::max(5, shootTargetData.fireRate - 1);
+            shootTargetData.coneSpread *= 1.1f;
+
+            chargeData.speed += 1;
             break;
         case ShootInCircle:
             timer = shootCircleData.amountOfTime;
