@@ -67,7 +67,12 @@ void Player::update()
     if (keys[SDL_SCANCODE_A]) { axisInput.x -= 1; }
     if (keys[SDL_SCANCODE_W]) { axisInput.y -= 1; }
     if (keys[SDL_SCANCODE_S]) { axisInput.y += 1; }
-    if (axisInput.x != 0 || axisInput.y != 0) { axisInput = glm::normalize(axisInput); }
+    if (axisInput.x != 0 || axisInput.y != 0)
+    {
+        axisInput = glm::normalize(axisInput);
+        mTransform.scale.x = axisInput.x < 0 ? -4.f : 4.f;
+    }
+
     if (mCanDash)
     {
         if (keys[SDL_SCANCODE_SPACE])
