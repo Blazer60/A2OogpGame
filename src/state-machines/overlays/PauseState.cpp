@@ -28,7 +28,7 @@ PauseState::PauseState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, std
 
     mPauseText = std::make_shared<HudText>(glm::ivec2(50, -50), HudElement::Bottom);
     mPauseText->setSize(20);
-    mPauseText->setText("Press [esc] or [p] to unpause");
+    mPauseText->setText("Press [esc] to quit or [p] to unpause");
     mRenderer.loadText(mPauseText);
 
     mVolumeText = std::make_shared<HudText>(glm::ivec2(-614, -50), HudElement::Bottom | HudElement::Right);
@@ -58,6 +58,8 @@ void PauseState::event(StateMachineManager *smm)
             switch (event.key.keysym.sym)
             {
                 case SDLK_ESCAPE:
+                    smm->changeState(statesList::MainMenu);
+                    break;
                 case SDLK_p:
                     if (auto state = mAttachedToState.lock()) { smm->changeState(state->getStateKey()); }
                     break;
