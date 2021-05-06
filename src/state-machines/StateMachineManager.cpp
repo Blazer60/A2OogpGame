@@ -72,13 +72,12 @@ void StateMachineManager::run()
 
 void StateMachineManager::changeState(char stateKey)
 {
+    if (mCurrentState) { mCurrentState->onPause(); }
     auto stateIterator = mStates.find(stateKey);
-    if (stateIterator == mStates.end())
-    {
-        addState(stateKey);
-    }
+    if (stateIterator == mStates.end()) { addState(stateKey); }
 
     mCurrentState = mStates[stateKey];
+    if (stateIterator != mStates.end()) { mCurrentState->onAwake(); }
 
     // Going to the menu attempts to destroy all other states
     if (stateKey == statesList::MainMenu)
