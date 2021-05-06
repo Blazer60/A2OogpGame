@@ -24,7 +24,8 @@
 class PauseState : public OverlayState
 {
 public:
-    PauseState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, std::weak_ptr<StateMachine> attachedTo);
+    PauseState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, std::weak_ptr<StateMachine> attachedTo,
+               float volumePercentage);
 
     void onPause() override;
     void onAwake() override;
@@ -34,6 +35,8 @@ public:
     void render(StateMachineManager *smm, const float &interpolation) override;
 
 protected:
+    void updateVolumeText(StateMachineManager *smm);
+
     std::shared_ptr<HudImage> mPauseIcon;
     std::shared_ptr<HudText> mPauseText;
     std::shared_ptr<HudText> mVolumeText;

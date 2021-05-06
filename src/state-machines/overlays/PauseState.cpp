@@ -18,7 +18,8 @@
 
 #include <utility>
 
-PauseState::PauseState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, std::weak_ptr<StateMachine> attachedTo) :
+PauseState::PauseState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, std::weak_ptr<StateMachine> attachedTo,
+                       float volumePercentage) :
         OverlayState(renderer, windowSize, std::move(attachedTo) ,statesList::Paused)
 {
     mPauseIcon = std::make_shared<HudImage>(glm::ivec2(-32), HudElement::Center | HudElement::Middle, "../tmp/PauseIcon-0001.png");
@@ -30,9 +31,9 @@ PauseState::PauseState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, std
     mPauseText->setText("Press [esc] or [p] to unpause");
     mRenderer.loadText(mPauseText);
 
-    mVolumeText = std::make_shared<HudText>(glm::ivec2(-542, -50), HudElement::Bottom | HudElement::Right);
+    mVolumeText = std::make_shared<HudText>(glm::ivec2(-614, -50), HudElement::Bottom | HudElement::Right);
     mVolumeText->setSize(20);
-    mVolumeText->setText("[m] Increase Volume | [n] Decrease Volume");
+    mVolumeText->setText("[m] Increase Volume | [n] Decrease Volume (" + std::to_string(static_cast<int>(volumePercentage * 100)) + ")");
     mRenderer.loadText(mVolumeText);
 }
 
@@ -62,18 +63,25 @@ void PauseState::event(StateMachineManager *smm)
                     break;
                 case SDLK_m:
                     smm->setVolume(soundChannel::Master, 0.1f, true);
+                    updateVolumeText(smm);
                     break;
                 case SDLK_n:
                     smm->setVolume(soundChannel::Master, -0.1f, true);
+                    updateVolumeText(smm);
                     break;
             }
         }
     }
 }
 
+void PauseState::updateVolumeText(StateMachineManager *smm)
+{
+    float volume = smm->getVolume(soundChannel::Master) * 100.f;
+    mVolumeText->setText("[m] Increase Volume | [n] Decrease Volume (" + std::to_string(static_cast<int>(volume)) + ")");
+}
+
 void PauseState::update(StateMachineManager *smm)
 {
-
 }
 
 void PauseState::render(StateMachineManager *smm, const float &interpolation)

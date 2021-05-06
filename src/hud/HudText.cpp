@@ -91,3 +91,8 @@ void HudText::update()
 {
 
 }
+
+void HudText::setPosition(const glm::ivec2 &newPosition)
+{
+    mTransform.position = newPosition;
+}

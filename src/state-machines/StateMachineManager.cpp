@@ -106,7 +106,8 @@ void StateMachineManager::addState(char &stateKey)
             mStates[stateKey] = std::make_shared<PauseState>(
                     mRenderer,
                     windowSizeToVec2(mWindow),
-                    std::weak_ptr<StateMachine>(mStates[statesList::InGame])
+                    std::weak_ptr<StateMachine>(mStates[statesList::InGame]),
+                    mMasterVolumePercentage
                     );
             break;
         case statesList::DeathScreen:
