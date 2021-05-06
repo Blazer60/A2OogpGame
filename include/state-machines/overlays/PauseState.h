@@ -14,6 +14,7 @@
 
 #include "StateMachine.h"
 #include "OverlayState.h"
+#include "SoundFx.h"
 
 /**
  * A state that can attach itself to another state allowing it to be paused.
@@ -40,6 +41,9 @@ protected:
     std::shared_ptr<HudImage> mPauseIcon;
     std::shared_ptr<HudText> mPauseText;
     std::shared_ptr<HudText> mVolumeText;
+
+    SoundFx mPauseSound;
+    SoundFx mUnPauseSound;
 };
 
 
