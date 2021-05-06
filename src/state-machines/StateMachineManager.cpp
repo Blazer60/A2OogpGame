@@ -25,7 +25,7 @@ StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skip
     mIsRunning(true), mWindow(nullptr), mScreenSize(screenSize),
     mUpdateRatePerSecond(30.0), mUpdateDelta(1.0 / mUpdateRatePerSecond), mNextUpdateTick(0.0), mUpdateFrameSkip(5),
     mRenderRatePerSecond(90.0), mRenderDelta(1.0 / mRenderRatePerSecond), mNextRenderTick(0.0), mRenderFrameSkip(5),
-    mInterpolation(0.0), mMasterVolumePercentage(1.f), mMusicVolumePercentage(0.5f), mSoundVolumePercentage(1.f)
+    mInterpolation(0.0), mMasterVolumePercentage(0.2f), mMusicVolumePercentage(0.5f), mSoundVolumePercentage(1.f)
 {
     // Initialise all of SDL.
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) { throwError("Could not initialise SDL"); }
@@ -47,6 +47,10 @@ StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skip
 
     mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
     changeState(skipToStateKey);
+
+    // Set sounds volume
+    Mix_Volume(-1, static_cast<int>(mMasterVolumePercentage * mSoundVolumePercentage * static_cast<float>(MIX_MAX_VOLUME)));
+    Mix_VolumeMusic(static_cast<int>(mMasterVolumePercentage * mMasterVolumePercentage * static_cast<float>(MIX_MAX_VOLUME)));
 }
 
 StateMachineManager::~StateMachineManager()

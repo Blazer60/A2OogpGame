@@ -67,11 +67,11 @@ void PauseState::event(StateMachineManager *smm)
                     if (auto state = mAttachedToState.lock()) { smm->changeState(state->getStateKey()); }
                     break;
                 case SDLK_m:
-                    smm->setVolume(soundChannel::Master, 0.1f, true);
+                    smm->setVolume(soundChannel::Master, 0.01f, true);
                     updateVolumeText(smm);
                     break;
                 case SDLK_n:
-                    smm->setVolume(soundChannel::Master, -0.1f, true);
+                    smm->setVolume(soundChannel::Master, -0.01f, true);
                     updateVolumeText(smm);
                     break;
             }
