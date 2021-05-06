@@ -29,6 +29,11 @@ PauseState::PauseState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, std
     mPauseText->setSize(20);
     mPauseText->setText("Press [esc] or [p] to unpause");
     mRenderer.loadText(mPauseText);
+
+    mVolumeText = std::make_shared<HudText>(glm::ivec2(-542, -50), HudElement::Bottom | HudElement::Right);
+    mVolumeText->setSize(20);
+    mVolumeText->setText("[m] Increase Volume | [n] Decrease Volume");
+    mRenderer.loadText(mVolumeText);
 }
 
 void PauseState::onPause()
@@ -55,6 +60,12 @@ void PauseState::event(StateMachineManager *smm)
                 case SDLK_p:
                     if (auto state = mAttachedToState.lock()) { smm->changeState(state->getStateKey()); }
                     break;
+                case SDLK_m:
+                    smm->setVolume(soundChannel::Master, 0.1f, true);
+                    break;
+                case SDLK_n:
+                    smm->setVolume(soundChannel::Master, -0.1f, true);
+                    break;
             }
         }
     }
@@ -71,4 +82,5 @@ void PauseState::render(StateMachineManager *smm, const float &interpolation)
 
     mRenderer.renderItem(mPauseIcon);
     mRenderer.renderItem(mPauseText);
+    mRenderer.renderItem(mVolumeText);
 }

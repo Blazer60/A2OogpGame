@@ -25,7 +25,7 @@ StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skip
     mIsRunning(true), mWindow(nullptr), mScreenSize(screenSize),
     mUpdateRatePerSecond(30.0), mUpdateDelta(1.0 / mUpdateRatePerSecond), mNextUpdateTick(0.0), mUpdateFrameSkip(5),
     mRenderRatePerSecond(90.0), mRenderDelta(1.0 / mRenderRatePerSecond), mNextRenderTick(0.0), mRenderFrameSkip(5),
-    mInterpolation(0.0)
+    mInterpolation(0.0), mMasterVolumePercentage(1.f), mMusicVolumePercentage(1.f), mSoundVolumePercentage(1.f)
 {
     // Initialise all of SDL.
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) { throwError("Could not initialise SDL"); }
@@ -194,5 +194,60 @@ void StateMachineManager::runRenderer()
             mNextRenderTick += mRenderDelta;
             loopAmount++;
         }
+    }
+}
+
+void StateMachineManager::setVolume(char channel, float percentage, bool isAdditive)
+{
+    if (isAdditive)
+    {
+        switch (channel)
+        {
+            case soundChannel::Master:
+            default:
+                mMasterVolumePercentage = glm::clamp(mMasterVolumePercentage + percentage, 0.f, 1.f);
+                break;
+            case soundChannel::Music:
+                mMusicVolumePercentage = glm::clamp(mMusicVolumePercentage + percentage, 0.f, 1.f);
+                break;
+            case soundChannel::Sound:
+                mSoundVolumePercentage = glm::clamp(mSoundVolumePercentage + percentage, 0.f, 1.f);
+        }
+    }
+    else
+    {
+        switch (channel)
+        {
+            case soundChannel::Master:
+            default:
+                mMasterVolumePercentage = percentage;
+                break;
+            case soundChannel::Music:
+                mMusicVolumePercentage = percentage;
+                break;
+            case soundChannel::Sound:
+                mSoundVolumePercentage = percentage;
+        }
+    }
+
+
+    // Sets the sound volume.
+    Mix_Volume(-1, static_cast<int>(mMasterVolumePercentage * mSoundVolumePercentage * static_cast<float>(MIX_MAX_VOLUME)));
+
+    // Sets the music volume.
+    Mix_VolumeMusic(static_cast<int>(mMasterVolumePercentage * mMasterVolumePercentage * static_cast<float>(MIX_MAX_VOLUME)));
+}
+
+float StateMachineManager::getVolume(char channel) const
+{
+    switch (channel)
+    {
+        case soundChannel::Master:
+        default:
+            return mMasterVolumePercentage;
+        case soundChannel::Music:
+            return mMusicVolumePercentage;
+        case soundChannel::Sound:
+            return mSoundVolumePercentage;
     }
 }

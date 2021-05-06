@@ -36,6 +36,7 @@ public:
 protected:
     std::shared_ptr<HudImage> mPauseIcon;
     std::shared_ptr<HudText> mPauseText;
+    std::shared_ptr<HudText> mVolumeText;
 };
 
 

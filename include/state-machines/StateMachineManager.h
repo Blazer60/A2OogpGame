@@ -26,6 +26,13 @@ namespace statesList
     };
 }
 
+namespace soundChannel
+{
+    enum channels : char {
+        Master, Music, Sound
+    };
+}
+
 /**
  * Handles all of the states loaded within the game and runs the core game loop.
  * @author Ryan Purse
@@ -42,6 +49,9 @@ public:
     void run();
     void runSynchronous();
     void changeState(char stateKey);
+
+    void setVolume(char channel, float percentage, bool isAdditive=false);
+    float getVolume(char channel) const;
 
     bool mIsRunning;
 
@@ -74,6 +84,11 @@ protected:
     const unsigned int mRenderFrameSkip;
     double mNextRenderTick;
     double mInterpolation;
+
+    // Music & Sound control
+    float mMasterVolumePercentage;
+    float mMusicVolumePercentage;
+    float mSoundVolumePercentage;
 };
 
 
