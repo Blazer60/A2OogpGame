@@ -69,6 +69,7 @@ protected:
     char currentOption;
     unsigned int timer;
     SoundFx mFireProjectileSound;
+    SoundFx mChangingStateSound;
 };
 
 
