@@ -50,12 +50,10 @@ GameState::GameState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) :
 
 void GameState::onPause()
 {
-    std::cout << "Paused" << std::endl;
 }
 
 void GameState::onAwake()
 {
-    std::cout << "Woke" << std::endl;
 }
 
 void GameState::update(StateMachineManager *smm)

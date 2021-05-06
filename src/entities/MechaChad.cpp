@@ -46,6 +46,9 @@ void MechaChad::update()
     {
         changeOption();
     }
+
+    float directionFacing = getTargetDirection().x;
+    mTransform.scale.x = directionFacing > 0 ? -4.f : 4.f;
 }
 
 void MechaChad::shootAtTarget()

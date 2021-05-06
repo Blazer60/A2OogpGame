@@ -60,15 +60,19 @@ void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
     SDL_Rect dstRect = {
             static_cast<int>(screenPosition.x),
             static_cast<int>(screenPosition.y),
-            static_cast<int>(mImages[entity->mImageRef].width * entity->mTransform.scale.x),
-            static_cast<int>(mImages[entity->mImageRef].height * entity->mTransform.scale.y)
+            static_cast<int>(mImages[entity->mImageRef].width * glm::abs(entity->mTransform.scale.x)),
+            static_cast<int>(mImages[entity->mImageRef].height * glm::abs(entity->mTransform.scale.y))
     };
 
     double screenRotation = entity->mTransform.rotation + entity->mAngularVelocity * mInterpolation;
 
+    SDL_RendererFlip flipImage = SDL_FLIP_NONE;
+    if (entity->mTransform.scale.x < 0) { flipImage = static_cast<SDL_RendererFlip>(flipImage | SDL_FLIP_HORIZONTAL); }
+    if (entity->mTransform.scale.y < 0) { flipImage = static_cast<SDL_RendererFlip>(flipImage | SDL_FLIP_VERTICAL); }
+
     // srcrect is where to crop an image if it's within an atlas map.
     SDL_RenderCopyEx(mRenderer, mImages[entity->mImageRef].src, nullptr, &dstRect, screenRotation,
-                     nullptr, SDL_FLIP_NONE);
+                     nullptr, flipImage);
 }
 
 void Renderer::renderItem(std::shared_ptr<HudText> &text)
