@@ -3,7 +3,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(PROJECT_NAME A2OOPGame)
 project(${PROJECT_NAME})
 
-set(MAIN_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/Main.cpp )
+set(MAIN_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/Main.cpp src/entities/projectiles/MomentumProjectile.cpp include/entities/projectiles/MomentumProjectile.h)
 
 add_executable(${PROJECT_NAME}
         ${MAIN_SOURCE_DIR}
@@ -32,7 +32,8 @@ add_executable(${PROJECT_NAME}
         src/state-machines/overlays/PauseState.cpp include/state-machines/overlays/PauseState.h
         src/state-machines/overlays/DeathState.cpp include/state-machines/overlays/DeathState.h
         src/state-machines/overlays/OverlayState.cpp include/state-machines/overlays/OverlayState.h
-        src/entities/projectiles/RicochetProjectile.cpp include/entities/projectiles/RicochetProjectile.h)
+        src/entities/projectiles/RicochetProjectile.cpp include/entities/projectiles/RicochetProjectile.h
+        )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         include
