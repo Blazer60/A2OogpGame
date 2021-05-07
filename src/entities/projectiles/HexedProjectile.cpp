@@ -44,9 +44,8 @@ void HexedProjectile::update()
         glm::vec2 direction = getTrackedDirection();
         mAcceleration.x = direction.x > 0 ? mForce.x : -mForce.x;
         mAcceleration.y = direction.y > 0 ? mForce.y : -mForce.y;
-        mVelocity += mAcceleration;
-
     }
+    mVelocity += mAcceleration;
     clampVelocity(mMaxVelocity);
     TrackingProjectile::update();
 }

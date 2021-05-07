@@ -83,7 +83,7 @@ void MechaChad::shootInCircle()
         auto points = getUnitCirclePoints(shootCircleData.amountOfProjectiles, shootCircleData.offSet);
         for (const auto &point : points)
         {
-            mGame->createEntity(std::make_shared<RicochetProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(10), quad::layers::EnemyProjectile));
+            mGame->createEntity(std::make_shared<MomentumProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(0.5f), quad::layers::EnemyProjectile));
         }
         mFireProjectileSound.play();
         shootCircleData.fireRateTimer = 0;
