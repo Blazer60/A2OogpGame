@@ -32,7 +32,7 @@ add_executable(${PROJECT_NAME}
         src/state-machines/overlays/PauseState.cpp include/state-machines/overlays/PauseState.h
         src/state-machines/overlays/DeathState.cpp include/state-machines/overlays/DeathState.h
         src/state-machines/overlays/OverlayState.cpp include/state-machines/overlays/OverlayState.h
-        )
+        src/entities/projectiles/RicochetProjectile.cpp include/entities/projectiles/RicochetProjectile.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         include
