@@ -21,10 +21,7 @@ MomentumProjectile::MomentumProjectile(const glm::vec2 &position, const glm::vec
 void MomentumProjectile::update()
 {
     mVelocity += mAcceleration;
-    if (mVelocity.x > mMaxVelocity)         { mVelocity.x = mMaxVelocity; }
-    else if (mVelocity.x < -mMaxVelocity)   { mVelocity.x = -mMaxVelocity; }
-    if (mVelocity.y > mMaxVelocity)         { mVelocity.y = mMaxVelocity; }
-    else if (mVelocity.y < -mMaxVelocity)   { mVelocity.y = -mMaxVelocity; }
+    clampVelocity(mMaxVelocity);
     BaseProjectile::update();
 }
 

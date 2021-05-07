@@ -30,6 +30,9 @@ public:
 
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;
+
+protected:
+    void clampVelocity(float maxSpeed);
 };
 
 

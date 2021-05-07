@@ -43,4 +43,12 @@ void BaseProjectile::onCollision(const std::shared_ptr<Entity> &other)
     mIsDead = true;
 }
 
+void BaseProjectile::clampVelocity(float maxSpeed)
+{
+    if (glm::dot(mVelocity, mVelocity) > maxSpeed * maxSpeed)
+    {
+        mVelocity = glm::normalize(mVelocity) * maxSpeed;
+    }
+}
+
 
