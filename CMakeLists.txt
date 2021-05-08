@@ -37,7 +37,9 @@ add_executable(${PROJECT_NAME}
         src/entities/projectiles/MomentumProjectile.cpp include/entities/projectiles/MomentumProjectile.h
         src/entities/projectiles/HexedProjectile.cpp include/entities/projectiles/HexedProjectile.h
         src/ai/Ai.cpp include/ai/Ai.h
-        src/ai/Node.cpp include/ai/Node.h)
+        src/ai/Node.cpp include/ai/Node.h
+        src/ai/ChargeNode.cpp include/ai/ChargeNode.h
+        )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         include
