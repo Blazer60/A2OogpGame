@@ -17,7 +17,8 @@ ShootInCircleNode::ShootInCircleNode(MechaChad *mechaChad) :
         Node(mechaChad, "../tmp/BeepOne.mp3"),
     mFireSound("../sfx/shurikenThrow.mp3"),
     mAmountOfProjectiles(4),
-    mOffSet(0)
+    mOffSet(0),
+    mProjectileType(projectiles::Default)
 {}
 
 void ShootInCircleNode::onAwake()
@@ -39,4 +40,9 @@ void ShootInCircleNode::action(Ai *ai)
         mMechaChad->createProjectile(std::make_shared<MomentumProjectile>(mMechaChad->mTransform.position + glm::vec2(128), point * glm::vec2(0.5f), quad::layers::EnemyProjectile));
         mFireSound.play();
     }
+}
+
+void ShootInCircleNode::setProjectileType(char type)
+{
+
 }

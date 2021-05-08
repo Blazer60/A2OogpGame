@@ -16,6 +16,11 @@
 
 class SoundFx;
 
+namespace projectiles
+{
+    enum type : char { Default, Ricochet, Momentum, Hexed };
+}
+
 /**
  * The base projectile class that all projectiles inherit from.
  * Additionally provides basic functionality for a projectile.
