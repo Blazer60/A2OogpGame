@@ -14,7 +14,7 @@
 ChargeNode::ChargeNode(MechaChad *mechaChad) : Node(mechaChad, "../tmp/BeepOne.mp3"),
     mSpeed(10.f), mMaxSpeed(20.f), mSpeedMultiplier(1.1f)
 {
-    mActionRate = 1;  // Happens continuously until he stops.
+    mActionRate = 1;  // Happens continuously until mecha chad stops.
     mMaxTime = 60;
 }
 
