@@ -25,12 +25,13 @@ class Ai;
 class Node
 {
 public:
-    explicit Node(MechaChad *mechaChad);
+    Node(MechaChad *mechaChad, int nextNodeId, const std::string &soundPath);
+    virtual ~Node() = default;
 
-    virtual void onAwake() = 0;
+    virtual void onAwake();
     virtual void onPause() = 0;
 
-    virtual void update(Ai *ai) = 0;
+    virtual void update(Ai *ai);
 
     /**
      * The action that is carried out once the timer meets certain criteria.
@@ -41,11 +42,12 @@ public:
 protected:
     SoundFx mStartSound;
 
-    MechaChad* mechaChad;
+    MechaChad* mMechaChad;
     int mTimer;         // The general timer
     int mActionRate;    // How often action should be called.
     int mWarmUpTime;    // The time before action should be called.
     int mMaxTime;       // The maximum time before leaving this node.
+    int mNextNodeId;
 };
 
 

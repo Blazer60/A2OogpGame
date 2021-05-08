@@ -9,6 +9,35 @@
 
 
 #include "Node.h"
+#include "Ai.h"
 
-Node::Node(MechaChad *mechaChad) : mechaChad(mechaChad)
+Node::Node(MechaChad *mechaChad, int nextNodeId, const std::string &soundPath) :
+    mMechaChad(mechaChad),
+    mStartSound(soundPath),
+    mNextNodeId(nextNodeId),
+    mActionRate(30),
+    mMaxTime(150),
+    mTimer(0),
+    mWarmUpTime(15)
 {}
+
+void Node::onAwake()
+{
+    mTimer = 0;
+}
+
+void Node::update(Ai *ai)
+{
+    mTimer++;
+    if (mTimer > mWarmUpTime)
+    {
+        if (mTimer % mActionRate == 0)
+        {
+            action(ai);
+        }
+    }
+    if (mTimer > mMaxTime)
+    {
+        ai->switchCurrentNode(mNextNodeId);
+    }
+}
