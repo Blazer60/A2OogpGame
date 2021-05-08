@@ -24,6 +24,7 @@ Node::Node(MechaChad *mechaChad, int nextNodeId, const std::string &soundPath) :
 void Node::onAwake()
 {
     mTimer = 0;
+    mStartSound.play();
 }
 
 void Node::update(Ai *ai)
