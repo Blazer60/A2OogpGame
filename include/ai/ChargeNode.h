@@ -20,7 +20,16 @@
  */
 class ChargeNode : public Node
 {
+public:
+    explicit ChargeNode(MechaChad *mechaChad);
+    ~ChargeNode() override = default;
 
+    void onAwake() override;
+    void onPause() override;
+
+    void action(Ai *ai) override;
+
+protected:
 };
 
 

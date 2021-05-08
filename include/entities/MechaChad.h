@@ -14,6 +14,7 @@
 #include "BaseEnemy.h"
 #include "Entity.h"
 #include "SoundFx.h"
+#include "Ai.h"
 
 #include <glm.hpp>
 #include <memory>
@@ -55,12 +56,15 @@ public:
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;
 
-protected:
     void changeOption();
     void chargeTarget();
     void shootAtTarget();
     void shootInCircle();
+
+protected:
     glm::vec2 getTargetDirection();
+
+    Ai mBrain;
     chargeTargetData chargeData;
     shootAtTargetData shootTargetData;
     shootInCircleData shootCircleData;

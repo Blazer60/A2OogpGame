@@ -11,10 +11,12 @@
 #ifndef A2OOPGAME_AI_H
 #define A2OOPGAME_AI_H
 
+#include "Node.h"
+
 #include <vector>
+#include <memory>
 
 class MechaChad;
-class Node;
 
 /**
  * An Ai manager that changes between different states. Currently tied to mecha chad.
@@ -34,7 +36,7 @@ public:
 
 protected:
     MechaChad* mMechaChad;
-    std::vector<Node> mNodes;
+    std::vector<std::unique_ptr<Node>> mNodes;
     int mCurrNodeId;
 };
 

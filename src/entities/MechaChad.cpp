@@ -22,7 +22,8 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
     timer(1),
     currentOption(ChargeTarget),
     mFireProjectileSound("../sfx/shurikenThrow.mp3"),
-    mChangingStateSound("../tmp/BeepOne.mp3")
+    mChangingStateSound("../tmp/BeepOne.mp3"),
+    mBrain(this)
 {
     mTransform.scale = glm::vec2(4.f);
     mHitBoxOffset = glm::vec2(64.f);
@@ -30,26 +31,7 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
 
 void MechaChad::update()
 {
-    timer--;
-    switch (currentOption)
-    {
-        case ChargeTarget:
-            chargeTarget();
-            break;
-        case ShootInCircle:
-            shootInCircle();
-            break;
-        case ShootAtTarget:
-        default:
-            shootAtTarget();
-            break;
-    }
-
-    if (timer <= 0)
-    {
-        changeOption();
-    }
-
+    mBrain.update();
     float directionFacing = getTargetDirection().x;
     mTransform.scale.x = directionFacing > 0 ? -4.f : 4.f;
 }

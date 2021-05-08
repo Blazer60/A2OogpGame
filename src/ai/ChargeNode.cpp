@@ -9,3 +9,26 @@
 
 
 #include "ChargeNode.h"
+#include "MechaChad.h"
+
+ChargeNode::ChargeNode(MechaChad *mechaChad) : Node(mechaChad, 0, "../tmp/BeepOne.mp3")
+{
+    mActionRate = 1;  // Happens continuously until he stops.
+    mMaxTime = 60;
+}
+
+void ChargeNode::onAwake()
+{
+    Node::onAwake();
+    mStartSound.play();
+}
+
+void ChargeNode::onPause()
+{
+
+}
+
+void ChargeNode::action(Ai *ai)
+{
+    mMechaChad->chargeTarget();
+}

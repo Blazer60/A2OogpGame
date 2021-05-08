@@ -9,23 +9,24 @@
 
 
 #include "Ai.h"
-#include "Node.h"
-
+#include "ChargeNode.h"
+#include "MechaChad.h"
 
 
 Ai::Ai(MechaChad *mMechaChad) : mMechaChad(mMechaChad), mCurrNodeId(selector::Charge)
 {
-
+    mNodes.push_back(std::make_unique<ChargeNode>(mMechaChad));
 }
 
 void Ai::update()
 {
-    mNodes[mCurrNodeId].update(this);
+    mNodes[mCurrNodeId]->update(this);
 }
 
 void Ai::switchCurrentNode(int nodeRef)
 {
-    mNodes[mCurrNodeId].onPause();
+    mMechaChad->mVelocity = glm::vec2(0.f);
+    mNodes[mCurrNodeId]->onPause();
     mCurrNodeId = nodeRef;
-    mNodes[mCurrNodeId].onAwake();
+    mNodes[mCurrNodeId]->onAwake();
 }
