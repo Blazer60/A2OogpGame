@@ -36,41 +36,25 @@ void MechaChad::update()
     mTransform.scale.x = directionFacing > 0 ? -4.f : 4.f;
 }
 
-void MechaChad::shootAtTarget()
-{
-    shootTargetData.fireRateTimer++;
-    if (shootTargetData.fireRateTimer >= shootTargetData.fireRate)
-    {
-        auto targetDirection = getTargetDirection();
-        auto points = getUnitConePoints(shootTargetData.amountOfProjectiles, targetDirection, shootTargetData.coneSpread);
-        for (const auto &point : points)
-        {
-//            mGame->createEntity(std::make_shared<MomentumProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(15), quad::layers::EnemyProjectile));
-            auto hexProjectile = std::make_shared<HexedProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(15.f), quad::layers::EnemyProjectile);
-            hexProjectile->setTrackedEntity(mTargetEntity);
-            mGame->createEntity(hexProjectile);
-//            mGame->createEntity(std::make_shared<MomentumProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(0.5f), quad::layers::EnemyProjectile));
-        }
-        mFireProjectileSound.play();
-        shootTargetData.fireRateTimer = 0;
-    }
-}
-
-void MechaChad::shootInCircle()
-{
-    shootCircleData.fireRateTimer++;
-    if (shootCircleData.fireRateTimer >= shootCircleData.fireRate)
-    {
-        shootCircleData.offSet += 47.12f;
-        auto points = getUnitCirclePoints(shootCircleData.amountOfProjectiles, shootCircleData.offSet);
-        for (const auto &point : points)
-        {
-            mGame->createEntity(std::make_shared<MomentumProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(0.5f), quad::layers::EnemyProjectile));
-        }
-        mFireProjectileSound.play();
-        shootCircleData.fireRateTimer = 0;
-    }
-}
+//void MechaChad::shootAtTarget()
+//{
+//    shootTargetData.fireRateTimer++;
+//    if (shootTargetData.fireRateTimer >= shootTargetData.fireRate)
+//    {
+//        auto targetDirection = getTargetDirection();
+//        auto points = getUnitConePoints(shootTargetData.amountOfProjectiles, targetDirection, shootTargetData.coneSpread);
+//        for (const auto &point : points)
+//        {
+////            mGame->createEntity(std::make_shared<MomentumProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(15), quad::layers::EnemyProjectile));
+//            auto hexProjectile = std::make_shared<HexedProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(15.f), quad::layers::EnemyProjectile);
+//            hexProjectile->setTrackedEntity(mTargetEntity);
+//            mGame->createEntity(hexProjectile);
+////            mGame->createEntity(std::make_shared<MomentumProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(0.5f), quad::layers::EnemyProjectile));
+//        }
+//        mFireProjectileSound.play();
+//        shootTargetData.fireRateTimer = 0;
+//    }
+//}
 
 void MechaChad::changeOption()
 {

@@ -58,8 +58,8 @@ public:
 
     void changeOption();
     void chargeTarget(float speed);
-    void shootAtTarget();
-    void shootInCircle();
+//    void shootAtTarget();
+//    void shootInCircle();
 
     glm::vec2 getTargetDirection();
 protected:
