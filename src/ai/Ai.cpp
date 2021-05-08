@@ -11,12 +11,14 @@
 #include "Ai.h"
 #include "ChargeNode.h"
 #include "ShootInCircleNode.h"
+#include "ShootAtTargetNode.h"
 #include "MechaChad.h"
 
 
 Ai::Ai(MechaChad *mMechaChad) : mMechaChad(mMechaChad), mCurrNodeId(selector::Charge)
 {
     mNodes.push_back(std::make_unique<ChargeNode>(mMechaChad));
+    mNodes.push_back(std::make_unique<ShootAtTargetNode>(mMechaChad));
     mNodes.push_back(std::make_unique<ShootInCircleNode>(mMechaChad));
 }
 

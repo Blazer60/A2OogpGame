@@ -39,7 +39,7 @@ add_executable(${PROJECT_NAME}
         src/ai/Ai.cpp include/ai/Ai.h
         src/ai/Node.cpp include/ai/Node.h
         src/ai/ChargeNode.cpp include/ai/ChargeNode.h
-        src/ai/ShootInCircleNode.cpp include/ai/ShootInCircleNode.h)
+        src/ai/ShootInCircleNode.cpp include/ai/ShootInCircleNode.h src/ai/ShootAtTargetNode.cpp include/ai/ShootAtTargetNode.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         include
