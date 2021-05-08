@@ -21,3 +21,8 @@ BaseEnemy::BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize, Gam
 {
     mQueryLayers = quad::layers::Boundary | quad::layers::PlayerProjectile;
 }
+
+void BaseEnemy::createProjectile(std::shared_ptr<BaseProjectile> projectile)
+{
+    mGame->createEntity(std::move(projectile));
+}

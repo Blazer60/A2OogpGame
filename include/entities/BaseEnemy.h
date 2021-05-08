@@ -32,6 +32,9 @@ public:
     BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize, GameState *attachToState,
               std::weak_ptr<Entity> targetEntity, const size_t &collisionLayer = quad::layers::Enemy);
 
+    void createProjectile(std::shared_ptr<BaseProjectile> projectile);
+
+protected:
     GameState *mGame;
     std::weak_ptr<Entity> mTargetEntity;
 };
