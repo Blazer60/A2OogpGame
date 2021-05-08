@@ -17,6 +17,7 @@
 #include <type_traits>
 #include <string>
 #include <glm.hpp>
+#include <vector>
 
 /**
  * Gets the time since SDL was initialised in seconds.
@@ -73,5 +74,22 @@ void throwWarning(const std::string &hint);
 glm::ivec2 windowSizeToVec2(SDL_Window *window);
 
 bool isIntersecting(const glm::vec2 &pos1, const glm::vec2 &size1, const glm::vec2 &pos2, const glm::vec2 &size2);
+
+/**
+ * Gets evenly spaced vectors within a unit circle.
+ * @param n The number of vectors that you want.
+ * @param offSet The angle off of the horizontal plane (1, 0) (in degrees)
+ * @returns n amount of points in a unit circle
+ */
+std::vector<glm::vec2> getUnitCirclePoints(unsigned int n, const float &offSet=0);
+
+/**
+ * Gets unit vectors pointing towards a direction.
+ * @param n The number of vectors that you want.
+ * @param direction Where you want the centered vector to aim towards.
+ * @param coneSpread How spread out you want the vectors (in degrees)
+ * @returns n amount of points within the specified cone spread.
+ */
+std::vector<glm::vec2> getUnitConePoints(unsigned int n, const glm::vec2 &direction, float coneSpread=20.f);
 
 //#endif //A2OOPGAME_HELPERFUNCTIONS_H

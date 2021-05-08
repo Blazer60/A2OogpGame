@@ -10,6 +10,8 @@
 
 #include "HelperFunctions.h"
 #include <iostream>
+#include <gtc/constants.hpp>
+#include <gtx/vector_angle.hpp>
 
 void throwError(const std::string &hint)
 {
@@ -42,4 +44,38 @@ bool isIntersecting(const glm::vec2 &pos1, const glm::vec2 &size1, const glm::ve
         }
     }
     return false;
+}
+
+std::vector<glm::vec2> getUnitCirclePoints(unsigned int n, const float &offSet)
+{
+    const float offSetRadians = glm::radians(offSet);
+    std::vector<glm::vec2> points;
+    points.reserve(n);
+    for (int i = 0; i < n; ++i)
+    {
+        float theta = static_cast<float>(i) / static_cast<float>(n) * glm::two_pi<float>() + offSetRadians;
+        float y = -glm::sin(theta);
+        float x = glm::cos(theta);
+        points.emplace_back(glm::vec2{ x, y });
+    }
+    return points;
+}
+
+std::vector<glm::vec2> getUnitConePoints(unsigned int n, const glm::vec2 &direction, float coneSpread)
+{
+    std::vector<glm::vec2> points;
+    const float coneSpreadRadians = glm::radians(coneSpread);
+    // Find the 'left most' vector angle.
+    auto angle = glm::orientedAngle(direction, glm::vec2(-1.f, 0.f)) + glm::pi<float>() - coneSpreadRadians / 2;
+
+    // Then work toward the 'right most' vector.
+    for (int i = 0; i < n; ++i)
+    {
+        float y = -glm::sin(angle);
+        float x = glm::cos(angle);
+        points.emplace_back(glm::vec2{ x, y });
+
+        angle += coneSpreadRadians / static_cast<float>(n);
+    }
+    return points;
 }
