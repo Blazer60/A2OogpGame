@@ -11,6 +11,8 @@
 #ifndef A2OOPGAME_NODE_H
 #define A2OOPGAME_NODE_H
 
+#include "SoundFx.h"
+
 class MechaChad;
 class Ai;
 
@@ -30,8 +32,20 @@ public:
 
     virtual void update(Ai *ai) = 0;
 
+    /**
+     * The action that is carried out once the timer meets certain criteria.
+     * @param ai
+     */
+    virtual void action(Ai *ai) = 0;
+
 protected:
+    SoundFx mStartSound;
+
     MechaChad* mechaChad;
+    int mTimer;         // The general timer
+    int mActionRate;    // How often action should be called.
+    int mWarmUpTime;    // The time before action should be called.
+    int mMaxTime;       // The maximum time before leaving this node.
 };
 
 
