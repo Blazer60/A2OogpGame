@@ -14,6 +14,8 @@
 #include "Node.h"
 #include "SoundFx.h"
 
+#include <glm.hpp>
+
 class MechaChad;
 
 /**
@@ -38,6 +40,8 @@ protected:
 
     int mAmountOfProjectiles;
     float mOffSet;
+    float mOffSetAdvance;
+    glm::vec2 mProjectileSpawnVelocity;
     char mProjectileType;
 };
 

@@ -11,14 +11,15 @@
 #include "ShootInCircleNode.h"
 #include "MechaChad.h"
 #include "HelperFunctions.h"
-#include "MomentumProjectile.h"
 
 ShootInCircleNode::ShootInCircleNode(MechaChad *mechaChad) :
         Node(mechaChad, "../tmp/BeepOne.mp3"),
     mFireSound("../sfx/shurikenThrow.mp3"),
     mAmountOfProjectiles(4),
     mOffSet(0),
-    mProjectileType(projectiles::Default)
+    mProjectileType(projectiles::Default),
+    mOffSetAdvance(47.12f),
+    mProjectileSpawnVelocity(15.f)
 {}
 
 void ShootInCircleNode::onAwake()
@@ -33,11 +34,11 @@ void ShootInCircleNode::onPause()
 
 void ShootInCircleNode::action(Ai *ai)
 {
-    mOffSet += 47.12f;
+    mOffSet += mOffSetAdvance;
     auto points = getUnitCirclePoints(mAmountOfProjectiles, mOffSet);
     for (const auto &point : points)
     {
-        mMechaChad->createProjectile(point * glm::vec2(15.f), mProjectileType);
+        mMechaChad->createProjectile(point * mProjectileSpawnVelocity, mProjectileType);
         mFireSound.play();
     }
 }
