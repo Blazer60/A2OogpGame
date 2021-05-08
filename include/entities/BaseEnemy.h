@@ -33,6 +33,7 @@ public:
               std::weak_ptr<Entity> targetEntity, const size_t &collisionLayer = quad::layers::Enemy);
 
     void createProjectile(std::shared_ptr<BaseProjectile> projectile);
+    void createProjectile(const glm::vec2 &velocity, char type);
 
 protected:
     GameState *mGame;

@@ -10,6 +10,9 @@
 #include "GameState.h"
 #include "BaseEnemy.h"
 #include "Player.h"
+#include "HexedProjectile.h"
+#include "MomentumProjectile.h"
+#include "RicochetProjectile.h"
 #include <glm.hpp>
 #include <utility>
 
@@ -24,5 +27,36 @@ BaseEnemy::BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize, Gam
 
 void BaseEnemy::createProjectile(std::shared_ptr<BaseProjectile> projectile)
 {
+    mGame->createEntity(std::move(projectile));
+}
+
+void BaseEnemy::createProjectile(const glm::vec2 &velocity, const char type)
+{
+    // todo: The 128.f is mecha chad specific (hit box off set and size). Generalise this for all enemies.
+    glm::vec2 spawnPosition = mTransform.position + glm::vec2(128.f);
+    std::shared_ptr<BaseProjectile> projectile;
+
+    switch (type)
+    {
+        case projectiles::Default:
+        default:
+            projectile = std::make_shared<BaseProjectile>(spawnPosition, velocity, quad::layers::EnemyProjectile);
+            break;
+        case projectiles::Hexed:
+        {
+            auto hexed = std::make_shared<HexedProjectile>(spawnPosition, velocity, quad::layers::EnemyProjectile);
+            hexed->setTrackedEntity(mTargetEntity);
+            projectile = std::move(hexed);
+            break;
+        }
+        case projectiles::Ricochet:
+            projectile = std::make_shared<RicochetProjectile>(spawnPosition, velocity, quad::layers::EnemyProjectile);
+            break;
+        case projectiles::Momentum:
+            // Velocity in this case is actually acceleration.
+            projectile = std::make_shared<MomentumProjectile>(spawnPosition, velocity, quad::layers::EnemyProjectile);
+            break;
+    }
+
     mGame->createEntity(std::move(projectile));
 }

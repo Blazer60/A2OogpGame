@@ -37,12 +37,12 @@ void ShootInCircleNode::action(Ai *ai)
     auto points = getUnitCirclePoints(mAmountOfProjectiles, mOffSet);
     for (const auto &point : points)
     {
-        mMechaChad->createProjectile(std::make_shared<MomentumProjectile>(mMechaChad->mTransform.position + glm::vec2(128), point * glm::vec2(0.5f), quad::layers::EnemyProjectile));
+        mMechaChad->createProjectile(point * glm::vec2(15.f), mProjectileType);
         mFireSound.play();
     }
 }
 
 void ShootInCircleNode::setProjectileType(char type)
 {
-
+    mProjectileType = type;
 }
