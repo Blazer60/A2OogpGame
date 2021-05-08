@@ -14,6 +14,7 @@
 #include "Node.h"
 
 #include <vector>
+#include <unordered_map>
 #include <memory>
 
 class MechaChad;
@@ -26,6 +27,7 @@ class MechaChad;
  */
 class Ai
 {
+    typedef std::unordered_map<int, std::unique_ptr<Node>> nodeMap;
     enum selector : int { Charge, ShootAtTarget, ShootInCircle };
 public:
     explicit Ai(MechaChad *mMechaChad);
@@ -36,7 +38,7 @@ public:
 
 protected:
     MechaChad* mMechaChad;
-    std::vector<std::unique_ptr<Node>> mNodes;
+    nodeMap mNodes;
     int mCurrNodeId;
 };
 
