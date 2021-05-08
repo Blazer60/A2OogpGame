@@ -64,18 +64,20 @@ std::vector<glm::vec2> getUnitCirclePoints(unsigned int n, const float &offSet)
 std::vector<glm::vec2> getUnitConePoints(unsigned int n, const glm::vec2 &direction, float coneSpread)
 {
     std::vector<glm::vec2> points;
-    const float coneSpreadRadians = glm::radians(coneSpread);
+    const double coneSpreadRadians = glm::radians(coneSpread);
     // Find the 'left most' vector angle.
-    auto angle = glm::orientedAngle(direction, glm::vec2(-1.f, 0.f)) + glm::pi<float>() - coneSpreadRadians / 2;
+    double angle = glm::orientedAngle(direction, glm::vec2(-1.f, 0.f)) + glm::pi<float>() - coneSpreadRadians / 2;
+
+    const double step = coneSpreadRadians / static_cast<double>(n-1);
 
     // Then work toward the 'right most' vector.
     for (int i = 0; i < n; ++i)
     {
-        float y = -glm::sin(angle);
-        float x = glm::cos(angle);
+        double y = -glm::sin(angle);
+        double x = glm::cos(angle);
         points.emplace_back(glm::vec2{ x, y });
 
-        angle += coneSpreadRadians / static_cast<float>(n);
+        angle += step;
     }
     return points;
 }
