@@ -9,17 +9,16 @@
 
 
 #include "Ai.h"
-#include "ChargeNode.h"
-#include "ShootInCircleNode.h"
-#include "ShootAtTargetNode.h"
 #include "MechaChad.h"
 
 
 Ai::Ai(MechaChad *mMechaChad) : mMechaChad(mMechaChad), mCurrNodeId(selector::Charge)
 {
-    mNodes[0] = (std::make_unique<ChargeNode>(mMechaChad));
-    mNodes[1] = (std::make_unique<ShootAtTargetNode>(mMechaChad));
-    mNodes[2] = (std::make_unique<ShootInCircleNode>(mMechaChad));
+}
+
+void Ai::createNode(int key, std::unique_ptr<Node> lock)
+{
+    mNodes[key] = std::move(lock);
 }
 
 void Ai::update()

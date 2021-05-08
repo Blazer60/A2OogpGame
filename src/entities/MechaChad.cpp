@@ -9,12 +9,17 @@
 
 
 #include "MechaChad.h"
-//#include "GameState.h"
+#include "ChargeNode.h"
+#include "ShootInCircleNode.h"
+#include "ShootAtTargetNode.h"
 
 MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::weak_ptr<Entity> targetEntity) :
     BaseEnemy(position, { 128, 128 }, attachToState, std::move(targetEntity)),
     mBrain(this)
 {
+    mBrain.createNode(0, std::make_unique<ChargeNode>(this));
+    mBrain.createNode(1, std::make_unique<ShootAtTargetNode>(this));
+    mBrain.createNode(2, std::make_unique<ShootInCircleNode>(this));
     mTransform.scale = glm::vec2(4.f);
     mHitBoxOffset = glm::vec2(64.f);
 }

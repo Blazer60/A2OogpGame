@@ -35,6 +35,7 @@ public:
 
     void update();
     void switchCurrentNode(int nodeRef);
+    void createNode(int key, std::unique_ptr<Node> lock);
 
 protected:
     MechaChad* mMechaChad;
