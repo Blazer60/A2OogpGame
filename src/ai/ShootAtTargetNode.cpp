@@ -14,7 +14,7 @@
 #include "MomentumProjectile.h"
 
 ShootAtTargetNode::ShootAtTargetNode(MechaChad *mechaChad) :
-    Node(mechaChad, 2, "../tmp/BeepOne.mp3"),
+        Node(mechaChad, "../tmp/BeepOne.mp3"),
     mShootSound("../sfx/shurikenThrow.mp3"),
     mAmountOfProjectiles(3),
     mConeSpread(45.f)

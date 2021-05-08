@@ -25,7 +25,7 @@ class Ai;
 class Node
 {
 public:
-    Node(MechaChad *mechaChad, int nextNodeId, const std::string &soundPath);
+    Node(MechaChad *mechaChad, const std::string &soundPath);
     virtual ~Node() = default;
 
     virtual void onAwake();
