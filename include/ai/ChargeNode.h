@@ -30,6 +30,9 @@ public:
     void action(Ai *ai) override;
 
 protected:
+    float mSpeed;
+    float mMaxSpeed;
+    float mSpeedMultiplier;
 };
 
 

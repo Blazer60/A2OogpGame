@@ -99,10 +99,10 @@ void MechaChad::changeOption()
     mChangingStateSound.play();
 }
 
-void MechaChad::chargeTarget()
+void MechaChad::chargeTarget(float speed)
 {
     auto targetDirection = getTargetDirection();
-    mVelocity = targetDirection * chargeData.speed;
+    mVelocity = targetDirection * speed;
     mTransform.position += mVelocity;
 }
 

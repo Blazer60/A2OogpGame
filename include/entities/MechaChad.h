@@ -57,13 +57,12 @@ public:
     void onCollision(const std::shared_ptr<Entity> &other) override;
 
     void changeOption();
-    void chargeTarget();
+    void chargeTarget(float speed);
     void shootAtTarget();
     void shootInCircle();
 
-protected:
     glm::vec2 getTargetDirection();
-
+protected:
     Ai mBrain;
     chargeTargetData chargeData;
     shootAtTargetData shootTargetData;

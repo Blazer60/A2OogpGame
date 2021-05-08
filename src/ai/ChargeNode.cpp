@@ -11,7 +11,8 @@
 #include "ChargeNode.h"
 #include "MechaChad.h"
 
-ChargeNode::ChargeNode(MechaChad *mechaChad) : Node(mechaChad, 0, "../tmp/BeepOne.mp3")
+ChargeNode::ChargeNode(MechaChad *mechaChad) : Node(mechaChad, 0, "../tmp/BeepOne.mp3"),
+    mSpeed(10.f), mMaxSpeed(20.f), mSpeedMultiplier(1.1f)
 {
     mActionRate = 1;  // Happens continuously until he stops.
     mMaxTime = 60;
@@ -20,7 +21,8 @@ ChargeNode::ChargeNode(MechaChad *mechaChad) : Node(mechaChad, 0, "../tmp/BeepOn
 void ChargeNode::onAwake()
 {
     Node::onAwake();
-    mStartSound.play();
+    mSpeed *= mSpeedMultiplier;
+    if (mSpeed > mMaxSpeed) { mSpeed = mMaxSpeed; }
 }
 
 void ChargeNode::onPause()
@@ -30,5 +32,5 @@ void ChargeNode::onPause()
 
 void ChargeNode::action(Ai *ai)
 {
-    mMechaChad->chargeTarget();
+    mMechaChad->chargeTarget(mSpeed);
 }
