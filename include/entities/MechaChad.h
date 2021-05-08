@@ -19,30 +19,6 @@
 #include <glm.hpp>
 #include <memory>
 
-struct chargeTargetData
-{
-    float speed = 10;
-    int amountOfTime = 60;
-};
-
-struct shootAtTargetData
-{
-    int amountOfTime = 90;
-    int fireRate = 30;
-    int fireRateTimer = 0;
-    int amountOfProjectiles = 3;
-    float coneSpread = 45.f;
-};
-
-struct shootInCircleData
-{
-    int amountOfTime = 30;
-    int fireRate = 5;
-    int fireRateTimer = 0;
-    int amountOfProjectiles = 4;
-    float offSet = 0;
-};
-
 /**
  * The main boss that the player faces against.
  * @author Ryan Purse
@@ -56,23 +32,11 @@ public:
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;
 
-    void changeOption();
     void chargeTarget(float speed);
-//    void shootAtTarget();
-//    void shootInCircle();
-
     glm::vec2 getTargetDirection();
+
 protected:
     Ai mBrain;
-    chargeTargetData chargeData;
-    shootAtTargetData shootTargetData;
-    shootInCircleData shootCircleData;
-
-    enum options : char { ChargeTarget, ShootAtTarget, ShootInCircle };
-    char currentOption;
-    unsigned int timer;
-    SoundFx mFireProjectileSound;
-    SoundFx mChangingStateSound;
 };
 
 

@@ -9,20 +9,10 @@
 
 
 #include "MechaChad.h"
-#include "GameState.h"
-#include "QuadTreeHelpers.h"
-#include "RicochetProjectile.h"
-#include "MomentumProjectile.h"
-#include "HexedProjectile.h"
-
-#include <iostream>
+//#include "GameState.h"
 
 MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::weak_ptr<Entity> targetEntity) :
     BaseEnemy(position, { 128, 128 }, attachToState, std::move(targetEntity)),
-    timer(1),
-    currentOption(ChargeTarget),
-    mFireProjectileSound("../sfx/shurikenThrow.mp3"),
-    mChangingStateSound("../tmp/BeepOne.mp3"),
     mBrain(this)
 {
     mTransform.scale = glm::vec2(4.f);
@@ -34,53 +24,6 @@ void MechaChad::update()
     mBrain.update();
     float directionFacing = getTargetDirection().x;
     mTransform.scale.x = directionFacing > 0 ? -4.f : 4.f;
-}
-
-//void MechaChad::shootAtTarget()
-//{
-//    shootTargetData.fireRateTimer++;
-//    if (shootTargetData.fireRateTimer >= shootTargetData.fireRate)
-//    {
-//        auto targetDirection = getTargetDirection();
-//        auto points = getUnitConePoints(shootTargetData.amountOfProjectiles, targetDirection, shootTargetData.coneSpread);
-//        for (const auto &point : points)
-//        {
-////            mGame->createEntity(std::make_shared<MomentumProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(15), quad::layers::EnemyProjectile));
-//            auto hexProjectile = std::make_shared<HexedProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(15.f), quad::layers::EnemyProjectile);
-//            hexProjectile->setTrackedEntity(mTargetEntity);
-//            mGame->createEntity(hexProjectile);
-////            mGame->createEntity(std::make_shared<MomentumProjectile>(mTransform.position + glm::vec2(128), point * glm::vec2(0.5f), quad::layers::EnemyProjectile));
-//        }
-//        mFireProjectileSound.play();
-//        shootTargetData.fireRateTimer = 0;
-//    }
-//}
-
-void MechaChad::changeOption()
-{
-    mVelocity = glm::vec2(0.f);
-    currentOption = static_cast<char>((currentOption + 1) % 3);
-    switch (currentOption)
-    {
-        case ChargeTarget:
-            timer = chargeData.amountOfTime;
-            shootCircleData.amountOfTime += 5;
-            shootCircleData.amountOfProjectiles++;
-
-            shootTargetData.amountOfProjectiles++;
-            shootTargetData.fireRate = glm::max(5, shootTargetData.fireRate - 1);
-            shootTargetData.coneSpread *= 1.1f;
-
-            chargeData.speed = glm::min(25.f, chargeData.speed + 0.5f);
-            break;
-        case ShootInCircle:
-            timer = shootCircleData.amountOfTime;
-            break;
-        default:
-        case ShootAtTarget:
-            timer = shootTargetData.amountOfTime;
-    }
-    mChangingStateSound.play();
 }
 
 void MechaChad::chargeTarget(float speed)
