@@ -12,6 +12,7 @@
 #define A2OOPGAME_SHOOTATTARGETNODE_H
 
 #include "Node.h"
+#include <glm.hpp>
 
 class MechaChad;
 
@@ -36,6 +37,8 @@ protected:
 
     int mAmountOfProjectiles;
     float mConeSpread;
+    glm::vec2 mProjectileSpawnVelocity;
+    char mProjectileType;
 };
 
 

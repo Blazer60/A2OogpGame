@@ -17,7 +17,9 @@ ShootAtTargetNode::ShootAtTargetNode(MechaChad *mechaChad) :
         Node(mechaChad, "../tmp/BeepOne.mp3"),
     mShootSound("../sfx/shurikenThrow.mp3"),
     mAmountOfProjectiles(3),
-    mConeSpread(45.f)
+    mConeSpread(45.f),
+    mProjectileType(projectiles::Default),
+    mProjectileSpawnVelocity(glm::vec2(15.f))
 {
 }
 
@@ -37,7 +39,7 @@ void ShootAtTargetNode::action(Ai *ai)
     auto points = getUnitConePoints(mAmountOfProjectiles, targetDirection, mConeSpread);
     for (const auto &point : points)
     {
-        mMechaChad->createProjectile(std::make_shared<MomentumProjectile>(mMechaChad->mTransform.position + glm::vec2(128), point * glm::vec2(0.5f), quad::layers::EnemyProjectile));
+        mMechaChad->createProjectile(point * mProjectileSpawnVelocity, mProjectileType);
         mShootSound.play();
     }
 }
