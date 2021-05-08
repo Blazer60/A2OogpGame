@@ -14,7 +14,6 @@
 Node::Node(MechaChad *mechaChad, int nextNodeId, const std::string &soundPath) :
     mMechaChad(mechaChad),
     mStartSound(soundPath),
-    mNextNodeId(nextNodeId),
     mActionRate(30),
     mMaxTime(150),
     mTimer(0),
@@ -39,6 +38,6 @@ void Node::update(Ai *ai)
     }
     if (mTimer > mMaxTime)
     {
-        ai->switchCurrentNode(mNextNodeId);
+        ai->switchCurrentNode();
     }
 }

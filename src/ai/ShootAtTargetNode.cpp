@@ -19,7 +19,6 @@ ShootAtTargetNode::ShootAtTargetNode(MechaChad *mechaChad) :
     mAmountOfProjectiles(3),
     mConeSpread(45.f)
 {
-    mNextNodeId = 2;
 }
 
 void ShootAtTargetNode::onAwake()

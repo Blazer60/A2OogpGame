@@ -20,6 +20,7 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
     mBrain.createNode(0, std::make_unique<ChargeNode>(this));
     mBrain.createNode(1, std::make_unique<ShootAtTargetNode>(this));
     mBrain.createNode(2, std::make_unique<ShootInCircleNode>(this));
+    mBrain.setConnections({ 0, 1, 2, 0, 1, 0, 2 });
     mTransform.scale = glm::vec2(4.f);
     mHitBoxOffset = glm::vec2(64.f);
 }

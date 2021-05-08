@@ -47,7 +47,6 @@ protected:
     int mActionRate;    // How often action should be called.
     int mWarmUpTime;    // The time before action should be called.
     int mMaxTime;       // The maximum time before leaving this node.
-    int mNextNodeId;
 };
 
 

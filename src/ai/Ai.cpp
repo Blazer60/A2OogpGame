@@ -9,11 +9,21 @@
 
 
 #include "Ai.h"
+
+#include <utility>
 #include "MechaChad.h"
+#include "HelperFunctions.h"
 
 
-Ai::Ai(MechaChad *mMechaChad) : mMechaChad(mMechaChad), mCurrNodeId(selector::Charge)
+Ai::Ai(MechaChad *mMechaChad) : mMechaChad(mMechaChad), mCurrConnectionId(0)
 {
+}
+
+void Ai::setConnections(std::vector<int> newConnections)
+{
+    mConnections = std::move(newConnections);
+    mCurrConnectionId = 0;
+    mCurrNode = mNodes.begin();
 }
 
 void Ai::createNode(int key, std::unique_ptr<Node> lock)
@@ -23,13 +33,17 @@ void Ai::createNode(int key, std::unique_ptr<Node> lock)
 
 void Ai::update()
 {
-    mNodes[mCurrNodeId]->update(this);
+    mCurrNode->second->update(this);
 }
 
-void Ai::switchCurrentNode(int nodeRef)
+void Ai::switchCurrentNode()
 {
     mMechaChad->mVelocity = glm::vec2(0.f);
-    mNodes[mCurrNodeId]->onPause();
-    mCurrNodeId = nodeRef;
-    mNodes[mCurrNodeId]->onAwake();
+    mCurrNode->second->onPause();
+
+    mCurrConnectionId = (mCurrConnectionId + 1) % static_cast<int>(mConnections.size());
+    mCurrNode = mNodes.find(mConnections[mCurrConnectionId]);
+    if (mCurrNode == mNodes.end()) { throwError("No node exists within this topology."); }
+
+    mCurrNode->second->onAwake();
 }

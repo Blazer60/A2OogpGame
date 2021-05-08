@@ -28,19 +28,21 @@ class MechaChad;
 class Ai
 {
     typedef std::unordered_map<int, std::unique_ptr<Node>> nodeMap;
-    enum selector : int { Charge, ShootAtTarget, ShootInCircle };
 public:
     explicit Ai(MechaChad *mMechaChad);
     ~Ai() = default;
 
     void update();
-    void switchCurrentNode(int nodeRef);
+    void switchCurrentNode();
     void createNode(int key, std::unique_ptr<Node> lock);
+    void setConnections(std::vector<int> newConnections);
 
 protected:
     MechaChad* mMechaChad;
     nodeMap mNodes;
-    int mCurrNodeId;
+    int mCurrConnectionId;
+    std::vector<int> mConnections;
+    nodeMap::iterator mCurrNode;
 };
 
 
