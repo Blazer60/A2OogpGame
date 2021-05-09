@@ -31,6 +31,7 @@ public:
 
     void play(bool loop);
     void update();
+    void nextTrack();
 
 protected:
     void load();

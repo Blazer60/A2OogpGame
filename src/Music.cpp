@@ -40,6 +40,13 @@ void Music::load()
     mCurrIndex = (mCurrIndex + rand()) % static_cast<int>(mFilePaths.size());
 }
 
+void Music::nextTrack()
+{
+    mCurrIndex = (mCurrIndex + 1) % static_cast<int>(mFilePaths.size());
+    load();
+    play(false);
+}
+
 void Music::update()
 {
     if (!Mix_PlayingMusic())

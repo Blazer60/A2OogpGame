@@ -193,6 +193,9 @@ void GameState::event(StateMachineManager *smm)
                 case SDLK_p:
                     smm->changeState(statesList::Paused);
                     break;
+                case SDLK_0:
+                    mMusic->nextTrack();
+                    break;
             }
         }
     }
