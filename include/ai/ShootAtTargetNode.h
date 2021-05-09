@@ -30,9 +30,11 @@ public:
 
     void action(Ai *ai) override;
     void setConeSpread(float coneSpread);
+    void setConeSpreadMultiplier(float multiplier);
 
 protected:
     float mConeSpread;
+    float mConeSpreadMultiplier;
 };
 
 

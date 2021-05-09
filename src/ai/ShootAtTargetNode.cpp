@@ -15,7 +15,7 @@
 ShootAtTargetNode::ShootAtTargetNode(BaseEnemy *enemy, const std::string &activateSound, const std::string &shotSound)
         :
         ShootNode(enemy, activateSound, shotSound),
-        mConeSpread(20.f)
+        mConeSpread(20.f), mConeSpreadMultiplier(1.1f)
 {
     mAmountOfProjectiles = 3;
     mProjectileSpawnVelocity = glm::vec2 (15.f);
@@ -31,7 +31,7 @@ void ShootAtTargetNode::onPause()
 {
     Node::onPause();
     mAmountOfProjectiles += mProjectileCountIncrease;
-    mConeSpread += 2.f;
+    mConeSpread *= mConeSpreadMultiplier;
 }
 
 void ShootAtTargetNode::action(Ai *ai)
@@ -48,4 +48,9 @@ void ShootAtTargetNode::action(Ai *ai)
 void ShootAtTargetNode::setConeSpread(float coneSpread)
 {
     mConeSpread = coneSpread;
+}
+
+void ShootAtTargetNode::setConeSpreadMultiplier(float multiplier)
+{
+    mConeSpreadMultiplier = multiplier;
 }

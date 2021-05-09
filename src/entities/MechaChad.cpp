@@ -32,10 +32,11 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
 
     auto momentumNode = std::make_unique<ShootAtTargetNode>(this, "../tmp/PowerUp.mp3", "../tmp/Laser.mp3");
     momentumNode->setProjectileType(projectiles::Momentum);
-    momentumNode->setAmountOfProjectiles(1);
+    momentumNode->setAmountOfProjectiles(3);
+    momentumNode->setProjectileCountIncrease(2);
     momentumNode->setWarmUpTime(60);
     momentumNode->setMaxTime(120);
-    momentumNode->setConeSpread(0.f);
+    momentumNode->setConeSpread(270.f);
     momentumNode->setActionRate(5.f);
     momentumNode->setMinimumActionRate(1.f);
     momentumNode->setProjectileVelocity(glm::vec2(1.5f));  // In this case, it's acceleration.
@@ -43,12 +44,11 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
 
     auto hexNode = std::make_unique<ShootInCircleNode>(this, "../tmp/MorphSound.mp3", "../tmp/AirBlast.mp3");
     hexNode->setProjectileType(projectiles::Hexed);
-    hexNode->setActionRateMultiplier(0.95f);
-    hexNode->setAmountOfProjectiles(3);
+    hexNode->setAmountOfProjectiles(1);
+    hexNode->setProjectileCountIncrease(3);
     hexNode->setMaxTime(30.f);
-    hexNode->setActionRate(29.f);
-    hexNode->setMinimumActionRate(10.f);
-    hexNode->setProjectileCountIncrease(0);
+    hexNode->setActionRate(25.f);
+    hexNode->setActionRateMultiplier(1.f);
     mBrain.createNode(HexedShot, std::move(hexNode));
 
     // The order in which things are executed.
