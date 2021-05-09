@@ -18,7 +18,7 @@ ShootInCircleNode::ShootInCircleNode(BaseEnemy *enemy) :
         mOffSet(0),
         mOffSetAdvance(47.12f)
 {
-    mAmountOfProjectiles = 4;
+    mAmountOfProjectiles = 8;
     mProjectileSpawnVelocity = glm::vec2(15.f);
 }
 
@@ -29,7 +29,8 @@ void ShootInCircleNode::onAwake()
 
 void ShootInCircleNode::onPause()
 {
-
+    mAmountOfProjectiles++;
+    mOffSet = 0;
 }
 
 void ShootInCircleNode::action(Ai *ai)

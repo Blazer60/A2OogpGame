@@ -14,7 +14,7 @@
 
 ShootAtTargetNode::ShootAtTargetNode(BaseEnemy *enemy) :
         ShootNode(enemy, "../tmp/BeepOne.mp3"),
-        mConeSpread(45.f)
+        mConeSpread(20.f)
 {
     mAmountOfProjectiles = 3;
     mProjectileSpawnVelocity = glm::vec2 (15.f);
@@ -27,7 +27,8 @@ void ShootAtTargetNode::onAwake()
 
 void ShootAtTargetNode::onPause()
 {
-
+    mAmountOfProjectiles++;
+    mConeSpread += 2.f;
 }
 
 void ShootAtTargetNode::action(Ai *ai)
