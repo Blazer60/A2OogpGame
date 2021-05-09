@@ -26,11 +26,16 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
 
     auto bounceNode = std::make_unique<ShootInCircleNode>(this);
     bounceNode->setProjectileType(projectiles::Ricochet);
+    bounceNode->setAmountOfProjectiles(4);
+    bounceNode->setActionRateMultiplier(1.f);
     mBrain.createNode(BounceCircleShot, std::move(bounceNode));
 
     auto momentumNode = std::make_unique<ShootAtTargetNode>(this);
     momentumNode->setProjectileType(projectiles::Momentum);
-    momentumNode->setProjectileVelocity(glm::vec2(1.5f));  // In this case, it's acceleration.
+    momentumNode->setAmountOfProjectiles(1);
+    momentumNode->setConeSpread(0.f);
+    momentumNode->setActionRate(10.f);
+    momentumNode->setProjectileVelocity(glm::vec2(0.3f));  // In this case, it's acceleration.
     mBrain.createNode(MomentumShot, std::move(momentumNode));
 
     auto hexNode = std::make_unique<ShootInCircleNode>(this);

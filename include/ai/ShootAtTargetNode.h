@@ -29,6 +29,7 @@ public:
     void onPause() override;
 
     void action(Ai *ai) override;
+    void setConeSpread(float coneSpread);
 
 protected:
     float mConeSpread;

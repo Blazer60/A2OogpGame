@@ -43,3 +43,8 @@ void ShootAtTargetNode::action(Ai *ai)
         mShootSound.play();
     }
 }
+
+void ShootAtTargetNode::setConeSpread(float coneSpread)
+{
+    mConeSpread = coneSpread;
+}
