@@ -13,15 +13,24 @@
 #include "ShootInCircleNode.h"
 #include "ShootAtTargetNode.h"
 #include "BaseEnemy.h"
+#include "BaseProjectile.h"
 
 MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::weak_ptr<Entity> targetEntity) :
     BaseEnemy(position, { 128, 128 }, attachToState, std::move(targetEntity)),
     mBrain(this)
 {
-    mBrain.createNode(0, std::make_unique<ChargeNode>(this));
-    mBrain.createNode(1, std::make_unique<ShootAtTargetNode>(this));
-    mBrain.createNode(2, std::make_unique<ShootInCircleNode>(this));
-    mBrain.setConnections({ 0, 1, 2, 0, 1, 0, 2 });
+    // Set up for the brain to run.
+
+
+    mBrain.createNode(Move, std::make_unique<ChargeNode>(this));
+    mBrain.createNode(BasicDirectedShot, std::make_unique<ShootAtTargetNode>(this));
+    mBrain.createNode(BasicCircleShot, std::make_unique<ShootInCircleNode>(this));
+
+    auto bounceNode = std::make_unique<ShootInCircleNode>(this);
+    bounceNode->setProjectileType(projectiles::Ricochet);
+    mBrain.createNode(BounceCircleShot, std::move(bounceNode));
+
+    mBrain.setConnections({ Move, BasicDirectedShot, BasicCircleShot, Move, BasicDirectedShot, Move, BounceCircleShot });
     mTransform.scale = glm::vec2(4.f);
     mHitBoxOffset = glm::vec2(64.f);
 }
