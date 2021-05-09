@@ -26,6 +26,8 @@ MenuState::MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, float
     addText("Move   - wasd");
     addText("Dodge  - wasd + space or space");
     addText("Pause  - p");
+    addText("Objective:");
+    addText("Survive for as long as possible.");
 
     mVolumeText = std::make_shared<HudText>(glm::ivec2(-614, -50), HudElement::Bottom | HudElement::Right);
     mVolumeText->setSize(20);
