@@ -29,7 +29,7 @@
 GameState::GameState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) :
         StateMachine(renderer, windowSize, statesList::InGame),
     mPlayer(std::make_shared<Player>(glm::vec2{ -400.f, 50.f })),
-    mMusic(std::make_unique<Music>("../tmp/FeelThePower.mp3"))
+    mMusic(std::make_unique<Music>("../tmp/Stage1.mp3"))
 {
     mRenderer.loadImage(mPlayer->mImageRef);
     mEntities.reserve(1000);
