@@ -11,6 +11,7 @@
 #include "Music.h"
 #include "HelperFunctions.h"
 #include <iostream>
+#include <random>
 
 Music::Music(const std::string &filePath) : mMusic(Mix_LoadMUS(filePath.c_str())), mCurrIndex(0)
 {
@@ -21,7 +22,7 @@ Music::Music(const std::string &filePath) : mMusic(Mix_LoadMUS(filePath.c_str())
 Music::Music(std::vector<std::string> &filePaths) : mMusic(nullptr), mCurrIndex(0)
 {
     mFilePaths = std::move(filePaths);
-    mCurrIndex = rand() % mFilePaths.size();
+    mCurrIndex = 0;
     load();
 }
 
@@ -37,12 +38,11 @@ void Music::load()
     mMusic = Mix_LoadMUS(mFilePaths[mCurrIndex].c_str());
     if (!mMusic) { throwWarning("Could not load sound with index: " + std::to_string(mCurrIndex)); }
     // Rand is good enough for us.
-    mCurrIndex = (mCurrIndex + rand()) % static_cast<int>(mFilePaths.size());
+    mCurrIndex = (mCurrIndex + 1) % static_cast<int>(mFilePaths.size());
 }
 
 void Music::nextTrack()
 {
-    mCurrIndex = (mCurrIndex + 1) % static_cast<int>(mFilePaths.size());
     load();
     play(false);
 }
