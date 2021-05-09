@@ -29,7 +29,7 @@ Player::Player(const glm::vec2 &position) :
         mDashTimer(0),
         mDashLength(2),
         mDashDirection(0.f),
-        mGodMode(true),
+        mGodMode(false),
         mLives(3)
 {
     mTransform.scale = glm::vec2 (4.f);

@@ -34,7 +34,7 @@ MenuState::MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, float
     mVolumeText->setText("[m] Increase Volume | [n] Decrease Volume (" + std::to_string(static_cast<int>(volumePercentage * 100)) + ")");
     mRenderer.loadText(mVolumeText);
 
-    mMusic.play();
+    mMusic.play(true);
 }
 
 void MenuState::onPause()
@@ -44,7 +44,7 @@ void MenuState::onPause()
 
 void MenuState::onAwake()
 {
-    mMusic.play();
+    mMusic.play(false);
 }
 
 void MenuState::addText(const std::string& text)

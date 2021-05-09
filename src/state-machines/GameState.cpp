@@ -28,8 +28,7 @@
 
 GameState::GameState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) :
         StateMachine(renderer, windowSize, statesList::InGame),
-    mPlayer(std::make_shared<Player>(glm::vec2{ -400.f, 50.f })),
-    mMusic(std::make_unique<Music>("../tmp/Stage1.mp3"))
+    mPlayer(std::make_shared<Player>(glm::vec2{ -400.f, 50.f }))
 {
     mRenderer.loadImage(mPlayer->mImageRef);
     mEntities.reserve(1000);
@@ -45,7 +44,10 @@ GameState::GameState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) :
     mLifeGauge = std::make_shared<LifeGauge>(glm::ivec2(-48, -140), HudElement::Bottom | HudElement::Middle);
     mRenderer.loadImage(mLifeGauge->getImageRef());
     mRenderer.setTarget(mPlayer);
-    mMusic->play();
+
+    std::vector<std::string> musicList{ "../tmp/Stage1.mp3", "../tmp/Stage2.mp3", "../tmp/Stage3.mp3", "../tmp/BossTheme.mp3" };
+    mMusic = std::make_unique<Music>(musicList);
+    mMusic->play(false);
 }
 
 void GameState::onPause()
@@ -59,6 +61,7 @@ void GameState::onAwake()
 
 void GameState::update(StateMachineManager *smm)
 {
+    mMusic->update();
     mPlayer->update();
     for (auto &item : mEntities) { item->update(); }
     for (auto &item : mHudTexts) { item->update(); }

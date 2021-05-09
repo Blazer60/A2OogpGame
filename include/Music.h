@@ -13,6 +13,7 @@
 
 
 #include <string>
+#include <vector>
 #include <SDL_mixer.h>
 
 /**
@@ -25,15 +26,18 @@ class Music
 {
 public:
     explicit Music(const std::string &filePath);
+    explicit Music(std::vector<std::string> &filePaths);
     ~Music();
 
-    void play();
-//    void pause();
-//    void reset();
-//    void mute();
+    void play(bool loop);
+    void update();
 
 protected:
+    void load();
+
+    std::vector<std::string> mFilePaths;
     Mix_Music *mMusic;
+    int mCurrIndex;
 };
 
 
