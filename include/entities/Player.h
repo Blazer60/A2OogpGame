@@ -13,6 +13,7 @@
 
 #include "Entity.h"
 #include "QuadTreeHelpers.h"
+#include "SoundFx.h"
 
 /**
  * The main player class that the they can control.
@@ -54,6 +55,7 @@ protected:
     int mLives;
 
     bool mGodMode;
+    SoundFx mHurtSound;
 };
 
 

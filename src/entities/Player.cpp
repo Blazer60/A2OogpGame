@@ -30,7 +30,8 @@ Player::Player(const glm::vec2 &position) :
         mDashLength(2),
         mDashDirection(0.f),
         mGodMode(false),
-        mLives(3)
+        mLives(3),
+        mHurtSound("../tmp/HurtSound.mp3")
 {
     mTransform.scale = glm::vec2 (4.f);
     mVelocity.x = mSpeed;
@@ -129,6 +130,7 @@ void Player::onCollision(const std::shared_ptr<Entity> &other)
 
     // It's collided with something dangerous
     mLives--;
+    mHurtSound.play();
     makeInvulnerable(30);
 }
 
