@@ -40,6 +40,8 @@ StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skip
         throwError("Could not load SDL Mixer. Make sure that it is using the correct dlls.");
     }
 
+    Mix_AllocateChannels(256);  // We use a lot of sound...
+
     // Initialise SDL ttf. TTF is weird and has -1 as the fail flag.
     if (TTF_Init() == -1) { throwError("Could not load SDL ttf. Make sure that all of the dll files exists."); }
 
