@@ -100,7 +100,7 @@ void StateMachineManager::addState(char &stateKey)
         case statesList::MainMenu:
         default:
             stateKey = statesList::MainMenu;  // Fail safe in case the state doesn't exist.
-            mStates[statesList::MainMenu] = std::make_shared<MenuState>(mRenderer, windowSizeToVec2(mWindow));
+            mStates[statesList::MainMenu] = std::make_shared<MenuState>(mRenderer, windowSizeToVec2(mWindow), mMasterVolumePercentage);
             break;
         case statesList::InGame:
             mStates[stateKey] = std::make_shared<GameState>(mRenderer, windowSizeToVec2(mWindow));

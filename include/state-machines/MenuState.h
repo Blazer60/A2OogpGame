@@ -27,7 +27,7 @@
 class MenuState : public StateMachine
 {
 public:
-    MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize);
+    MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, float volumePercentage);
     ~MenuState() override = default;
 
     void onPause() override;
@@ -37,10 +37,13 @@ public:
     void update(StateMachineManager *smm) override;
     void render(StateMachineManager *smm, const float &interpolation) override;
 
+    void updateVolumeText(StateMachineManager *smm);
+
 protected:
     void addText(const std::string& text);
 
     std::shared_ptr<HudText> mTitle;
+    std::shared_ptr<HudText> mVolumeText;
     std::vector<std::shared_ptr<HudText>> mTexts;
     int mTextYAdvance;
     int mTextYPos;

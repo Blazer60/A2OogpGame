@@ -14,7 +14,7 @@
 
 #include "HudText.h"
 
-MenuState::MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) :
+MenuState::MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, float volumePercentage) :
     StateMachine(renderer, windowSize, statesList::MainMenu),
     mTextYAdvance(20), mTextYPos(100), mSize(20)
 {
@@ -26,6 +26,11 @@ MenuState::MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) :
     addText("Move   - wasd");
     addText("Dodge  - wasd + space or space");
     addText("Pause  - p");
+
+    mVolumeText = std::make_shared<HudText>(glm::ivec2(-614, -50), HudElement::Bottom | HudElement::Right);
+    mVolumeText->setSize(20);
+    mVolumeText->setText("[m] Increase Volume | [n] Decrease Volume (" + std::to_string(static_cast<int>(volumePercentage * 100)) + ")");
+    mRenderer.loadText(mVolumeText);
 }
 
 void MenuState::onPause()
@@ -61,6 +66,12 @@ void MenuState::event(StateMachineManager *smm)
                 case SDLK_ESCAPE:
                     smm->mIsRunning = false;
                     break;
+                case SDLK_m:
+                    smm->setVolume(soundChannel::Master, 0.01f, true);
+                    break;
+                case SDLK_n:
+                    smm->setVolume(soundChannel::Master, -0.01f, true);
+                    break;
             }
         }
     }
@@ -71,7 +82,7 @@ void MenuState::event(StateMachineManager *smm)
 
 void MenuState::update(StateMachineManager *smm)
 {
-
+    updateVolumeText(smm);
 }
 
 void MenuState::render(StateMachineManager *smm, const float &interpolation)
@@ -79,9 +90,16 @@ void MenuState::render(StateMachineManager *smm, const float &interpolation)
     mRenderer.update(interpolation);
 
     mRenderer.renderItem(mTitle);
+    mRenderer.renderItem(mVolumeText);
 
     for (auto &item : mTexts)
     {
         mRenderer.renderItem(item);
     }
+}
+
+void MenuState::updateVolumeText(StateMachineManager *smm)
+{
+    float volume = smm->getVolume(soundChannel::Master) * 100.f;
+    mVolumeText->setText("[m] Increase Volume | [n] Decrease Volume (" + std::to_string(static_cast<int>(volume)) + ")");
 }
