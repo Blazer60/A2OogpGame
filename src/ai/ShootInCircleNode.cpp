@@ -11,6 +11,7 @@
 #include "ShootInCircleNode.h"
 #include "BaseEnemy.h"
 #include "HelperFunctions.h"
+#include "ShootNode.h"
 
 ShootInCircleNode::ShootInCircleNode(BaseEnemy *enemy) :
         ShootNode(enemy, "../tmp/BeepOne.mp3"),
@@ -42,7 +43,3 @@ void ShootInCircleNode::action(Ai *ai)
     }
 }
 
-void ShootInCircleNode::setProjectileType(char type)
-{
-    mProjectileType = type;
-}

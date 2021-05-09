@@ -31,7 +31,6 @@ public:
     void onPause() override;
 
     void action(Ai *ai) override;
-    void setProjectileType(char type);
 
 protected:
     float mOffSet;

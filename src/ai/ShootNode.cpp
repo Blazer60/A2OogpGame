@@ -8,6 +8,9 @@
  */
 
 
+#include "HelperFunctions.h"
+#include "BaseEnemy.h"
+#include "ShootInCircleNode.h"
 #include "ShootNode.h"
 #include "BaseProjectile.h"
 
@@ -19,4 +22,9 @@ ShootNode::ShootNode(BaseEnemy *enemy, const std::string &soundPath) :
     mShootSound("../sfx/shurikenThrow.mp3")
 {
 
+}
+
+void ShootNode::setProjectileType(char type)
+{
+    mProjectileType = type;
 }

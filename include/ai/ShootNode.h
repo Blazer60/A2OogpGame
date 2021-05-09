@@ -27,6 +27,8 @@ public:
     explicit ShootNode(BaseEnemy *enemy, const std::string &soundPath);
     ~ShootNode() override = default;
 
+    void setProjectileType(char type);
+
 protected:
     SoundFx mShootSound;
 
