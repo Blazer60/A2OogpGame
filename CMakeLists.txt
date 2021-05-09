@@ -39,7 +39,10 @@ add_executable(${PROJECT_NAME}
         src/ai/Ai.cpp include/ai/Ai.h
         src/ai/Node.cpp include/ai/Node.h
         src/ai/ChargeNode.cpp include/ai/ChargeNode.h
-        src/ai/ShootInCircleNode.cpp include/ai/ShootInCircleNode.h src/ai/ShootAtTargetNode.cpp include/ai/ShootAtTargetNode.h src/ai/ShootNode.cpp include/ai/ShootNode.h)
+        src/ai/ShootInCircleNode.cpp include/ai/ShootInCircleNode.h
+        src/ai/ShootAtTargetNode.cpp include/ai/ShootAtTargetNode.h
+        src/ai/ShootNode.cpp include/ai/ShootNode.h
+        )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         include
@@ -110,4 +113,15 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         ${VENDOR_LIB}
         "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
         )
+
+# Copying resources over.
+set(ASSET_DIR ${CMAKE_SOURCE_DIR}/assets)
+message(CHECK_START "Looking for Assets folder")
+if (IS_DIRECTORY ${ASSET_DIR})
+    message(CHECK_PASS "Found")
+else()
+    message(CHECK_FAIL "Failed")
+    message(FATAL_ERROR "Assets dir not found. \nCheck that the path exist.")
+endif()
+file(COPY ${ASSET_DIR} DESTINATION ${CMAKE_BINARY_DIR}/assets)
 
