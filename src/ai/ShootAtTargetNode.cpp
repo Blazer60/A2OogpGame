@@ -14,13 +14,11 @@
 #include "MomentumProjectile.h"
 
 ShootAtTargetNode::ShootAtTargetNode(MechaChad *mechaChad) :
-        Node(mechaChad, "../tmp/BeepOne.mp3"),
-    mShootSound("../sfx/shurikenThrow.mp3"),
-    mAmountOfProjectiles(3),
-    mConeSpread(45.f),
-    mProjectileType(projectiles::Default),
-    mProjectileSpawnVelocity(glm::vec2(15.f))
+        ShootNode(mechaChad, "../tmp/BeepOne.mp3"),
+        mConeSpread(45.f)
 {
+    mAmountOfProjectiles = 3;
+    mProjectileSpawnVelocity = glm::vec2 (15.f);
 }
 
 void ShootAtTargetNode::onAwake()

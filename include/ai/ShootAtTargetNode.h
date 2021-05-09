@@ -11,7 +11,7 @@
 #ifndef A2OOPGAME_SHOOTATTARGETNODE_H
 #define A2OOPGAME_SHOOTATTARGETNODE_H
 
-#include "Node.h"
+#include "ShootNode.h"
 #include <glm.hpp>
 
 class MechaChad;
@@ -21,7 +21,7 @@ class MechaChad;
  * @author Ryan Purse
  * @version 1.0.0 [Initial Version: 08/05/2021]
  */
-class ShootAtTargetNode : public Node
+class ShootAtTargetNode : public ShootNode
 {
 public:
     explicit ShootAtTargetNode(MechaChad* mechaChad);
@@ -33,12 +33,7 @@ public:
     void action(Ai *ai) override;
 
 protected:
-    SoundFx mShootSound;
-
-    int mAmountOfProjectiles;
     float mConeSpread;
-    glm::vec2 mProjectileSpawnVelocity;
-    char mProjectileType;
 };
 
 

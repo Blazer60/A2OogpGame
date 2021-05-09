@@ -11,7 +11,7 @@
 #ifndef A2OOPGAME_SHOOTINCIRCLENODE_H
 #define A2OOPGAME_SHOOTINCIRCLENODE_H
 
-#include "Node.h"
+#include "ShootNode.h"
 #include "SoundFx.h"
 
 #include <glm.hpp>
@@ -23,7 +23,7 @@ class MechaChad;
  * @author Ryan Purse
  * @version 1.0.0 [Initial Version: 08/05/2021]
  */
-class ShootInCircleNode : public Node
+class ShootInCircleNode : public ShootNode
 {
 public:
     explicit ShootInCircleNode(MechaChad *mechaChad);
@@ -36,13 +36,8 @@ public:
     void setProjectileType(char type);
 
 protected:
-    SoundFx mFireSound;
-
-    int mAmountOfProjectiles;
     float mOffSet;
     float mOffSetAdvance;
-    glm::vec2 mProjectileSpawnVelocity;
-    char mProjectileType;
 };
 
 

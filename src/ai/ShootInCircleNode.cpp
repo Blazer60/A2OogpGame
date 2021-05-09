@@ -13,14 +13,13 @@
 #include "HelperFunctions.h"
 
 ShootInCircleNode::ShootInCircleNode(MechaChad *mechaChad) :
-        Node(mechaChad, "../tmp/BeepOne.mp3"),
-    mFireSound("../sfx/shurikenThrow.mp3"),
-    mAmountOfProjectiles(4),
-    mOffSet(0),
-    mProjectileType(projectiles::Default),
-    mOffSetAdvance(47.12f),
-    mProjectileSpawnVelocity(15.f)
-{}
+        ShootNode(mechaChad, "../tmp/BeepOne.mp3"),
+        mOffSet(0),
+        mOffSetAdvance(47.12f)
+{
+    mAmountOfProjectiles = 4;
+    mProjectileSpawnVelocity = glm::vec2(15.f);
+}
 
 void ShootInCircleNode::onAwake()
 {
@@ -39,7 +38,7 @@ void ShootInCircleNode::action(Ai *ai)
     for (const auto &point : points)
     {
         mMechaChad->createProjectile(point * mProjectileSpawnVelocity, mProjectileType);
-        mFireSound.play();
+        mShootSound.play();
     }
 }
 
