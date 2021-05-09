@@ -13,6 +13,7 @@
 #define A2OOPGAME_MENUSTATE_H
 
 #include "StateMachine.h"
+#include "Music.h"
 
 #include <memory>
 #include <vector>
@@ -48,6 +49,7 @@ protected:
     int mTextYAdvance;
     int mTextYPos;
     int mSize;
+    Music mMusic;
 };
 
 

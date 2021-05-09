@@ -16,7 +16,7 @@
 
 MenuState::MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, float volumePercentage) :
     StateMachine(renderer, windowSize, statesList::MainMenu),
-    mTextYAdvance(20), mTextYPos(100), mSize(20)
+    mTextYAdvance(20), mTextYPos(100), mSize(20), mMusic("../tmp/TitleScreen.mp3")
 {
     mTitle = std::make_shared<HudText>(glm::ivec2(10, 10));
     mTitle->setText("Press P to play the game.");
@@ -31,6 +31,8 @@ MenuState::MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, float
     mVolumeText->setSize(20);
     mVolumeText->setText("[m] Increase Volume | [n] Decrease Volume (" + std::to_string(static_cast<int>(volumePercentage * 100)) + ")");
     mRenderer.loadText(mVolumeText);
+
+    mMusic.play();
 }
 
 void MenuState::onPause()
@@ -40,7 +42,7 @@ void MenuState::onPause()
 
 void MenuState::onAwake()
 {
-
+    mMusic.play();
 }
 
 void MenuState::addText(const std::string& text)
