@@ -12,7 +12,7 @@
 #include "BaseEnemy.h"
 
 ChargeNode::ChargeNode(BaseEnemy *enemy) : Node(enemy, "../tmp/BeepOne.mp3"),
-                                           mSpeed(10.f), mMaxSpeed(20.f), mSpeedMultiplier(1.1f)
+                                           mSpeed(10.f), mMaxSpeed(20.f), mSpeedMultiplier(1.02f)
 {
     mActionRate = 1;  // Happens continuously until mecha chad stops.
     mMaxTime = 60;
