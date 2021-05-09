@@ -54,6 +54,7 @@ void GameState::onPause()
 
 void GameState::onAwake()
 {
+
 }
 
 void GameState::update(StateMachineManager *smm)

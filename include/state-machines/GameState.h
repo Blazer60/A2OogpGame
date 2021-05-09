@@ -58,7 +58,6 @@ protected:
     std::vector<std::shared_ptr<Entity>> mEntities;
     std::vector<std::shared_ptr<Entity>> mBufferedEntities;
     std::vector<std::shared_ptr<HudText>> mHudTexts;
-//    std::vector<std::shared_ptr<HudImage>> mHudImages;
     std::shared_ptr<LifeGauge> mLifeGauge;
     std::unique_ptr<entityTree> mQuadTree;
 
