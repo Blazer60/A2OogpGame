@@ -1,6 +1,6 @@
 /**
  * @file ChargeNode.h
- * @brief A node that makes mecha chad charge towards its target.
+ * @brief A node that makes an enemy charge towards its target.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -14,14 +14,14 @@
 #include "Node.h"
 
 /**
- * A node that makes mecha chad charge towards its target.
+ * A node that makes an enemy charge towards its target.
  * @author Ryan Purse
  * @version 1.0.0 [Initial Version: 08/05/2021]
  */
 class ChargeNode : public Node
 {
 public:
-    explicit ChargeNode(MechaChad *mechaChad);
+    explicit ChargeNode(BaseEnemy *enemy);
     ~ChargeNode() override = default;
 
     void onAwake() override;

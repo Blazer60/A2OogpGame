@@ -1,6 +1,6 @@
 /**
  * @file ShootAtTargetNode.h
- * @brief A node for the mecha chad to fire towards its target.
+ * @brief A node for the enemy to fire towards its target.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -14,17 +14,15 @@
 #include "ShootNode.h"
 #include <glm.hpp>
 
-class MechaChad;
-
 /**
- * A node for the mecha chad to fire towards its target.
+ * A node for the enemy to fire towards its target.
  * @author Ryan Purse
  * @version 1.0.0 [Initial Version: 08/05/2021]
  */
 class ShootAtTargetNode : public ShootNode
 {
 public:
-    explicit ShootAtTargetNode(MechaChad* mechaChad);
+    explicit ShootAtTargetNode(BaseEnemy *enemy);
     ~ShootAtTargetNode() override = default;
 
     void onAwake() override;

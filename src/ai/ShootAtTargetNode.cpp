@@ -1,6 +1,6 @@
 /**
  * @file ShootAtTargetNode.cpp.cc
- * @brief A node for the mecha chad to fire towards its target.
+ * @brief A node for the enemy to fire towards its target.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -9,13 +9,11 @@
 
 
 #include "ShootAtTargetNode.h"
-#include "MechaChad.h"
 #include "HelperFunctions.h"
-#include "MomentumProjectile.h"
 #include "BaseEnemy.h"
 
-ShootAtTargetNode::ShootAtTargetNode(MechaChad *mechaChad) :
-        ShootNode(mechaChad, "../tmp/BeepOne.mp3"),
+ShootAtTargetNode::ShootAtTargetNode(BaseEnemy *enemy) :
+        ShootNode(enemy, "../tmp/BeepOne.mp3"),
         mConeSpread(45.f)
 {
     mAmountOfProjectiles = 3;

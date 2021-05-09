@@ -24,7 +24,7 @@
 class ShootNode : public Node
 {
 public:
-    explicit ShootNode(MechaChad *mechaChad, const std::string &soundPath);
+    explicit ShootNode(BaseEnemy *enemy, const std::string &soundPath);
     ~ShootNode() override = default;
 
 protected:

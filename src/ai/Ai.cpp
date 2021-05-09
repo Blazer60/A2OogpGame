@@ -1,6 +1,6 @@
 /**
  * @file Ai.cpp.cc
- * @brief An Ai manager that changes between different states. Currently tied to mecha chad.
+ * @brief An Ai manager that changes between different states.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0

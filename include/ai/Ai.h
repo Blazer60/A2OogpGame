@@ -1,6 +1,6 @@
 /**
  * @file Ai.h
- * @brief An Ai manager that changes between different states. Currently tied to mecha chad.
+ * @brief An Ai manager that changes between different states.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -20,7 +20,7 @@
 class BaseEnemy;
 
 /**
- * An Ai manager that changes between different states. Currently tied to mecha chad.
+ * An Ai manager that changes between different states.
  * @see MechaChad.h
  * @author Ryan Purse
  * @version 1.0.0 [Initial Version: 07/05/2021]

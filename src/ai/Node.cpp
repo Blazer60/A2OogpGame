@@ -1,6 +1,6 @@
 /**
  * @file Node.cpp.cc
- * @brief An AI Node that can do basic behaviour. Purposely built with Mecha Chad in mind.
+ * @brief An AI Node that can do basic behaviour.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0

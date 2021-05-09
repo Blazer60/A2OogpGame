@@ -1,6 +1,6 @@
 /**
  * @file ChargeNode.cpp.cc
- * @brief A node that makes mecha chad charge towards its target.
+ * @brief A node that makes an enemy charge towards its target.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -9,10 +9,10 @@
 
 
 #include "ChargeNode.h"
-#include "MechaChad.h"
+#include "BaseEnemy.h"
 
-ChargeNode::ChargeNode(MechaChad *mechaChad) : Node(mechaChad, "../tmp/BeepOne.mp3"),
-    mSpeed(10.f), mMaxSpeed(20.f), mSpeedMultiplier(1.1f)
+ChargeNode::ChargeNode(BaseEnemy *enemy) : Node(enemy, "../tmp/BeepOne.mp3"),
+                                           mSpeed(10.f), mMaxSpeed(20.f), mSpeedMultiplier(1.1f)
 {
     mActionRate = 1;  // Happens continuously until mecha chad stops.
     mMaxTime = 60;

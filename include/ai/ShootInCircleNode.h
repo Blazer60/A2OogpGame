@@ -1,6 +1,6 @@
 /**
  * @file ShootInCircleNode.h
- * @brief Lets mecha chad shoot projectiles in a circle.
+ * @brief Lets an enemy shoot projectiles in a circle.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -16,17 +16,15 @@
 
 #include <glm.hpp>
 
-class MechaChad;
-
 /**
- * Lets mecha chad shoot projectiles in a circle.
+ * Lets an enemy shoot projectiles in a circle.
  * @author Ryan Purse
  * @version 1.0.0 [Initial Version: 08/05/2021]
  */
 class ShootInCircleNode : public ShootNode
 {
 public:
-    explicit ShootInCircleNode(MechaChad *mechaChad);
+    explicit ShootInCircleNode(BaseEnemy *enemy);
     ~ShootInCircleNode() override = default;
 
     void onAwake() override;

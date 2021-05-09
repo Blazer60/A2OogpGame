@@ -1,6 +1,6 @@
 /**
  * @file ShootInCircleNode.cpp.cc
- * @brief Lets mecha chad shoot projectiles in a circle.
+ * @brief Lets an enemy shoot projectiles in a circle.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -9,11 +9,11 @@
 
 
 #include "ShootInCircleNode.h"
-#include "MechaChad.h"
+#include "BaseEnemy.h"
 #include "HelperFunctions.h"
 
-ShootInCircleNode::ShootInCircleNode(MechaChad *mechaChad) :
-        ShootNode(mechaChad, "../tmp/BeepOne.mp3"),
+ShootInCircleNode::ShootInCircleNode(BaseEnemy *enemy) :
+        ShootNode(enemy, "../tmp/BeepOne.mp3"),
         mOffSet(0),
         mOffSetAdvance(47.12f)
 {

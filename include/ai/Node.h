@@ -1,6 +1,6 @@
 /**
  * @file Node.h
- * @brief An AI Node that can do basic behaviour. Purposely built with Mecha Chad in mind.
+ * @brief An AI Node that can do basic behaviour.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -17,7 +17,7 @@ class BaseEnemy;
 class Ai;
 
 /**
- * An AI Node that can do basic behaviour. Purposely built with Mecha Chad in mind.
+ * An AI Node that can do basic behaviour.
  * @see MechaChad
  * @author Ryan Purse
  * @version 1.0.0 [Initial Version: 07/05/2021]
