@@ -168,7 +168,7 @@ void Renderer::loadText(std::shared_ptr<HudText> &text)
     auto *font = text->getTextData();
     if (!font) { throwError("Font Could not be found or loaded properly."); }
 
-    SDL_Color color { 255, 255, 255, 255 };
+    SDL_Color color = text->getColour();
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, text->getText().c_str(), color);
     if (!textSurface) { throwError("Failed to render text."); }
     SDL_Texture *optimisedText = SDL_CreateTextureFromSurface(mRenderer, textSurface);
@@ -220,7 +220,7 @@ void Renderer::changeText(std::shared_ptr<HudText> &text)
     TTF_Font *font = text->getTextData();
     if (!font) { throwError("Font Could not be found or loaded properly."); }
 
-    SDL_Color color { 255, 255, 255, 255 };
+    SDL_Color color = text->getColour();
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, text->getText().c_str(), color);
     if (!textSurface) { throwError("Failed to render text."); }
     SDL_Texture *optimisedText = SDL_CreateTextureFromSurface(mRenderer, textSurface);

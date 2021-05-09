@@ -15,7 +15,7 @@
 
 HudText::HudText(const glm::ivec2 &position, char anchorPoint) :
     HudElement(position, anchorPoint), mSize(32), mFontPath("../tmp/unispace-bd.ttf"),
-    mText("PlaceHolderText"), mId(0), mColour(glm::vec4(255.f)), mTextData(nullptr),
+    mText("PlaceHolderText"), mId(0), mColour({ 215, 215, 215, 255 }), mTextData(nullptr),
     mIsRendererValid(false)
 {
     createTextData();
@@ -106,3 +106,16 @@ void HudText::setVisibility(bool visibility)
 {
     mIsRenderable = visibility;
 }
+
+SDL_Color HudText::getColour() const
+{
+    return mColour;
+}
+
+void HudText::setColour(const SDL_Color &colour)
+{
+    mColour = colour;
+    mIsRendererValid = false;
+}
+
+

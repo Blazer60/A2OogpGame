@@ -16,6 +16,7 @@
 #include <string>
 #include <glm.hpp>
 #include <SDL_ttf.h>
+#include <SDL.h>
 
 /**
  * Text that can appear on the HUD.
@@ -48,6 +49,9 @@ public:
 
     void setPosition(const glm::ivec2 &newPosition);
 
+    SDL_Color getColour() const;
+    void setColour(const SDL_Color &colour);
+
 protected:
     void createTextData();
     void freeTextData();
@@ -56,7 +60,7 @@ protected:
     std::string mFontPath;
     std::string mText;
     int mSize;
-    glm::vec4 mColour;
+    SDL_Color mColour;
     size_t mId;
     bool mIsRendererValid;
 };
