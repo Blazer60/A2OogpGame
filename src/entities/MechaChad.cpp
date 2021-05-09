@@ -66,6 +66,8 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
     });
     mTransform.scale = glm::vec2(4.f);
     mHitBoxOffset = glm::vec2(64.f);
+
+//    mBrain.advanceToStage(50);
 }
 
 void MechaChad::update()

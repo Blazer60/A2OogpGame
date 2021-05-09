@@ -34,6 +34,7 @@ public:
 
     void update();
     void switchCurrentNode();
+    void advanceToStage(int stage);
     void createNode(int key, std::unique_ptr<Node> lock);
     void setConnections(std::vector<int> newConnections);
 
