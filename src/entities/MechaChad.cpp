@@ -33,10 +33,10 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
     momentumNode->setProjectileVelocity(glm::vec2(1.5f));  // In this case, it's acceleration.
     mBrain.createNode(MomentumShot, std::move(momentumNode));
 
-    auto hexNode = std::make_unique<ShootAtTargetNode>(this);
+    auto hexNode = std::make_unique<ShootInCircleNode>(this);
     hexNode->setProjectileType(projectiles::Hexed);
-    hexNode->setActionRateMultiplier(0.9f);
-    hexNode->setAmountOfProjectiles(1);
+    hexNode->setActionRateMultiplier(0.95f);
+    hexNode->setAmountOfProjectiles(3);
     hexNode->setMaxTime(30.f);
     hexNode->setActionRate(29.f);
     hexNode->setMinimumActionRate(10.f);
@@ -45,7 +45,6 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
 
     // The order in which things are executed.
     mBrain.setConnections({
-                                  HexedShot,
         Move,
         BasicDirectedShot,
         BasicCircleShot,

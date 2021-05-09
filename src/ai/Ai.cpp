@@ -23,7 +23,7 @@ void Ai::setConnections(std::vector<int> newConnections)
 {
     mConnections = std::move(newConnections);
     mCurrConnectionId = 0;
-    mCurrNode = mNodes.begin();
+    mCurrNode = mNodes.find(mConnections[mCurrConnectionId]);
 }
 
 void Ai::createNode(int key, std::unique_ptr<Node> lock)

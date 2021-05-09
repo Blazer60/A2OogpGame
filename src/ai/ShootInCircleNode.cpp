@@ -20,6 +20,7 @@ ShootInCircleNode::ShootInCircleNode(BaseEnemy *enemy) :
 {
     mAmountOfProjectiles = 8;
     mProjectileSpawnVelocity = glm::vec2(15.f);
+    mActionRateMultiplier = 0.9f;
 }
 
 void ShootInCircleNode::onAwake()

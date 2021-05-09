@@ -18,6 +18,7 @@ ShootAtTargetNode::ShootAtTargetNode(BaseEnemy *enemy) :
 {
     mAmountOfProjectiles = 3;
     mProjectileSpawnVelocity = glm::vec2 (15.f);
+    mActionRateMultiplier = 0.95f;
 }
 
 void ShootAtTargetNode::onAwake()
