@@ -3,6 +3,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(PROJECT_NAME A2OOPGame)
 project(${PROJECT_NAME})
 
+set(FORCE_X86_MODE OFF)
+
 set(MAIN_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/Main.cpp)
 
 add_executable(${PROJECT_NAME}
@@ -65,7 +67,11 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC -DSDL_MAIN_HANDLED)
 # Getting information for machine type. Assembling compiler 'triplet' to load correct files.
 string(TOLOWER "${CMAKE_CXX_COMPILER_ID}" COMP)
 string(TOLOWER "${CMAKE_SYSTEM_NAME}" PLATFORM)
-string(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" ARCH)
+if (${FORCE_X86_MODE})
+    string(TOLOWER "x86" ARCH)
+else()
+    string(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" ARCH)
+endif ()
 set(COMPILER_TRIPLET "${COMP}-${PLATFORM}-${ARCH}")
 message(STATUS "Compiling For: ${COMPILER_TRIPLET}")
 
