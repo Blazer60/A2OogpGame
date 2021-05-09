@@ -14,10 +14,13 @@
 #include "Entity.h"
 #include "BaseProjectile.h"
 #include "QuadTreeHelpers.h"
+#include "SoundFx.h"
+#include "Ai.h"
 
 
 #include <memory>
 #include <vector>
+#include <glm.hpp>
 
 class GameState;
 
@@ -34,6 +37,8 @@ public:
 
     void createProjectile(std::shared_ptr<BaseProjectile> projectile);
     void createProjectile(const glm::vec2 &velocity, char type);
+
+    glm::vec2 getTargetDirection();
 
 protected:
     GameState *mGame;

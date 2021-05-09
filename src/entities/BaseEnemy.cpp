@@ -7,6 +7,10 @@
  * Initial Version: 15/04/2021
  */
 
+#include "ShootAtTargetNode.h"
+#include "ShootInCircleNode.h"
+#include "ChargeNode.h"
+#include "MechaChad.h"
 #include "GameState.h"
 #include "BaseEnemy.h"
 #include "Player.h"
@@ -59,4 +63,13 @@ void BaseEnemy::createProjectile(const glm::vec2 &velocity, const char type)
     }
 
     mGame->createEntity(std::move(projectile));
+}
+
+glm::vec2 BaseEnemy::getTargetDirection()
+{
+    if (auto target = mTargetEntity.lock())
+    {
+        return glm::normalize(target->getHitBoxCenter() - getHitBoxCenter());
+    }
+    return glm::vec2(0.f);
 }

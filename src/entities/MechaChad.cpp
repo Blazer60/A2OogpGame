@@ -12,6 +12,7 @@
 #include "ChargeNode.h"
 #include "ShootInCircleNode.h"
 #include "ShootAtTargetNode.h"
+#include "BaseEnemy.h"
 
 MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::weak_ptr<Entity> targetEntity) :
     BaseEnemy(position, { 128, 128 }, attachToState, std::move(targetEntity)),
@@ -44,11 +45,3 @@ void MechaChad::onCollision(const std::shared_ptr<Entity> &other)
 
 }
 
-glm::vec2 MechaChad::getTargetDirection()
-{
-    if (auto target = mTargetEntity.lock())
-    {
-        return glm::normalize(target->getHitBoxCenter() - getHitBoxCenter());
-    }
-    return glm::vec2(0.f);
-}

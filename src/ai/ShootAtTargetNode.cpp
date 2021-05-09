@@ -12,6 +12,7 @@
 #include "MechaChad.h"
 #include "HelperFunctions.h"
 #include "MomentumProjectile.h"
+#include "BaseEnemy.h"
 
 ShootAtTargetNode::ShootAtTargetNode(MechaChad *mechaChad) :
         ShootNode(mechaChad, "../tmp/BeepOne.mp3"),
