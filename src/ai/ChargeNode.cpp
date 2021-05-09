@@ -32,5 +32,8 @@ void ChargeNode::onPause()
 
 void ChargeNode::action(Ai *ai)
 {
-    mMechaChad->chargeTarget(mSpeed);
+    auto targetDirection = mMechaChad->getTargetDirection();
+    mMechaChad->mVelocity = targetDirection * mSpeed;
+    mMechaChad->mTransform.position += mMechaChad->mVelocity;
+//    mMechaChad->chargeTarget(mSpeed);
 }

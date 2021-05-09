@@ -32,8 +32,6 @@ public:
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;
 
-    void chargeTarget(float speed);
-
 protected:
     Ai mBrain;
 };

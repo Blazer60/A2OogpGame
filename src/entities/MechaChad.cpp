@@ -33,13 +33,6 @@ void MechaChad::update()
     mTransform.scale.x = directionFacing > 0 ? -4.f : 4.f;
 }
 
-void MechaChad::chargeTarget(float speed)
-{
-    auto targetDirection = getTargetDirection();
-    mVelocity = targetDirection * speed;
-    mTransform.position += mVelocity;
-}
-
 void MechaChad::onCollision(const std::shared_ptr<Entity> &other)
 {
 
