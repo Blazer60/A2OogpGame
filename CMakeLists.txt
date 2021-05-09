@@ -70,9 +70,9 @@ set(COMPILER_TRIPLET "${COMP}-${PLATFORM}-${ARCH}")
 message(STATUS "Compiling For: ${COMPILER_TRIPLET}")
 
 # Check to see if vendor include folder exists. Bail out if it doesn't.
-set(VENDOR_INCLUDE ${CMAKE_SOURCE_DIR}/vendor/${COMPILER_TRIPLET}/include)
-message(CHECK_START "Looking for Vendor Includes at: ${VENDOR_INCLUDE}")
-if (IS_DIRECTORY ${VENDOR_INCLUDE})
+set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/vendor/include)
+message(CHECK_START "Looking for Vendor Includes at: ${INCLUDE_DIR}")
+if (IS_DIRECTORY ${INCLUDE_DIR})
     message(CHECK_PASS "Found")
 else()
     message(CHECK_FAIL "Failed")
@@ -81,12 +81,12 @@ endif()
 
 # Link vendor includes to the project.
 target_include_directories(${PROJECT_NAME} PUBLIC
-        ${VENDOR_INCLUDE}
-        ${VENDOR_INCLUDE}/sdl2
-        ${VENDOR_INCLUDE}/sdl2-image
-        ${VENDOR_INCLUDE}/glm
-        ${VENDOR_INCLUDE}/sdl2-mixer
-        ${VENDOR_INCLUDE}/sdl2-ttf
+        ${INCLUDE_DIR}
+        ${INCLUDE_DIR}/sdl2
+        ${INCLUDE_DIR}/sdl2-image
+        ${INCLUDE_DIR}/glm
+        ${INCLUDE_DIR}/sdl2-mixer
+        ${INCLUDE_DIR}/sdl2-ttf
         )
 
 # Check to see if vendor lib folder exists. Bail out if it doesn't.
@@ -107,10 +107,19 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
         ${VENDOR_LIB}/SDL2_ttf.lib
         )
 
+set(VENDOR_DLL ${CMAKE_SOURCE_DIR}/vendor/${COMPILER_TRIPLET}/dll)
+message(CHECK_START "Looking for Vendor dll at:" ${VENDOR_DLL})
+if (IS_DIRECTORY ${VENDOR_DLL})
+    message(CHECK_PASS "Found")
+else()
+    message(CHECK_PASS "Failed")
+    message(FATAL_ERROR "Vendor dll does not exist for type: ${COMPILER_TRIPLET}.\n Check path exist: ${VENDOR_DLL}")
+endif ()
+
 # Potentially not needed? Keeping here in case anything happens in the future.
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${VENDOR_LIB}
+        ${VENDOR_DLL}
         "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
         )
 
