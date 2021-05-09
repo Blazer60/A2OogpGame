@@ -19,7 +19,8 @@ ShootNode::ShootNode(BaseEnemy *enemy, const std::string &soundPath) :
     mProjectileType(projectiles::Default),
     mAmountOfProjectiles(1),
     mProjectileSpawnVelocity(glm::vec2(10.f)),
-    mShootSound("../sfx/shurikenThrow.mp3")
+    mShootSound("../sfx/shurikenThrow.mp3"),
+    mProjectileCountIncrease(1)
 {
 
 }
@@ -32,4 +33,14 @@ void ShootNode::setProjectileType(char type)
 void ShootNode::setProjectileVelocity(glm::vec2 velocity)
 {
     mProjectileSpawnVelocity = velocity;
+}
+
+void ShootNode::setAmountOfProjectiles(int amountOfProjectiles)
+{
+    mAmountOfProjectiles = amountOfProjectiles;
+}
+
+void ShootNode::setProjectileCountIncrease(int count)
+{
+    mProjectileCountIncrease = count;
 }

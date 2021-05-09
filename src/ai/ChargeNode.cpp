@@ -14,6 +14,7 @@
 ChargeNode::ChargeNode(BaseEnemy *enemy) : Node(enemy, "../tmp/BeepOne.mp3"),
                                            mSpeed(10.f), mMaxSpeed(20.f), mSpeedMultiplier(1.02f)
 {
+    mMinimumActionRate = 1;
     mActionRate = 1;  // Happens continuously until mecha chad stops.
     mMaxTime = 60;
 }
@@ -27,7 +28,7 @@ void ChargeNode::onAwake()
 
 void ChargeNode::onPause()
 {
-
+    Node::onPause();
 }
 
 void ChargeNode::action(Ai *ai)

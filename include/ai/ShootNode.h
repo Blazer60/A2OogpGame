@@ -29,6 +29,8 @@ public:
 
     void setProjectileType(char type);
     void setProjectileVelocity(glm::vec2 velocity);
+    void setAmountOfProjectiles(int amountOfProjectiles);
+    void setProjectileCountIncrease(int count);
 
 protected:
     SoundFx mShootSound;
@@ -36,6 +38,7 @@ protected:
     int mAmountOfProjectiles;
     glm::vec2 mProjectileSpawnVelocity;
     char mProjectileType;
+    int mProjectileCountIncrease;
 };
 
 

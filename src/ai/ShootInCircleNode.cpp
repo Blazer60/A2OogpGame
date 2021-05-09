@@ -29,7 +29,8 @@ void ShootInCircleNode::onAwake()
 
 void ShootInCircleNode::onPause()
 {
-    mAmountOfProjectiles++;
+    Node::onPause();
+    mAmountOfProjectiles += mProjectileCountIncrease;
     mOffSet = 0;
 }
 

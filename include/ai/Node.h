@@ -29,7 +29,7 @@ public:
     virtual ~Node() = default;
 
     virtual void onAwake();
-    virtual void onPause() = 0;
+    virtual void onPause();
 
     virtual void update(Ai *ai);
 
@@ -39,14 +39,22 @@ public:
      */
     virtual void action(Ai *ai) = 0;
 
+    void setActionRate(float actionRate);
+    void setActionRateMultiplier(float multiplier);
+    void setWarmUpTime(int warmUpTime);
+    void setMaxTime(int maxTime);
+    void setMinimumActionRate(float minimumTime);
+
 protected:
     SoundFx mStartSound;
 
     BaseEnemy* mMechaChad;
     int mTimer;         // The general timer
-    int mActionRate;    // How often action should be called.
+    float mActionRate;    // How often action should be called.
     int mWarmUpTime;    // The time before action should be called.
     int mMaxTime;       // The maximum time before leaving this node.
+    float mActionRateMultiplier;
+    float mMinimumActionRate;
 };
 
 

@@ -27,7 +27,8 @@ void ShootAtTargetNode::onAwake()
 
 void ShootAtTargetNode::onPause()
 {
-    mAmountOfProjectiles++;
+    Node::onPause();
+    mAmountOfProjectiles += mProjectileCountIncrease;
     mConeSpread += 2.f;
 }
 

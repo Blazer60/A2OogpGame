@@ -14,10 +14,12 @@
 Node::Node(BaseEnemy *enemy, const std::string &soundPath) :
     mMechaChad(enemy),
     mStartSound(soundPath),
-    mActionRate(30),
+    mActionRate(30.f),
     mMaxTime(150),
     mTimer(0),
-    mWarmUpTime(15)
+    mWarmUpTime(15),
+    mActionRateMultiplier(1.f),
+    mMinimumActionRate(5.f)
 {}
 
 void Node::onAwake()
@@ -26,12 +28,18 @@ void Node::onAwake()
     mStartSound.play();
 }
 
+void Node::onPause()
+{
+    mActionRate *= mActionRateMultiplier;
+    if (mActionRate < mMinimumActionRate) { mActionRate = mMinimumActionRate; }
+}
+
 void Node::update(Ai *ai)
 {
     mTimer++;
     if (mTimer > mWarmUpTime)
     {
-        if (mTimer % mActionRate == 0)
+        if (mTimer % static_cast<int>(mActionRate) == 0)
         {
             action(ai);
         }
@@ -40,4 +48,29 @@ void Node::update(Ai *ai)
     {
         ai->switchCurrentNode();
     }
+}
+
+void Node::setActionRate(float actionRate)
+{
+    mActionRate = actionRate;
+}
+
+void Node::setWarmUpTime(int warmUpTime)
+{
+    mWarmUpTime = warmUpTime;
+}
+
+void Node::setMaxTime(int maxTime)
+{
+    mMaxTime = maxTime;
+}
+
+void Node::setMinimumActionRate(float minimumTime)
+{
+    mMinimumActionRate = minimumTime;
+}
+
+void Node::setActionRateMultiplier(float multiplier)
+{
+    mActionRateMultiplier = multiplier;
 }
