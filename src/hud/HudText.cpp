@@ -96,3 +96,13 @@ void HudText::setPosition(const glm::ivec2 &newPosition)
 {
     mTransform.position = newPosition;
 }
+
+bool HudText::isVisible() const
+{
+    return mIsRenderable;
+}
+
+void HudText::setVisibility(bool visibility)
+{
+    mIsRenderable = visibility;
+}

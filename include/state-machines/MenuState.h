@@ -46,10 +46,13 @@ protected:
     std::shared_ptr<HudText> mTitle;
     std::shared_ptr<HudText> mVolumeText;
     std::vector<std::shared_ptr<HudText>> mTexts;
+    std::vector<std::shared_ptr<Entity>> mEntities;
     int mTextYAdvance;
     int mTextYPos;
     int mSize;
     Music mMusic;
+    int mTitleFlashTimer;
+    int mTitleFlashRate;
 };
 
 

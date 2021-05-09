@@ -16,16 +16,18 @@
 
 MenuState::MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, float volumePercentage) :
     StateMachine(renderer, windowSize, statesList::MainMenu),
-    mTextYAdvance(20), mTextYPos(100), mSize(20), mMusic("../tmp/TitleScreen.mp3")
+    mTextYAdvance(20), mTextYPos(10), mSize(20), mMusic("../tmp/TitleScreen.mp3"),
+    mTitleFlashRate(30), mTitleFlashTimer(0)
 {
-    mTitle = std::make_shared<HudText>(glm::ivec2(10, 10));
-    mTitle->setText("Press P to play the game.");
+    mTitle = std::make_shared<HudText>(glm::ivec2(-150, -20), HudElement::Center | HudElement::Middle);
+    mTitle->setText("Press P to Play");
     mRenderer.loadText(mTitle);
 
     addText("Controls:");
     addText("Move   - wasd");
     addText("Dodge  - wasd + space or space");
     addText("Pause  - p");
+    mTextYPos += mTextYAdvance;
     addText("Objective:");
     addText("Survive for as long as possible.");
 
@@ -87,6 +89,14 @@ void MenuState::event(StateMachineManager *smm)
 void MenuState::update(StateMachineManager *smm)
 {
     updateVolumeText(smm);
+
+    // Flashing the title
+    mTitleFlashTimer++;
+    if (mTitleFlashTimer >= mTitleFlashRate)
+    {
+        mTitle->setVisibility(!mTitle->isVisible());
+        mTitleFlashTimer = 0;
+    }
 }
 
 void MenuState::render(StateMachineManager *smm, const float &interpolation)

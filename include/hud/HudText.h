@@ -43,6 +43,9 @@ public:
     bool isRenderValid() const;
     void setRenderValid(bool isValid);
 
+    bool isVisible() const;
+    void setVisibility(bool visibility);
+
     void setPosition(const glm::ivec2 &newPosition);
 
 protected:
