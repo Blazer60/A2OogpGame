@@ -20,8 +20,6 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
     mBrain(this)
 {
     // Set up for the brain to run.
-
-
     mBrain.createNode(Move, std::make_unique<ChargeNode>(this));
     mBrain.createNode(BasicDirectedShot, std::make_unique<ShootAtTargetNode>(this));
     mBrain.createNode(BasicCircleShot, std::make_unique<ShootInCircleNode>(this));
@@ -30,7 +28,28 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
     bounceNode->setProjectileType(projectiles::Ricochet);
     mBrain.createNode(BounceCircleShot, std::move(bounceNode));
 
-    mBrain.setConnections({ Move, BasicDirectedShot, BasicCircleShot, Move, BasicDirectedShot, Move, BounceCircleShot });
+    auto momentumNode = std::make_unique<ShootAtTargetNode>(this);
+    momentumNode->setProjectileType(projectiles::Momentum);
+    momentumNode->setProjectileVelocity(glm::vec2(0.5));  // In this case, it's acceleration.
+    mBrain.createNode(MomentumShot, std::move(momentumNode));
+
+    auto hexNode = std::make_unique<ShootInCircleNode>(this);
+    hexNode->setProjectileType(projectiles::Hexed);
+    mBrain.createNode(HexedShot, std::move(hexNode));
+
+    // The order in which things are executed.
+    mBrain.setConnections({
+        Move,
+        BasicDirectedShot,
+        BasicCircleShot,
+        Move,
+        MomentumShot,
+        Move,
+        BounceCircleShot,
+        BasicDirectedShot,
+        Move,
+        HexedShot
+    });
     mTransform.scale = glm::vec2(4.f);
     mHitBoxOffset = glm::vec2(64.f);
 }

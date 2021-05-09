@@ -28,6 +28,7 @@ public:
     ~ShootNode() override = default;
 
     void setProjectileType(char type);
+    void setProjectileVelocity(glm::vec2 velocity);
 
 protected:
     SoundFx mShootSound;

@@ -28,3 +28,8 @@ void ShootNode::setProjectileType(char type)
 {
     mProjectileType = type;
 }
+
+void ShootNode::setProjectileVelocity(glm::vec2 velocity)
+{
+    mProjectileSpawnVelocity = velocity;
+}
