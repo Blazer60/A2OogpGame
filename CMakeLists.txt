@@ -123,5 +123,5 @@ else()
     message(CHECK_FAIL "Failed")
     message(FATAL_ERROR "Assets dir not found. \nCheck that the path exist.")
 endif()
-file(COPY ${ASSET_DIR} DESTINATION ${CMAKE_BINARY_DIR}/assets)
+file(COPY ${ASSET_DIR} DESTINATION ${CMAKE_BINARY_DIR})
 
