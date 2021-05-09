@@ -17,7 +17,7 @@
 #include <unordered_map>
 #include <memory>
 
-class MechaChad;
+class BaseEnemy;
 
 /**
  * An Ai manager that changes between different states. Currently tied to mecha chad.
@@ -29,7 +29,7 @@ class Ai
 {
     typedef std::unordered_map<int, std::unique_ptr<Node>> nodeMap;
 public:
-    explicit Ai(MechaChad *mMechaChad);
+    explicit Ai(BaseEnemy *enemy);
     ~Ai() = default;
 
     void update();
@@ -38,7 +38,7 @@ public:
     void setConnections(std::vector<int> newConnections);
 
 protected:
-    MechaChad* mMechaChad;
+    BaseEnemy* mMechaChad;
     nodeMap mNodes;
     int mCurrConnectionId;
     std::vector<int> mConnections;

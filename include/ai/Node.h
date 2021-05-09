@@ -13,7 +13,7 @@
 
 #include "SoundFx.h"
 
-class MechaChad;
+class BaseEnemy;
 class Ai;
 
 /**
@@ -25,7 +25,7 @@ class Ai;
 class Node
 {
 public:
-    Node(MechaChad *mechaChad, const std::string &soundPath);
+    Node(BaseEnemy *enemy, const std::string &soundPath);
     virtual ~Node() = default;
 
     virtual void onAwake();
@@ -42,7 +42,7 @@ public:
 protected:
     SoundFx mStartSound;
 
-    MechaChad* mMechaChad;
+    BaseEnemy* mMechaChad;
     int mTimer;         // The general timer
     int mActionRate;    // How often action should be called.
     int mWarmUpTime;    // The time before action should be called.

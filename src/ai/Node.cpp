@@ -11,8 +11,8 @@
 #include "Node.h"
 #include "Ai.h"
 
-Node::Node(MechaChad *mechaChad, const std::string &soundPath) :
-    mMechaChad(mechaChad),
+Node::Node(BaseEnemy *enemy, const std::string &soundPath) :
+    mMechaChad(enemy),
     mStartSound(soundPath),
     mActionRate(30),
     mMaxTime(150),

@@ -15,7 +15,7 @@
 #include "HelperFunctions.h"
 
 
-Ai::Ai(MechaChad *mMechaChad) : mMechaChad(mMechaChad), mCurrConnectionId(0)
+Ai::Ai(BaseEnemy *enemy) : mMechaChad(enemy), mCurrConnectionId(0)
 {
 }
 
