@@ -21,7 +21,7 @@
 class ChargeNode : public Node
 {
 public:
-    explicit ChargeNode(BaseEnemy *enemy);
+    explicit ChargeNode(BaseEnemy *enemy, const std::string &activateSound = "../tmp/BeepOne.mp3");
     ~ChargeNode() override = default;
 
     void onAwake() override;

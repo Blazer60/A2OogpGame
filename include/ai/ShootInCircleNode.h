@@ -24,7 +24,9 @@
 class ShootInCircleNode : public ShootNode
 {
 public:
-    explicit ShootInCircleNode(BaseEnemy *enemy);
+    explicit ShootInCircleNode(BaseEnemy *enemy,
+                               const std::string &activateSound="../tmp/BeepOne.mp3",
+                               const std::string &shotSound="../sfx/shurikenThrow.mp3");
     ~ShootInCircleNode() override = default;
 
     void onAwake() override;

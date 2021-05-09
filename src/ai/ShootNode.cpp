@@ -14,12 +14,12 @@
 #include "ShootNode.h"
 #include "BaseProjectile.h"
 
-ShootNode::ShootNode(BaseEnemy *enemy, const std::string &soundPath) :
-    Node(enemy, soundPath),
+ShootNode::ShootNode(BaseEnemy *enemy, const std::string &activateSound, const std::string &shotSound) :
+    Node(enemy, activateSound),
     mProjectileType(projectiles::Default),
     mAmountOfProjectiles(1),
     mProjectileSpawnVelocity(glm::vec2(10.f)),
-    mShootSound("../sfx/shurikenThrow.mp3"),
+    mShootSound(shotSound),
     mProjectileCountIncrease(1)
 {
 

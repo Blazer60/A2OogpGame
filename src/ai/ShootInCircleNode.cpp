@@ -13,8 +13,8 @@
 #include "HelperFunctions.h"
 #include "ShootNode.h"
 
-ShootInCircleNode::ShootInCircleNode(BaseEnemy *enemy) :
-        ShootNode(enemy, "../tmp/BeepOne.mp3"),
+ShootInCircleNode::ShootInCircleNode(BaseEnemy *enemy, const std::string &activateSound, const std::string &shotSound) :
+        ShootNode(enemy, activateSound, shotSound),
         mOffSet(0),
         mOffSetAdvance(47.12f)
 {

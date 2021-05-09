@@ -24,7 +24,7 @@
 class ShootNode : public Node
 {
 public:
-    explicit ShootNode(BaseEnemy *enemy, const std::string &soundPath);
+    explicit ShootNode(BaseEnemy *enemy, const std::string &activateSound, const std::string &shotSound);
     ~ShootNode() override = default;
 
     void setProjectileType(char type);

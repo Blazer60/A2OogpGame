@@ -12,8 +12,9 @@
 #include "HelperFunctions.h"
 #include "BaseEnemy.h"
 
-ShootAtTargetNode::ShootAtTargetNode(BaseEnemy *enemy) :
-        ShootNode(enemy, "../tmp/BeepOne.mp3"),
+ShootAtTargetNode::ShootAtTargetNode(BaseEnemy *enemy, const std::string &activateSound, const std::string &shotSound)
+        :
+        ShootNode(enemy, activateSound, shotSound),
         mConeSpread(20.f)
 {
     mAmountOfProjectiles = 3;
