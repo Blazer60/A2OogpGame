@@ -20,17 +20,17 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
     mBrain(this)
 {
     // Set up for the brain to run.
-    mBrain.createNode(Move, std::make_unique<ChargeNode>(this, "../tmp/SpeedUp.mp3"));
+    mBrain.createNode(Move, std::make_unique<ChargeNode>(this, "assets/sfx/SpeedUp.mp3"));
     mBrain.createNode(BasicDirectedShot, std::make_unique<ShootAtTargetNode>(this));
     mBrain.createNode(BasicCircleShot, std::make_unique<ShootInCircleNode>(this));
 
-    auto bounceNode = std::make_unique<ShootInCircleNode>(this, "../tmp/PowerSurge.mp3", "../tmp/Arrow.mp3");
+    auto bounceNode = std::make_unique<ShootInCircleNode>(this, "assets/sfx/PowerSurge.mp3", "assets/sfx/Arrow.mp3");
     bounceNode->setProjectileType(projectiles::Ricochet);
     bounceNode->setAmountOfProjectiles(4);
     bounceNode->setActionRateMultiplier(1.f);
     mBrain.createNode(BounceCircleShot, std::move(bounceNode));
 
-    auto momentumNode = std::make_unique<ShootAtTargetNode>(this, "../tmp/PowerUp.mp3", "../tmp/Laser.mp3");
+    auto momentumNode = std::make_unique<ShootAtTargetNode>(this, "assets/sfx/PowerUp.mp3", "assets/sfx/Laser.mp3");
     momentumNode->setProjectileType(projectiles::Momentum);
     momentumNode->setAmountOfProjectiles(3);
     momentumNode->setProjectileCountIncrease(2);
@@ -43,7 +43,7 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
     momentumNode->setProjectileVelocity(glm::vec2(1.5f));  // In this case, it's acceleration.
     mBrain.createNode(MomentumShot, std::move(momentumNode));
 
-    auto hexNode = std::make_unique<ShootInCircleNode>(this, "../tmp/MorphSound.mp3", "../tmp/AirBlast.mp3");
+    auto hexNode = std::make_unique<ShootInCircleNode>(this, "assets/sfx/MorphSound.mp3", "assets/sfx/AirBlast.mp3");
     hexNode->setProjectileType(projectiles::Hexed);
     hexNode->setAmountOfProjectiles(1);
     hexNode->setProjectileCountIncrease(1);

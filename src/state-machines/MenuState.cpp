@@ -16,7 +16,7 @@
 
 MenuState::MenuState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, float volumePercentage) :
     StateMachine(renderer, windowSize, statesList::MainMenu),
-    mTextYAdvance(20), mTextYPos(10), mSize(20), mMusic("../tmp/TitleScreen.mp3"),
+    mTextYAdvance(20), mTextYPos(10), mSize(20), mMusic("assets/music/TitleScreen.mp3"),
     mTitleFlashRate(30), mTitleFlashTimer(0)
 {
     mTitle = std::make_shared<HudText>(glm::ivec2(-150, -20), HudElement::Center | HudElement::Middle);

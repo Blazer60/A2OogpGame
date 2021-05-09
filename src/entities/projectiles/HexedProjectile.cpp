@@ -11,7 +11,7 @@
 #include "HexedProjectile.h"
 
 HexedProjectile::HexedProjectile(const glm::vec2 &position, const glm::vec2 &velocity, const size_t &collisionLayer)
-        : TrackingProjectile(position, velocity, collisionLayer,"../tmp/HexedProjectile-0001.png"),
+        : TrackingProjectile(position, velocity, collisionLayer,"assets/images/HexedProjectile-0001.png"),
           mIsTracking(false), mStartTrackingRange(600.f), mStopTrackingRange(150.f), mTrackingTime(300),  // 10 Seconds
           mAcceleration(0.f), mForce(2.f), mMaxVelocity(25.f), mConeAngle(0.9)
 

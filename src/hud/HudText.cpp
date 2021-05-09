@@ -14,7 +14,7 @@
 
 
 HudText::HudText(const glm::ivec2 &position, char anchorPoint) :
-    HudElement(position, anchorPoint), mSize(32), mFontPath("../tmp/unispace-bd.ttf"),
+    HudElement(position, anchorPoint), mSize(32), mFontPath("assets/ttf/unispace-bd.ttf"),
     mText("PlaceHolderText"), mId(0), mColour({ 215, 215, 215, 255 }), mTextData(nullptr),
     mIsRendererValid(false)
 {

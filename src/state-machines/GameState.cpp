@@ -45,7 +45,7 @@ GameState::GameState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) :
     mRenderer.loadImage(mLifeGauge->getImageRef());
     mRenderer.setTarget(mPlayer);
 
-    std::vector<std::string> musicList{ "../tmp/Stage1.mp3", "../tmp/Stage2.mp3", "../tmp/Stage3.mp3", "../tmp/BossTheme.mp3" };
+    std::vector<std::string> musicList{ "assets/music/Stage1.mp3", "assets/music/Stage2.mp3", "assets/music/Stage3.mp3", "assets/music/BossTheme.mp3" };
     mMusic = std::make_unique<Music>(musicList);
     mMusic->play(false);
 }

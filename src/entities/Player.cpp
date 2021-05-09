@@ -16,7 +16,7 @@
 
 Player::Player(const glm::vec2 &position) :
         Entity(position,{ 32, 32 },{ 16, 16 },
-        quad::layers::Player, "../tmp/Georb-0001.png"),
+        quad::layers::Player, "assets/images/Georb-0001.png"),
         mSpeed(15.f),
         mDashSpeedMultiplier(4.f),
         mCanDash(true),
@@ -31,7 +31,7 @@ Player::Player(const glm::vec2 &position) :
         mDashDirection(0.f),
         mGodMode(false),
         mLives(3),
-        mHurtSound("../tmp/HurtSound.mp3")
+        mHurtSound("assets/sfx/HurtSound.mp3")
 {
     mTransform.scale = glm::vec2 (4.f);
     mVelocity.x = mSpeed;

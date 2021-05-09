@@ -21,9 +21,9 @@
 PauseState::PauseState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, std::weak_ptr<StateMachine> attachedTo,
                        float volumePercentage) :
         OverlayState(renderer, windowSize, std::move(attachedTo) ,statesList::Paused),
-        mPauseSound("../tmp/Tone1.mp3"), mUnPauseSound("../tmp/Tone2.mp3")
+        mPauseSound("assets/music/Tone1.mp3"), mUnPauseSound("assets/music/Tone2.mp3")
 {
-    mPauseIcon = std::make_shared<HudImage>(glm::ivec2(-32), HudElement::Center | HudElement::Middle, "../tmp/PauseIcon-0001.png");
+    mPauseIcon = std::make_shared<HudImage>(glm::ivec2(-32), HudElement::Center | HudElement::Middle, "assets/images/PauseIcon-0001.png");
     mPauseIcon->setScale(glm::vec2(4.f));
     mRenderer.loadImage(mPauseIcon->getImageRef());
 

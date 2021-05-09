@@ -22,7 +22,7 @@
 
 BaseEnemy::BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize, GameState *attachToState,
                      std::weak_ptr<Entity> targetEntity, const size_t &collisionLayer) :
-        Entity(position, hitBoxSize, collisionLayer, "../tmp/MechaChad-0001.png"),
+        Entity(position, hitBoxSize, collisionLayer, "assets/images/MechaChad-0001.png"),
         mGame(attachToState),
         mTargetEntity(std::move(targetEntity))
 {

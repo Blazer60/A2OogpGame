@@ -13,7 +13,7 @@
 #include "QuadTreeHelpers.h"
 
 BarrierImage::BarrierImage(const glm::vec2 &position) :
-    Entity(position, glm::vec2(4.f), "../tmp/Walls-0001.png")
+    Entity(position, glm::vec2(4.f), "assets/images/Walls-0001.png")
 {
 }
 

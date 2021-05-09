@@ -22,7 +22,7 @@
 class ShootAtTargetNode : public ShootNode
 {
 public:
-    explicit ShootAtTargetNode(BaseEnemy *enemy, const std::string &activateSound="../tmp/BeepOne.mp3", const std::string &shotSound="../sfx/shurikenThrow.mp3");
+    explicit ShootAtTargetNode(BaseEnemy *enemy, const std::string &activateSound="assets/sfx/BeepOne.mp3", const std::string &shotSound="assets/sfx/shurikenThrow.mp3");
     ~ShootAtTargetNode() override = default;
 
     void onAwake() override;

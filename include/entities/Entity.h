@@ -42,10 +42,10 @@ public:
            std::string imageRef = "");
 
     Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const glm::vec2 &hitBoxOffSet,
-           const size_t &collisionLayer, std::string  imageRef = "../tmp/chad.bmp");
+           const size_t &collisionLayer, std::string  imageRef = "assets/images/chad.bmp");
 
     /** Entity with image only. */
-    Entity(const glm::vec2 &position, const glm::vec2 &imageSize, std::string imageRef = "../tmp/chad.bmp");
+    Entity(const glm::vec2 &position, const glm::vec2 &imageSize, std::string imageRef = "assets/images/chad.bmp");
 
     virtual ~Entity() = default;
 

@@ -51,7 +51,6 @@ void Music::update()
 {
     if (!Mix_PlayingMusic())
     {
-        std::cout << "Switching" << std::endl;
         load();
         play(false);
     }

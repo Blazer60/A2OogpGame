@@ -12,7 +12,7 @@
 
 MomentumProjectile::MomentumProjectile(const glm::vec2 &position, const glm::vec2 &acceleration,
                                        const size_t &collisionLayer) : BaseProjectile(
-        position, glm::vec2(0.f), collisionLayer, "../tmp/MomentumProjectile-0001.png"),
+        position, glm::vec2(0.f), collisionLayer, "assets/images/MomentumProjectile-0001.png"),
         mMaxVelocity(45.f), mAcceleration(acceleration)
 {
 
