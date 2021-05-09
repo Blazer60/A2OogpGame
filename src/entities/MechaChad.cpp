@@ -36,7 +36,8 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
     momentumNode->setProjectileCountIncrease(2);
     momentumNode->setWarmUpTime(60);
     momentumNode->setMaxTime(120);
-    momentumNode->setConeSpread(270.f);
+    momentumNode->setConeSpread(1.f);
+    momentumNode->setConeSpreadMultiplier(2.f);
     momentumNode->setActionRate(5.f);
     momentumNode->setMinimumActionRate(1.f);
     momentumNode->setProjectileVelocity(glm::vec2(1.5f));  // In this case, it's acceleration.
@@ -45,7 +46,7 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
     auto hexNode = std::make_unique<ShootInCircleNode>(this, "../tmp/MorphSound.mp3", "../tmp/AirBlast.mp3");
     hexNode->setProjectileType(projectiles::Hexed);
     hexNode->setAmountOfProjectiles(1);
-    hexNode->setProjectileCountIncrease(3);
+    hexNode->setProjectileCountIncrease(1);
     hexNode->setMaxTime(30.f);
     hexNode->setActionRate(25.f);
     hexNode->setActionRateMultiplier(1.f);

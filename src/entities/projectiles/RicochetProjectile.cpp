@@ -17,7 +17,7 @@
 RicochetProjectile::RicochetProjectile(const glm::vec2 &position, const glm::vec2 &velocity,
                                        const size_t &collisionLayer) :
             BaseProjectile(position, velocity, collisionLayer, "../tmp/RicochetProjectile-0001.png"),
-            mBounces(3)
+            mBounces(2)
 {
     mAngularVelocity = 0;
 }
