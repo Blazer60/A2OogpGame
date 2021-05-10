@@ -66,6 +66,7 @@ StateMachineManager::~StateMachineManager()
     //Mix_Quit();
     IMG_Quit();
     SDL_DestroyWindow(mWindow);
+    SDL_Quit();
     mWindow = nullptr;
 }
 
