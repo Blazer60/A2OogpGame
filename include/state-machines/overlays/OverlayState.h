@@ -24,6 +24,7 @@ class OverlayState : public StateMachine
 public:
     OverlayState(SDL_Renderer *renderer, const glm::ivec2 &windowSize,
                  std::weak_ptr<StateMachine> attachToState, char stateKey);
+    ~OverlayState() override = default;
 
     void event(StateMachineManager *smm) override;
     void render(StateMachineManager *smm, const float &interpolation) override;

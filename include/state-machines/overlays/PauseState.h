@@ -27,6 +27,7 @@ class PauseState : public OverlayState
 public:
     PauseState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, std::weak_ptr<StateMachine> attachedTo,
                float volumePercentage);
+    ~PauseState() override = default;
 
     void onPause() override;
     void onAwake() override;

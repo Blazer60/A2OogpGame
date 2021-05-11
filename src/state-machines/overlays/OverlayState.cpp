@@ -1,6 +1,6 @@
 /**
  * @file OverlayState.cpp.cc
- * @brief [fill in this secton]
+ * @brief A type of state that can overlay any other state.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -9,9 +9,9 @@
 
 
 #include "OverlayState.h"
+#include "StateMachineManager.h"
 
 #include <utility>
-#include "StateMachineManager.h"
 
 OverlayState::OverlayState(SDL_Renderer *renderer, const glm::ivec2 &windowSize,
                            std::weak_ptr<StateMachine> attachToState, char stateKey) :
