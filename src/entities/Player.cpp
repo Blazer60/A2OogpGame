@@ -8,10 +8,7 @@
  */
 
 
-#include <iostream>
 #include "Player.h"
-
-#include "GameState.h"
 #include "BarrierCollider.h"
 
 Player::Player(const glm::vec2 &position) :
@@ -87,7 +84,6 @@ void Player::update()
         }
     }
 
-
     if (!mInDash)
     {
         mVelocity = mSpeed * axisInput;
@@ -100,19 +96,6 @@ void Player::update()
     }
 
     mTransform.position += mVelocity;
-}
-
-void Player::makeInvulnerable(int frames)
-{
-    mIsInvulnerable = true;
-    mInvulnerableTimer = frames;
-    mQueryLayers = quad::layers::Boundary;
-}
-
-void Player::makeVulnerable()
-{
-    mIsInvulnerable = false;
-    mQueryLayers = quad::layers::EnemyProjectile | quad::layers::Enemy | quad::layers::Boundary;
 }
 
 void Player::onCollision(const std::shared_ptr<Entity> &other)
@@ -134,12 +117,25 @@ void Player::onCollision(const std::shared_ptr<Entity> &other)
     makeInvulnerable(30);
 }
 
+int Player::getLives() const
+{
+    return mLives;
+}
+
 bool Player::isInvulnerable() const
 {
     return mIsInvulnerable;
 }
 
-int Player::getLives() const
+void Player::makeInvulnerable(int frames)
 {
-    return mLives;
+    mIsInvulnerable = true;
+    mInvulnerableTimer = frames;
+    mQueryLayers = quad::layers::Boundary;
+}
+
+void Player::makeVulnerable()
+{
+    mIsInvulnerable = false;
+    mQueryLayers = quad::layers::EnemyProjectile | quad::layers::Enemy | quad::layers::Boundary;
 }

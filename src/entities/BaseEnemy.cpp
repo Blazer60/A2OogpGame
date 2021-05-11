@@ -7,10 +7,6 @@
  * Initial Version: 15/04/2021
  */
 
-#include "ShootAtTargetNode.h"
-#include "ShootInCircleNode.h"
-#include "ChargeNode.h"
-#include "MechaChad.h"
 #include "GameState.h"
 #include "BaseEnemy.h"
 #include "Player.h"
@@ -36,7 +32,7 @@ void BaseEnemy::createProjectile(std::shared_ptr<BaseProjectile> projectile)
 
 void BaseEnemy::createProjectile(const glm::vec2 &velocity, const char type)
 {
-    // todo: The 128.f is mecha chad specific (hit box off set and size). Generalise this for all enemies.
+    // The 128.f is mecha chad specific (hit box off set and size). This should be generalise if more enemies are made.
     glm::vec2 spawnPosition = mTransform.position + glm::vec2(128.f);
     std::shared_ptr<BaseProjectile> projectile;
 

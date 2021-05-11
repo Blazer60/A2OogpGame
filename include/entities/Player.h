@@ -24,37 +24,72 @@ class Player : public Entity
 {
 public:
     explicit Player(const glm::vec2 &position);
+    ~Player() override = default;
 
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;
 
+    /**
+     * @return Number of lives remaining.
+     */
     int getLives() const;
 
+    /**
+     * @return True if it can't be damaged, False otherwise.
+     */
     bool isInvulnerable() const;
 
 protected:
+    /**
+     * Makes it so that the player can't take any damage.
+     * @param frames How long would you like it to last.
+     */
     void makeInvulnerable(int frames);
+
+    /**
+     * Makes it so that the player can be damaged.
+     */
     void makeVulnerable();
 
+    /** How fast the player can move */
     float mSpeed;
-    float mDashSpeedMultiplier;
-    bool mCanDash;
-    bool mInDash;
-    int mDashLength;
-    int mDashTimer;  // Count Down
 
-    int mDashCoolDownFrames;
-    int mDashCoolDownTimer;  // Counts up
-    int mDashInvulnerableFrames;
-
-
-    int mInvulnerableTimer;  // Counts Down
-    bool mIsInvulnerable;
+    /** The direction the player dodges.  */
     glm::vec2 mDashDirection;
 
+    /** How much faster the player moves when dashing */
+    float mDashSpeedMultiplier;
+
+    /** Can the player dash?  */
+    bool mCanDash;
+
+    /** Is the player currently dashing  */
+    bool mInDash;
+
+    /** How long the player can dash for  */
+    int mDashLength;
+
+    /** How far into the dash the player currently is. (Counts down) */
+    int mDashTimer;
+
+    /** How long until the player can dash again. */
+    int mDashCoolDownFrames;
+
+    /** How far into the dash cool down the player currently is. (Counts up) */
+    int mDashCoolDownTimer;
+
+    /** How long the player is invulnerable for when dashing. */
+    int mDashInvulnerableFrames;
+
+    /** How far the player is into being invulnerable. (counts down) */
+    int mInvulnerableTimer;
+
+    bool mIsInvulnerable;
     int mLives;
 
-    bool mGodMode;
+    bool mGodMode;  // Used for debugging
+
+    /** The sound the player makes when they take damage */
     SoundFx mHurtSound;
 };
 

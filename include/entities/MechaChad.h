@@ -29,6 +29,7 @@ class MechaChad : public BaseEnemy
     enum nodeSetup : int { Move, BasicCircleShot, BasicDirectedShot, BounceCircleShot, MomentumShot, HexedShot };
 public:
     MechaChad(const glm::vec2 &position, GameState *attachToState, std::weak_ptr<Entity> targetEntity);
+    ~MechaChad() override = default;
 
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;

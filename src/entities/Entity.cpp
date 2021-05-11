@@ -17,17 +17,9 @@
 
 Entity::Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const size_t &collisionLayer,
                std::string imageRef) :
-    mTransform(position, 0.0, glm::vec2(1.f, 1.f)),
-    mHitBoxSize(hitBoxSize),
-    mImageRef(std::move(imageRef)),
-    mVelocity({ 0.f, 0.f }),
-    mHitBoxColour({ 0, 0, 255, 255 }),
-    mCollisionLayer(collisionLayer),
-    mHitBoxOffset(0.f),
-    mIsDead(false),
-    mIsCollidable(true),
-    mIsRenderable(true),
-    mAngularVelocity(0),
+    mTransform(position, 0.0, glm::vec2(1.f, 1.f)), mHitBoxSize(hitBoxSize), mImageRef(std::move(imageRef)),
+    mVelocity({ 0.f, 0.f }), mHitBoxColour({ 0, 0, 255, 255 }), mCollisionLayer(collisionLayer),
+    mHitBoxOffset(0.f), mIsDead(false), mIsCollidable(true), mIsRenderable(true), mAngularVelocity(0),
     mQueryLayers(0)
 {
     if (mImageRef.empty()) { mIsRenderable = false; }
@@ -35,43 +27,27 @@ Entity::Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const siz
 
 Entity::Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const glm::vec2 &hitBoxOffSet,
                const size_t &collisionLayer, std::string  imageRef) :
-        mTransform(position, 0.0, glm::vec2(1.f, 1.f)),
-        mHitBoxSize(hitBoxSize),
-        mImageRef(std::move(imageRef)),
-        mVelocity({ 0.f, 0.f }),
-        mHitBoxOffset(hitBoxOffSet),
-        mHitBoxColour({0, 0, 255, 255}),
-        mCollisionLayer(collisionLayer),
-        mIsDead(false),
-        mIsCollidable(true),
-        mIsRenderable(true),
-        mAngularVelocity(0),
-        mQueryLayers(0)
-{
-
-}
-
-// Entity with image only. It will not be added to the tree.
-Entity::Entity(const glm::vec2 &position, const glm::vec2 &imageSize, std::string imageRef) :
-    mTransform(position, 0.0, imageSize),
-    mHitBoxSize(0.f),
-    mImageRef(std::move(imageRef)),
-    mVelocity(0.f),
-    mHitBoxOffset(0.f),
-    mHitBoxColour({0, 0, 255, 255}),
-    mCollisionLayer(0),
-    mIsDead(false),
-    mIsCollidable(false),
-    mIsRenderable(true),
-    mAngularVelocity(0),
+    mTransform(position, 0.0, glm::vec2(1.f, 1.f)), mHitBoxSize(hitBoxSize), mImageRef(std::move(imageRef)),
+    mVelocity({ 0.f, 0.f }), mHitBoxOffset(hitBoxOffSet), mHitBoxColour({0, 0, 255, 255}),
+    mCollisionLayer(collisionLayer), mIsDead(false), mIsCollidable(true), mIsRenderable(true), mAngularVelocity(0),
     mQueryLayers(0)
-{
+{}
 
-}
+// Entity with image only. It will not be added to the quad tree.
+Entity::Entity(const glm::vec2 &position, const glm::vec2 &imageSize, std::string imageRef) :
+    mTransform(position, 0.0, imageSize), mHitBoxSize(0.f), mImageRef(std::move(imageRef)),
+    mVelocity(0.f), mHitBoxOffset(0.f), mHitBoxColour({0, 0, 255, 255}), mCollisionLayer(0), mIsDead(false),
+    mIsCollidable(false), mIsRenderable(true), mAngularVelocity(0), mQueryLayers(0)
+{}
 
 quad::rect Entity::getHitBoxRect() const
 {
     return { mTransform.position + mHitBoxOffset, mHitBoxSize };
+}
+
+glm::vec2 Entity::getHitBoxCenter() const
+{
+    return mTransform.position + mHitBoxOffset + (mHitBoxSize / 2.f);
 }
 
 void Entity::pushOffWall(const std::shared_ptr<BarrierCollider> &barrierCollider)
@@ -97,11 +73,5 @@ void Entity::pushOffWall(const std::shared_ptr<BarrierCollider> &barrierCollider
             break;
     }
     mTransform.position = pushBackDirection;
-    // Prevents the camera from trying to guess where the player will be.
-    mVelocity = glm::vec2(0);
-}
-
-glm::vec2 Entity::getHitBoxCenter() const
-{
-    return mTransform.position + mHitBoxOffset + (mHitBoxSize / 2.f);
+    mVelocity = glm::vec2(0);  // Prevents the camera from trying to guess where the entity will be.
 }

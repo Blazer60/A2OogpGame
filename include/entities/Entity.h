@@ -38,9 +38,11 @@ struct transform
 class Entity
 {
 public:
+    /** Default Constructor */
     Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const size_t &collisionLayer,
            std::string imageRef = "");
 
+    /** Entity with hit box offset */
     Entity(const glm::vec2 &position, const glm::vec2 &hitBoxSize, const glm::vec2 &hitBoxOffSet,
            const size_t &collisionLayer, std::string  imageRef = "assets/images/chad.bmp");
 
@@ -49,7 +51,10 @@ public:
 
     virtual ~Entity() = default;
 
+    /** Called every game tick. */
     virtual void update() = 0;
+
+    /** Called by the game state. */
     virtual void onCollision(const std::shared_ptr<Entity> &other) = 0;
 
     quad::rect getHitBoxRect() const;

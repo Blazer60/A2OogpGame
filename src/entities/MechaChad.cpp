@@ -68,7 +68,7 @@ MechaChad::MechaChad(const glm::vec2 &position, GameState *attachToState, std::w
     mTransform.scale = glm::vec2(4.f);
     mHitBoxOffset = glm::vec2(64.f);
 
-//    mBrain.advanceToStage(50);
+//    mBrain.advanceToStage(50);  // Used for debugging purposes.
 }
 
 void MechaChad::update()
@@ -79,7 +79,5 @@ void MechaChad::update()
 }
 
 void MechaChad::onCollision(const std::shared_ptr<Entity> &other)
-{
-
-}
+{}
 

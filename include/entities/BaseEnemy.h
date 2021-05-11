@@ -34,8 +34,20 @@ class BaseEnemy :  public Entity
 public:
     BaseEnemy(const glm::vec2 &position, const glm::vec2 &hitBoxSize, GameState *attachToState,
               std::weak_ptr<Entity> targetEntity, const size_t &collisionLayer = quad::layers::Enemy);
+    ~BaseEnemy() override = default;
 
+    /**
+     * Spawns a projectile in the attached state.
+     * @param projectile The projectile you want to move to the game state.
+     */
     void createProjectile(std::shared_ptr<BaseProjectile> projectile);
+
+    /**
+     * Spawns a projectile in the attached state.
+     * @see BaseProjectile.h projectiles
+     * @param velocity How fast is the projectile
+     * @param type The type of projectile (use projectiles::type)
+     */
     void createProjectile(const glm::vec2 &velocity, char type);
 
     glm::vec2 getTargetDirection();
