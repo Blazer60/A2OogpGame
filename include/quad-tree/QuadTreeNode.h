@@ -74,6 +74,14 @@ protected:
     const size_t mSplitThreshold;
     std::array<std::unique_ptr<QuadTreeNode<dataType>>, 4> mSubRegions;
     std::vector<quad::data<dataType>> mItems;
+
+    /**
+     * Stores the bit masks for all entities that are in this node and all subsequent child nodes.
+     * @paragraph
+     * An enemy is inserted into this node and the player is inserted into the child nodes. Then this
+     * layer would be: enemies layer | players layer. This allows different layers to be stored into a
+     * single tree.
+     */
     size_t mLayers;
 };
 

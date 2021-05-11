@@ -58,8 +58,12 @@ public:
 
 protected:
     const std::unique_ptr<QuadTreeNode<dataType>> mRootNode;
+
+    /** The whole bounding box of the tree. */
     const quad::rect mBounds;
     const size_t mMaxDepth;
+
+    /** How many items can be inserted into a node before it splits into 4 new leaf nodes. */
     const size_t mSplitThreshold;
     std::vector<quad::data<dataType>> mUnboundItems;
 };

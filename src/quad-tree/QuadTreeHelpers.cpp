@@ -24,6 +24,10 @@ bool quad::isIntersecting(const rect &rec1, const rect &rec2)
     return false;
 }
 
+// The quad tree was originally going to be able to have both rect hit boxes and circular hit boxes.
+// I decided to scrap this since it wasn't crucial to the game and I was running low on time.
+// The code below won't work as it was never tested.
+
 //bool quad::isIntersecting(const quad::Rect &lhs, const quad::Rect &rhs)
 //{
 //    if (lhs.mPosition.x + lhs.mWidth >= rhs.mPosition.x && lhs.mPosition.x <= rhs.mPosition.x + rhs.mWidth)
