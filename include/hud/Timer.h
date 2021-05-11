@@ -1,6 +1,6 @@
 /**
  * @file Timer.h
- * @brief [fill in this secton]
+ * @brief A timer that keeps track of how long the player has been alive for.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -29,10 +29,19 @@ public:
 protected:
     void calculateTime();
 
-    size_t mTime;  // in frames
+    /** The time they have survived for in frames. */
+    size_t mTime;
+
+    /** The millisecond sub division of time. */
     size_t mMs;
+
+    /** The second sub division of time. */
     size_t mSeconds;
+
+    /** The minute sub division of time. */
     size_t mMinutes;
+
+    /** The amount of leading zero's each section should have. */
     int mLeadingZeroLength;
 };
 

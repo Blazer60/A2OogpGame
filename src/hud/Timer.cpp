@@ -1,6 +1,6 @@
 /**
  * @file Timer.cpp.cc
- * @brief [fill in this secton]
+ * @brief A timer that keeps track of how long the player has been alive for.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -32,6 +32,7 @@ void Timer::update()
 
 void Timer::calculateTime()
 {
+    // The game runs at a fixed rate of 30 frames a second.
     size_t framesLeft = mTime;
 
     mMinutes = framesLeft / 1800;  // 1800 is the number of frames that pass in a minute.
