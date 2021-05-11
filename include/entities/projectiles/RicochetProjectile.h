@@ -25,13 +25,13 @@ class RicochetProjectile : public BaseProjectile
 public:
     RicochetProjectile(const glm::vec2 &position, const glm::vec2 &velocity,
                        const size_t &collisionLayer);
-
     ~RicochetProjectile() override = default;
 
     void update() override;
     void onCollision(const std::shared_ptr<Entity> &other) override;
 
 protected:
+    /** The number of times it can bounce off of a wall before being destroyed. */
     int mBounces;
 };
 

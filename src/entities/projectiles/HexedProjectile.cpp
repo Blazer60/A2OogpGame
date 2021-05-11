@@ -14,7 +14,6 @@ HexedProjectile::HexedProjectile(const glm::vec2 &position, const glm::vec2 &vel
         : TrackingProjectile(position, velocity, collisionLayer,"assets/images/HexedProjectile-0001.png"),
           mIsTracking(false), mStartTrackingRange(600.f), mStopTrackingRange(150.f), mTrackingTime(300),  // 10 Seconds
           mAcceleration(0.f), mForce(2.f), mMaxVelocity(25.f), mConeAngle(0.9)
-
 {}
 
 void HexedProjectile::update()
@@ -45,6 +44,7 @@ void HexedProjectile::update()
         mAcceleration.x = direction.x > 0 ? mForce.x : -mForce.x;
         mAcceleration.y = direction.y > 0 ? mForce.y : -mForce.y;
     }
+    // Always accelerate to maximum velocity.
     mVelocity += mAcceleration;
     clampVelocity(mMaxVelocity);
     TrackingProjectile::update();

@@ -12,6 +12,7 @@
 #define A2OOPGAME_TRACKINGPROJECTILE_H
 
 #include "BaseProjectile.h"
+
 #include <memory>
 
 /**
@@ -24,7 +25,6 @@ class TrackingProjectile : public BaseProjectile
 public:
     TrackingProjectile(const glm::vec2 &position, const glm::vec2 &velocity, const size_t &collisionLayer,
                        const std::string &imageRef);
-
     ~TrackingProjectile() override = default;
 
     void update() override;

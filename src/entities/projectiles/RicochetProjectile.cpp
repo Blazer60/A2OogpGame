@@ -31,12 +31,14 @@ void RicochetProjectile::onCollision(const std::shared_ptr<Entity> &other)
 {
     if (typeid(*other).hash_code() == typeid(Player).hash_code())
     {
+        // Collided with the player
         auto player = std::dynamic_pointer_cast<Player>(other);
         if (player->isInvulnerable()) { return; }
         mIsDead = true;
     }
     else if (typeid(*other).hash_code() == typeid(BarrierCollider).hash_code())
     {
+        // Collided with the wall.
         auto barrier = std::dynamic_pointer_cast<BarrierCollider>(other);
         switch (barrier->mDirectionFacing)
         {
