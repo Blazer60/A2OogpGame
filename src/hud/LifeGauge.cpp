@@ -14,13 +14,13 @@
 
 LifeGauge::LifeGauge(const glm::ivec2 &position, char anchorPoint) :
     HudImage(position, anchorPoint, "assets/images/ThreeHearts-0001.png"),
-    mCurrentRefNumber(3)
+    mCurrentRefNumber(3),
+    mLifeImages({ "",
+                  "assets/images/OneHeart-0001.png",
+                  "assets/images/TwoHearts-0001.png",
+                  "assets/images/ThreeHearts-0001.png" })
 {
     mTransform.scale = glm::vec2(2.f);
-    mLifeImages[0] = "";
-    mLifeImages[1] = "assets/images/OneHeart-0001.png";
-    mLifeImages[2] = "assets/images/TwoHearts-0001.png";
-    mLifeImages[3] = "assets/images/ThreeHearts-0001.png";
 }
 
 void LifeGauge::setImageRef(int refNumber)

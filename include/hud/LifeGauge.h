@@ -14,10 +14,8 @@
 #include "HudElement.h"
 #include "HudImage.h"
 
-#include <memory>
 #include <string>
-#include <unordered_map>
-#include <glm.hpp>
+#include <array>
 
 class Player;
 
@@ -37,7 +35,7 @@ public:
     int getCurrentRefNumber() const;
 
 protected:
-    std::unordered_map<int, std::string> mLifeImages;
+    std::array<std::string, 4> mLifeImages;
     int mCurrentRefNumber;
 };
 
