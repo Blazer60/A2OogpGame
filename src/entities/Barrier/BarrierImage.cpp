@@ -14,15 +14,10 @@
 
 BarrierImage::BarrierImage(const glm::vec2 &position) :
     Entity(position, glm::vec2(4.f), "assets/images/Walls-0001.png")
-{
-}
+{}
 
 void BarrierImage::update()
-{
-
-}
+{}
 
 void BarrierImage::onCollision(const std::shared_ptr<Entity> &other)
-{
-
-}
+{}

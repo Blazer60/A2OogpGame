@@ -30,7 +30,10 @@ public:
     BarrierCollider(const glm::vec2 &position, char directionFacing);
     ~BarrierCollider() override = default;
 
+    /** Doesn't do anything */
     void update() override;
+
+    /** Doesn't do anything */
     void onCollision(const std::shared_ptr<Entity> &other) override;
 
     const char mDirectionFacing;

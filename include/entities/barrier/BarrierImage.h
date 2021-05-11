@@ -13,6 +13,7 @@
 #define A2OOPGAME_BARRIERIMAGE_H
 
 #include "Entity.h"
+
 #include <glm.hpp>
 
 /**
@@ -25,8 +26,12 @@ class BarrierImage : public Entity
 {
 public:
     explicit BarrierImage(const glm::vec2 &position=glm::vec2(0.f));
+    ~BarrierImage() override = default;
 
+    /** Doesn't do anything. */
     void update() override;
+
+    /** Doesn't do anything/ */
     void onCollision(const std::shared_ptr<Entity> &other) override;
 };
 

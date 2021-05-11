@@ -9,7 +9,6 @@
  */
 
 
-#include <iostream>
 #include "BarrierCollider.h"
 #include "QuadTreeHelpers.h"
 
