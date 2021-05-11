@@ -1,6 +1,7 @@
 /**
  * @file HudImage.cpp.cc
- * @brief [fill in this secton]
+ * @brief An image that can be renderer to the screen
+ * regardless of where the 'camera' position is.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -8,14 +9,7 @@
  */
 
 
-#include "Player.h"
-#include <HudImage.h>
-
-#include "HudElement.h"
-#include "LifeGauge.h"
 #include "HudImage.h"
-
-#include <utility>
 
 HudImage::HudImage(const glm::ivec2 &position, char anchorPoint, std::string imageRef) :
     HudElement(position, anchorPoint), mImageRef(std::move(imageRef))
@@ -24,9 +18,7 @@ HudImage::HudImage(const glm::ivec2 &position, char anchorPoint, std::string ima
 }
 
 void HudImage::update()
-{
-
-}
+{}
 
 std::string HudImage::getImageRef()
 {

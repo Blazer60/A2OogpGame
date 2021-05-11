@@ -1,6 +1,7 @@
 /**
  * @file HudImage.h
- * @brief [fill in this secton]
+ * @brief An image that can be renderer to the screen
+ * regardless of where the 'camera' position is.
  * Project: A2OOPGame
  * @author Ryan Purse
  * @version 1.0.0
@@ -12,14 +13,12 @@
 #define A2OOPGAME_HUDIMAGE_H
 
 
-#include <string>
-#include <unordered_map>
-#include <glm.hpp>
-#include <memory>
 #include "HudElement.h"
+#include <string>
 
 /**
- * [Description goes here.]
+ * An image that can be renderer to the screen
+ * regardless of where the 'camera' position is.
  * @author Ryan Purse
  * @version 1.0.0 [Initial Version: 04/05/2021]
  */
@@ -31,10 +30,10 @@ public:
 
     void update() override;
 
-
     std::string getImageRef();
 
 protected:
+    /** The image reference used by the renderer. */
     std::string mImageRef;
 };
 

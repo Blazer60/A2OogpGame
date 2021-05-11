@@ -26,17 +26,8 @@ HudText::~HudText()
     freeTextData();
 }
 
-void HudText::createTextData()
-{
-    mTextData = TTF_OpenFont(mFontPath.c_str(), mSize);
-    if (!mTextData) { throwWarning("Could not load the font. Check the file path."); }
-}
-
-void HudText::freeTextData()
-{
-    TTF_CloseFont(mTextData);
-    mTextData = nullptr;
-}
+void HudText::update()
+{}
 
 void HudText::setText(const std::string &text)
 {
@@ -77,29 +68,14 @@ TTF_Font *HudText::getTextData() const
     return mTextData;
 }
 
-bool HudText::isRenderValid() const
-{
-    return mIsRendererValid;
-}
-
 void HudText::setRenderValid(bool isValid)
 {
     mIsRendererValid = isValid;
 }
 
-void HudText::update()
+bool HudText::isRenderValid() const
 {
-
-}
-
-void HudText::setPosition(const glm::ivec2 &newPosition)
-{
-    mTransform.position = newPosition;
-}
-
-bool HudText::isVisible() const
-{
-    return mIsRenderable;
+    return mIsRendererValid;
 }
 
 void HudText::setVisibility(bool visibility)
@@ -107,15 +83,37 @@ void HudText::setVisibility(bool visibility)
     mIsRenderable = visibility;
 }
 
-SDL_Color HudText::getColour() const
+bool HudText::isVisible() const
 {
-    return mColour;
+    return mIsRenderable;
+}
+
+void HudText::setPosition(const glm::ivec2 &newPosition)
+{
+    mTransform.position = newPosition;
 }
 
 void HudText::setColour(const SDL_Color &colour)
 {
     mColour = colour;
     mIsRendererValid = false;
+}
+
+SDL_Color HudText::getColour() const
+{
+    return mColour;
+}
+
+void HudText::createTextData()
+{
+    mTextData = TTF_OpenFont(mFontPath.c_str(), mSize);
+    if (!mTextData) { throwWarning("Could not load the font. Check the file path."); }
+}
+
+void HudText::freeTextData()
+{
+    TTF_CloseFont(mTextData);
+    mTextData = nullptr;
 }
 
 

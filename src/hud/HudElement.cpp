@@ -9,34 +9,26 @@
  */
 
 
-#include <utility>
-#include <HudImage.h>
-#include "Player.h"
-#include "HelperFunctions.h"
-#include "HudText.h"
-#include "LifeGauge.h"
 #include "HudElement.h"
+#include "HelperFunctions.h"
 
-hudTransform::hudTransform(const glm::ivec2 &position, double rotation, const glm::vec2 &scale) : position(position),
-                                                                                                  rotation(rotation),
-                                                                                                  scale(scale)
+hudTransform::hudTransform(const glm::ivec2 &position, double rotation, const glm::vec2 &scale) :
+    position(position), rotation(rotation), scale(scale)
 {}
 
 HudElement::HudElement(const glm::ivec2 &position, char anchorPoint) :
         mTransform(position, 0, glm::vec2(1)),
         mAnchorPoint(anchorPoint), mIsRenderable(true)
-{
+{}
 
+void HudElement::setAnchorPoint(char anchorPoint)
+{
+    HudElement::mAnchorPoint = anchorPoint;
 }
 
 char HudElement::getAnchorPoint() const
 {
     return mAnchorPoint;
-}
-
-void HudElement::setAnchorPoint(char anchorPoint)
-{
-    HudElement::mAnchorPoint = anchorPoint;
 }
 
 glm::ivec2 HudElement::getPosition() const
@@ -49,12 +41,12 @@ glm::vec2 HudElement::getScale() const
     return mTransform.scale;
 }
 
-bool HudElement::isRenderable() const
-{
-    return mIsRenderable;
-}
-
 void HudElement::setScale(const glm::vec2 &newScale)
 {
     mTransform.scale = newScale;
+}
+
+bool HudElement::isRenderable() const
+{
+    return mIsRenderable;
 }

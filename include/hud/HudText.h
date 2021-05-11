@@ -14,7 +14,6 @@
 #include "HudElement.h"
 
 #include <string>
-#include <glm.hpp>
 #include <SDL_ttf.h>
 #include <SDL.h>
 
@@ -39,29 +38,41 @@ public:
 
     void setSize(int newSize);
     int getSize() const;
+
     TTF_Font *getTextData() const;
 
-    bool isRenderValid() const;
     void setRenderValid(bool isValid);
+    bool isRenderValid() const;
 
-    bool isVisible() const;
     void setVisibility(bool visibility);
+    bool isVisible() const;
 
     void setPosition(const glm::ivec2 &newPosition);
 
-    SDL_Color getColour() const;
     void setColour(const SDL_Color &colour);
+    SDL_Color getColour() const;
 
 protected:
     void createTextData();
     void freeTextData();
 
     TTF_Font *mTextData;
+
+    /** The path to ttf file */
     std::string mFontPath;
+
     std::string mText;
+
+    /** The size of the text.  */
     int mSize;
+
+    /** The colour of the text */
     SDL_Color mColour;
+
+    /** The ID that is set by the renderer so that it can render the correct texture. */
     size_t mId;
+
+    /** Lets the renderer know if anything has changed to this text. */
     bool mIsRendererValid;
 };
 

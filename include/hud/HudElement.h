@@ -43,6 +43,7 @@ struct hudTransform
 class HudElement
 {
 public:
+    /** Make the position of the element relative to a location. Defaults to Top Left.*/
     enum anchorPoints : char {
         Top     = 0b0000,
         Bottom  = 0b0001,
@@ -57,8 +58,8 @@ public:
 
     virtual void update() = 0;
 
-    char getAnchorPoint() const;
     void setAnchorPoint(char anchorPoint);
+    char getAnchorPoint() const;
 
     glm::ivec2 getPosition() const;
 
