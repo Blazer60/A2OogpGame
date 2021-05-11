@@ -33,17 +33,42 @@ public:
     ~Ai() = default;
 
     void update();
-    void switchCurrentNode();
+
+    /**
+     * Continuously iterates over nodes until the stage is reached.
+     * Used for debugging purposes.
+     * @param stage How far in/difficult you want the AI to be.
+     */
     void advanceToStage(int stage);
+
+    /**
+     * Creates a new node that can be used in connections
+     * @param key Used to access the data later on.
+     * @param lock The node you want to store in the AI.
+     */
     void createNode(int key, std::unique_ptr<Node> lock);
+
+    /**
+     * Sets the connection paths that the AI will follow.
+     * E.g.: Move, Shoot, Move. Where move is a single node in
+     * the AI.
+     * @param newConnections The list that the AI will follow.
+     */
     void setConnections(std::vector<int> newConnections);
 
+    /**
+     * Switches to the next node in the chain. Loops back to the
+     * start if there are no more elements in mConnections.
+     */
+    void switchCurrentNode();
+
 protected:
-    BaseEnemy* mMechaChad;
+    BaseEnemy* mEnemy;
     nodeMap mNodes;
+    nodeMap::iterator mCurrNode;
+
     int mCurrConnectionId;
     std::vector<int> mConnections;
-    nodeMap::iterator mCurrNode;
 };
 
 
