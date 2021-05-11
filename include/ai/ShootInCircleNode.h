@@ -36,6 +36,8 @@ public:
 
 protected:
     float mOffSet;
+
+    /** How much should be added to offset after action() has been performed. */
     float mOffSetAdvance;
 };
 

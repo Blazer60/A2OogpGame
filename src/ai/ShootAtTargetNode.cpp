@@ -12,8 +12,7 @@
 #include "HelperFunctions.h"
 #include "BaseEnemy.h"
 
-ShootAtTargetNode::ShootAtTargetNode(BaseEnemy *enemy, const std::string &activateSound, const std::string &shotSound)
-        :
+ShootAtTargetNode::ShootAtTargetNode(BaseEnemy *enemy, const std::string &activateSound, const std::string &shotSound) :
         ShootNode(enemy, activateSound, shotSound),
         mConeSpread(20.f), mConeSpreadMultiplier(1.1f)
 {

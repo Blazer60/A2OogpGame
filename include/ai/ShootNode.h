@@ -33,11 +33,14 @@ public:
     void setProjectileCountIncrease(int count);
 
 protected:
+    /** The sound that is played when a projectile is spawned. */
     SoundFx mShootSound;
 
     int mAmountOfProjectiles;
     glm::vec2 mProjectileSpawnVelocity;
     char mProjectileType;
+
+    /** How many more projectiles should be fired the next time this node is activated. */
     int mProjectileCountIncrease;
 };
 

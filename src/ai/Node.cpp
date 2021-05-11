@@ -39,6 +39,7 @@ void Node::update(Ai *ai)
     mTimer++;
     if (mTimer > mWarmUpTime)
     {
+        // Only perform the action every so often rather than every frame.
         if (mTimer % static_cast<int>(mActionRate) == 0)
         {
             action(ai);

@@ -15,20 +15,20 @@ ChargeNode::ChargeNode(BaseEnemy *enemy, const std::string &activateSound) :
     Node(enemy, activateSound), mSpeed(10.f), mMaxSpeed(20.f), mSpeedMultiplier(1.02f)
 {
     mMinimumActionRate = 1;
-    mActionRate = 1;  // Happens continuously until mecha chad stops.
+    mActionRate = 1;  // Happens every frame.
     mMaxTime = 60;
 }
 
 void ChargeNode::onAwake()
 {
     Node::onAwake();
-    mSpeed *= mSpeedMultiplier;
-    if (mSpeed > mMaxSpeed) { mSpeed = mMaxSpeed; }
 }
 
 void ChargeNode::onPause()
 {
     Node::onPause();
+    mSpeed *= mSpeedMultiplier;
+    if (mSpeed > mMaxSpeed) { mSpeed = mMaxSpeed; }
 }
 
 void ChargeNode::action(Ai *ai)
@@ -36,5 +36,4 @@ void ChargeNode::action(Ai *ai)
     auto targetDirection = mMechaChad->getTargetDirection();
     mMechaChad->mVelocity = targetDirection * mSpeed;
     mMechaChad->mTransform.position += mMechaChad->mVelocity;
-//    mMechaChad->chargeTarget(mSpeed);
 }
