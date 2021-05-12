@@ -25,7 +25,7 @@ StateMachineManager::StateMachineManager(const glm::ivec2 &screenSize, char skip
     mIsRunning(true), mWindow(nullptr), mScreenSize(screenSize),
     mUpdateRatePerSecond(30.0), mUpdateDelta(1.0 / mUpdateRatePerSecond), mNextUpdateTick(0.0), mUpdateFrameSkip(5),
     mRenderRatePerSecond(90.0), mRenderDelta(1.0 / mRenderRatePerSecond), mNextRenderTick(0.0), mRenderFrameSkip(5),
-    mInterpolation(0.0), mMasterVolumePercentage(0.2f), mMusicVolumePercentage(0.f), mSoundVolumePercentage(1.f)
+    mInterpolation(0.0), mMasterVolumePercentage(0.2f), mMusicVolumePercentage(1.f), mSoundVolumePercentage(0.6f)
 {
     // Initialise all of SDL.
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) { throwError("Could not initialise SDL"); }
