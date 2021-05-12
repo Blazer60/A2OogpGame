@@ -77,76 +77,6 @@ void StateMachineManager::run()
     renderThread.join();
 }
 
-void StateMachineManager::changeState(char stateKey)
-{
-    if (mCurrentState) { mCurrentState->onPause(); }
-    auto stateIterator = mStates.find(stateKey);
-    if (stateIterator == mStates.end()) { addState(stateKey); }
-
-    mCurrentState = mStates[stateKey];
-    if (stateIterator != mStates.end()) { mCurrentState->onAwake(); }
-
-    // Going to the menu attempts to destroy all other states
-    if (stateKey == statesList::MainMenu)
-    {
-        removeState(statesList::InGame);
-        removeState(statesList::Paused);
-        removeState(statesList::DeathScreen);
-    }
-
-}
-
-void StateMachineManager::addState(char &stateKey)
-{
-    switch (stateKey)
-    {
-        case statesList::MainMenu:
-        default:
-            stateKey = statesList::MainMenu;  // Fail safe in case the state doesn't exist.
-            mStates[statesList::MainMenu] = std::make_shared<MenuState>(mRenderer, windowSizeToVec2(mWindow), mMasterVolumePercentage);
-            break;
-        case statesList::InGame:
-            mStates[stateKey] = std::make_shared<GameState>(mRenderer, windowSizeToVec2(mWindow));
-            break;
-        case statesList::Paused:
-            mStates[stateKey] = std::make_shared<PauseState>(
-                    mRenderer,
-                    windowSizeToVec2(mWindow),
-                    std::weak_ptr<StateMachine>(mStates[statesList::InGame]),
-                    mMasterVolumePercentage
-                    );
-            break;
-        case statesList::DeathScreen:
-            mStates[stateKey] = std::make_shared<DeathState>(
-                    mRenderer,
-                    windowSizeToVec2(mWindow),
-                    std::weak_ptr<StateMachine>(mStates[statesList::InGame])
-                    );
-            break;
-    }
-}
-
-void StateMachineManager::removeState(char stateKey)
-{
-    mStates.erase(stateKey);
-}
-
-void StateMachineManager::event()
-{
-    mCurrentState->event(this);
-}
-
-void StateMachineManager::update()
-{
-    mCurrentState->update(this);
-}
-
-void StateMachineManager::render()
-{
-    mCurrentState->render(this, static_cast<float>(mInterpolation));
-    mCurrentState->flip();
-}
-
 void StateMachineManager::runSynchronous()
 {
     mNextUpdateTick = getTicks<double>();
@@ -165,6 +95,78 @@ void StateMachineManager::runSynchronous()
 
         mInterpolation = (getTicks<double>() + mUpdateDelta - mNextUpdateTick) / mUpdateDelta;
         render();
+    }
+}
+
+void StateMachineManager::changeState(char stateKey)
+{
+    if (mCurrentState) { mCurrentState->onPause(); }
+    auto stateIterator = mStates.find(stateKey);
+    if (stateIterator == mStates.end()) { addState(stateKey); }
+
+    mCurrentState = mStates[stateKey];
+    if (stateIterator != mStates.end()) { mCurrentState->onAwake(); }
+
+    // Going to the menu attempts to destroy all other states
+    if (stateKey == statesList::MainMenu)
+    {
+        removeState(statesList::InGame);
+        removeState(statesList::Paused);
+        removeState(statesList::DeathScreen);
+    }
+}
+
+void StateMachineManager::setVolume(char channel, float percentage, bool isAdditive)
+{
+    if (isAdditive)
+    {
+        switch (channel)
+        {
+            case soundChannel::Master:
+            default:
+                mMasterVolumePercentage = glm::clamp(mMasterVolumePercentage + percentage, 0.f, 1.f);
+                break;
+            case soundChannel::Music:
+                mMusicVolumePercentage = glm::clamp(mMusicVolumePercentage + percentage, 0.f, 1.f);
+                break;
+            case soundChannel::Sound:
+                mSoundVolumePercentage = glm::clamp(mSoundVolumePercentage + percentage, 0.f, 1.f);
+        }
+    }
+    else
+    {
+        switch (channel)
+        {
+            case soundChannel::Master:
+            default:
+                mMasterVolumePercentage = percentage;
+                break;
+            case soundChannel::Music:
+                mMusicVolumePercentage = percentage;
+                break;
+            case soundChannel::Sound:
+                mSoundVolumePercentage = percentage;
+        }
+    }
+
+    // Sets the sound volume.
+    Mix_Volume(-1, static_cast<int>(mMasterVolumePercentage * mSoundVolumePercentage * static_cast<float>(MIX_MAX_VOLUME)));
+
+    // Sets the music volume.
+    Mix_VolumeMusic(static_cast<int>(mMasterVolumePercentage * mMasterVolumePercentage * static_cast<float>(MIX_MAX_VOLUME)));
+}
+
+float StateMachineManager::getVolume(char channel) const
+{
+    switch (channel)
+    {
+        case soundChannel::Master:
+        default:
+            return mMasterVolumePercentage;
+        case soundChannel::Music:
+            return mMusicVolumePercentage;
+        case soundChannel::Sound:
+            return mSoundVolumePercentage;
     }
 }
 
@@ -204,57 +206,53 @@ void StateMachineManager::runRenderer()
     }
 }
 
-void StateMachineManager::setVolume(char channel, float percentage, bool isAdditive)
+void StateMachineManager::event()
 {
-    if (isAdditive)
-    {
-        switch (channel)
-        {
-            case soundChannel::Master:
-            default:
-                mMasterVolumePercentage = glm::clamp(mMasterVolumePercentage + percentage, 0.f, 1.f);
-                break;
-            case soundChannel::Music:
-                mMusicVolumePercentage = glm::clamp(mMusicVolumePercentage + percentage, 0.f, 1.f);
-                break;
-            case soundChannel::Sound:
-                mSoundVolumePercentage = glm::clamp(mSoundVolumePercentage + percentage, 0.f, 1.f);
-        }
-    }
-    else
-    {
-        switch (channel)
-        {
-            case soundChannel::Master:
-            default:
-                mMasterVolumePercentage = percentage;
-                break;
-            case soundChannel::Music:
-                mMusicVolumePercentage = percentage;
-                break;
-            case soundChannel::Sound:
-                mSoundVolumePercentage = percentage;
-        }
-    }
-
-
-    // Sets the sound volume.
-    Mix_Volume(-1, static_cast<int>(mMasterVolumePercentage * mSoundVolumePercentage * static_cast<float>(MIX_MAX_VOLUME)));
-
-    // Sets the music volume.
-    Mix_VolumeMusic(static_cast<int>(mMasterVolumePercentage * mMasterVolumePercentage * static_cast<float>(MIX_MAX_VOLUME)));
+    mCurrentState->event(this);
 }
 
-float StateMachineManager::getVolume(char channel) const
+void StateMachineManager::update()
 {
-    switch (channel)
+    mCurrentState->update(this);
+}
+
+void StateMachineManager::render()
+{
+    mCurrentState->render(this, static_cast<float>(mInterpolation));
+    mCurrentState->flip();
+}
+
+void StateMachineManager::addState(char &stateKey)
+{
+    switch (stateKey)
     {
-        case soundChannel::Master:
+        case statesList::MainMenu:
         default:
-            return mMasterVolumePercentage;
-        case soundChannel::Music:
-            return mMusicVolumePercentage;
-        case soundChannel::Sound:
-            return mSoundVolumePercentage;
+            stateKey = statesList::MainMenu;  // Fail safe in case the state doesn't exist.
+            mStates[statesList::MainMenu] = std::make_shared<MenuState>(mRenderer, windowSizeToVec2(mWindow), mMasterVolumePercentage);
+            break;
+        case statesList::InGame:
+            mStates[stateKey] = std::make_shared<GameState>(mRenderer, windowSizeToVec2(mWindow));
+            break;
+        case statesList::Paused:
+            mStates[stateKey] = std::make_shared<PauseState>(
+                    mRenderer,
+                    windowSizeToVec2(mWindow),
+                    std::weak_ptr<StateMachine>(mStates[statesList::InGame]),
+                    mMasterVolumePercentage
+            );
+            break;
+        case statesList::DeathScreen:
+            mStates[stateKey] = std::make_shared<DeathState>(
+                    mRenderer,
+                    windowSizeToVec2(mWindow),
+                    std::weak_ptr<StateMachine>(mStates[statesList::InGame])
+            );
+            break;
     }
+}
+
+void StateMachineManager::removeState(char stateKey)
+{
+    mStates.erase(stateKey);
 }

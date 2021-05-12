@@ -7,11 +7,6 @@
  * Initial Version: 14/04/2021
  */
 
-// include guards are potentially not needed.
-//#ifndef A2OOPGAME_HELPERFUNCTIONS_H
-//#define A2OOPGAME_HELPERFUNCTIONS_H
-
-
 
 #include <SDL.h>
 #include <type_traits>
@@ -92,4 +87,3 @@ std::vector<glm::vec2> getUnitCirclePoints(unsigned int n, const float &offSet=0
  */
 std::vector<glm::vec2> getUnitConePoints(unsigned int n, const glm::vec2 &direction, float coneSpread=20.f);
 
-//#endif //A2OOPGAME_HELPERFUNCTIONS_H

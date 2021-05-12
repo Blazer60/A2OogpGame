@@ -10,7 +10,6 @@
 
 #include "Music.h"
 #include "HelperFunctions.h"
-#include <iostream>
 #include <random>
 
 Music::Music(const std::string &filePath) : mMusic(Mix_LoadMUS(filePath.c_str())), mCurrIndex(0)

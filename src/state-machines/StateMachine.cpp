@@ -8,17 +8,17 @@
  */
 
 
-#include "state-machines/StateMachine.h"
-#include "state-machines/StateMachineManager.h"
+#include "StateMachine.h"
+#include "StateMachineManager.h"
+
+StateMachine::StateMachine(SDL_Renderer *renderer, const glm::ivec2 &windowSize, char stateKey) :
+        mRenderer(renderer, windowSize), mStateKey(stateKey)
+{}
 
 void StateMachine::changeState(StateMachineManager *smm, char stateKey)
 {
     smm->changeState(stateKey);
 }
-
-StateMachine::StateMachine(SDL_Renderer *renderer, const glm::ivec2 &windowSize, char stateKey) :
-    mRenderer(renderer, windowSize), mStateKey(stateKey)
-{}
 
 char StateMachine::getStateKey() const
 {

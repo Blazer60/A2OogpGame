@@ -21,6 +21,7 @@ class StateMachine;
 
 namespace statesList
 {
+    /** All states that the state machine manager is setup to handle. */
     enum states : char {
         MainMenu, InGame, Paused, DeathScreen
     };
@@ -41,13 +42,17 @@ namespace soundChannel
 class StateMachineManager
 {
     typedef std::unordered_map<char, std::shared_ptr<StateMachine>> stateMap;
-
 public:
     explicit StateMachineManager(const glm::ivec2 &screenSize={ 640, 480 }, char skipToStateKey=statesList::MainMenu);
     ~StateMachineManager();
 
+    /** Runs the game asynchronously. */
+    [[deprecated("Use runSynchronous() instead.")]]
     void run();
+
+    /** Runs the game synchronously */
     void runSynchronous();
+
     void changeState(char stateKey);
 
     void setVolume(char channel, float percentage, bool isAdditive=false);
@@ -56,7 +61,10 @@ public:
     bool mIsRunning;
 
 protected:
+    /** Asynchronous logic loop */
     void runLogic();
+
+    /** Asynchronous render loop */
     void runRenderer();
 
     void event();
@@ -76,13 +84,22 @@ protected:
     // Frame rate control
     const double mUpdateRatePerSecond;
     const double mUpdateDelta;
-    const unsigned int mUpdateFrameSkip;
+    const unsigned int mUpdateFrameSkip;  // Forces rendering after a set amount of ticks.
     double mNextUpdateTick;
 
+    // Render rate control (unused)
     const double mRenderRatePerSecond;
     const double mRenderDelta;
     const unsigned int mRenderFrameSkip;
     double mNextRenderTick;
+
+    /**
+     * Used to predict how far into the update function
+     * we are rendering. This allows for smooth movement
+     * regardless of tick rate.
+     * 0 - start of update tick.
+     * 1 - start of next update tick.
+     */
     double mInterpolation;
 
     // Music & Sound control

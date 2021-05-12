@@ -44,15 +44,26 @@ protected:
     void addText(const std::string& text);
 
     std::shared_ptr<HudText> mTitle;
-    std::shared_ptr<HudText> mVolumeText;
-    std::vector<std::shared_ptr<HudText>> mTexts;
-    std::vector<std::shared_ptr<Entity>> mEntities;
-    int mTextYAdvance;
-    int mTextYPos;
-    int mSize;
-    Music mMusic;
     int mTitleFlashTimer;
+
+    /** How often the title should flash. */
     int mTitleFlashRate;
+
+    std::shared_ptr<HudText> mVolumeText;
+
+    /** The rest of the text that is static */
+    std::vector<std::shared_ptr<HudText>> mTexts;
+
+    /** How far down the next piece of text should be. */
+    int mTextYAdvance;
+
+    /** The Y pos of the next piece of text */
+    int mTextYPos;
+
+    /** The size of all of the text in mTexts. */
+    int mSize;
+
+    Music mMusic;
 };
 
 
