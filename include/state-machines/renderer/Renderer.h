@@ -22,6 +22,9 @@ class Entity;
 class HudText;
 class HudImage;
 
+/**
+ * The data stored by the renderer.
+ */
 struct imageData
 {
     SDL_Texture *src;
@@ -43,25 +46,33 @@ public:
     ~Renderer();
 
     void update(const float &interpolation);
+    void flip();
+
+    void setTarget(const std::weak_ptr<Entity> &entity);
+
     void renderItem(const std::shared_ptr<Entity> &entity);
     void renderItem(std::shared_ptr<HudText> &text);
     void renderItem(const std::shared_ptr<HudImage> &hudImage);
     void renderHitBox(const std::shared_ptr<Entity> &entity);
     void renderHitBox(const quad::rect &aabb);
-    void flip();
+
     void loadImage(const std::string &imageRef);
-    void freeImage(const std::string &imageRef);
-    void setTarget(const std::weak_ptr<Entity> &entity);
     void loadText(std::shared_ptr<HudText> &text);
+
     void changeText(std::shared_ptr<HudText> &text);
+
+    void freeImage(const std::string &imageRef);
     void freeText(size_t id);
 
 protected:
     glm::ivec2 mRendererSize;
     SDL_Renderer *mRenderer;
+
     imageMap mImages;
     textMap mTexts;
+
     size_t mNextTextId;
+
     float mInterpolation;
     std::weak_ptr<Entity> mTargetEntity;
     glm::vec2 mPosition;

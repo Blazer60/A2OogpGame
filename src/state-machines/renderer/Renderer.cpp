@@ -44,9 +44,31 @@ Renderer::~Renderer()
     mTexts.clear();
 }
 
+void Renderer::update(const float &interpolation)
+{
+    mInterpolation = interpolation;
+    SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0);
+    SDL_RenderClear(mRenderer);
+
+    if (auto tgtEntity = mTargetEntity.lock())
+    {
+        // Put the entity in the center of the screen.
+        mPosition = tgtEntity->mTransform.position - (glm::vec2(mRendererSize) / 2.f) + tgtEntity->mVelocity * mInterpolation;
+    }
+    else
+    {
+        mPosition = { 0.f, 0.f };
+    }
+}
+
 void Renderer::flip()
 {
     SDL_RenderPresent(mRenderer);
+}
+
+void Renderer::setTarget(const std::weak_ptr<Entity> &entity)
+{
+    mTargetEntity = entity;
 }
 
 void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
@@ -55,6 +77,7 @@ void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
     auto imageIt = mImages.find(entity->mImageRef);
     if (imageIt == mImages.end()) { throwError("Could not find entities image src."); }
 
+    // Predict where the image would be on the screen/
     glm::vec2 screenPosition = entity->mTransform.position + entity->mVelocity * mInterpolation - mPosition;
     // Where the image is going to go and the size of the image.
     SDL_Rect dstRect = {
@@ -64,6 +87,7 @@ void Renderer::renderItem(const std::shared_ptr<Entity> &entity)
             static_cast<int>(mImages[entity->mImageRef].height * glm::abs(entity->mTransform.scale.y))
     };
 
+    // Predict how much it has rotated by.
     double screenRotation = entity->mTransform.rotation + entity->mAngularVelocity * mInterpolation;
 
     SDL_RendererFlip flipImage = SDL_FLIP_NONE;
@@ -80,11 +104,13 @@ void Renderer::renderItem(std::shared_ptr<HudText> &text)
     if (!text->isRenderable()) { return; }  // Text has been explicitly marked as non-renderable.
     if (!text->isRenderValid()) { changeText(text); }
 
+    // Find the text and get the data.
     auto textIt = mTexts.find(text->getId());
     if (textIt == mTexts.end()) { throwError("Could not find Text."); }
 
     auto &textData = textIt->second;
 
+    // Figure out if the position based relative to the texts anchor points.
     glm::ivec2 position = text->getPosition();
     char anchorPoint = text->getAnchorPoint();
 
@@ -107,6 +133,7 @@ void Renderer::renderItem(std::shared_ptr<HudText> &text)
 void Renderer::renderItem(const std::shared_ptr<HudImage> &hudImage)
 {
     if (!hudImage->isRenderable()) { return; }  // The image has explicitly been marked as non-renderable.
+    // Find the images data.
     auto imageIt = mImages.find(hudImage->getImageRef());
     if (imageIt == mImages.end()) { throwError("Could not find entities image src."); }
 
@@ -129,6 +156,33 @@ void Renderer::renderItem(const std::shared_ptr<HudImage> &hudImage)
     };
 
     SDL_RenderCopyEx(mRenderer, imageData.src, nullptr, &dstRect, 0.0, nullptr, SDL_FLIP_NONE);
+}
+
+void Renderer::renderHitBox(const std::shared_ptr<Entity> &entity)
+{
+    quad::rect entityHitBox = entity->getHitBoxRect();
+    entityHitBox.x -= mPosition.x;
+    entityHitBox.y -= mPosition.y;
+    SDL_Rect dstRect = {
+            static_cast<int>(entityHitBox.x),
+            static_cast<int>(entityHitBox.y),
+            static_cast<int>(entityHitBox.w),
+            static_cast<int>(entityHitBox.h)
+    };
+    SDL_SetRenderDrawColor(mRenderer, entity->mHitBoxColour.r, entity->mHitBoxColour.g, entity->mHitBoxColour.b, entity->mHitBoxColour.a);
+    SDL_RenderDrawRect(mRenderer, &dstRect);
+}
+
+void Renderer::renderHitBox(const quad::rect &aabb)
+{
+    SDL_Rect dstRect = {
+            static_cast<int>(aabb.x - mPosition.x),
+            static_cast<int>(aabb.y - mPosition.y),
+            static_cast<int>(aabb.w),
+            static_cast<int>(aabb.h)
+    };
+    SDL_SetRenderDrawColor(mRenderer, 0, 0, 255, 255);
+    SDL_RenderDrawRect(mRenderer, &dstRect);
 }
 
 void Renderer::loadImage(const std::string &imageRef)
@@ -168,6 +222,7 @@ void Renderer::loadText(std::shared_ptr<HudText> &text)
     auto *font = text->getTextData();
     if (!font) { throwError("Font Could not be found or loaded properly."); }
 
+    // Load and optimise the surface for the renderer.
     SDL_Color color = text->getColour();
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, text->getText().c_str(), color);
     if (!textSurface) { throwError("Failed to render text."); }
@@ -180,7 +235,35 @@ void Renderer::loadText(std::shared_ptr<HudText> &text)
 
     text->setId(mNextTextId);
     text->setRenderValid(true);
-    mNextTextId++;
+    mNextTextId++;  // Increment the ID for the next piece of text.
+}
+
+void Renderer::changeText(std::shared_ptr<HudText> &text)
+{
+    auto textIt = mTexts.find(text->getId());
+    auto &textData = textIt->second;
+    // Destroy old texture.
+    SDL_DestroyTexture(textData.src);
+    textData.src = nullptr;
+
+    // Create another optimised texture with the new text.
+    TTF_Font *font = text->getTextData();
+    if (!font) { throwError("Font Could not be found or loaded properly."); }
+
+    SDL_Color color = text->getColour();
+    SDL_Surface *textSurface = TTF_RenderText_Solid(font, text->getText().c_str(), color);
+    if (!textSurface) { throwError("Failed to render text."); }
+    SDL_Texture *optimisedText = SDL_CreateTextureFromSurface(mRenderer, textSurface);
+    if (!optimisedText) { throwError("Could not load optimised text."); }
+
+    textData.src = optimisedText;
+
+    textData.width = textSurface->w;
+    textData.height = textSurface->h;
+
+    SDL_FreeSurface(textSurface);
+
+    text->setRenderValid(true);
 }
 
 void Renderer::freeImage(const std::string &imageRef)
@@ -207,84 +290,4 @@ void Renderer::freeText(size_t id)
         SDL_DestroyTexture(textData.src);
         mTexts.erase(textIt);
     }
-}
-
-void Renderer::changeText(std::shared_ptr<HudText> &text)
-{
-    auto textIt = mTexts.find(text->getId());
-    auto &textData = textIt->second;
-    // Destroy old texture.
-    SDL_DestroyTexture(textData.src);
-    textData.src = nullptr;
-
-    TTF_Font *font = text->getTextData();
-    if (!font) { throwError("Font Could not be found or loaded properly."); }
-
-    SDL_Color color = text->getColour();
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, text->getText().c_str(), color);
-    if (!textSurface) { throwError("Failed to render text."); }
-    SDL_Texture *optimisedText = SDL_CreateTextureFromSurface(mRenderer, textSurface);
-    if (!optimisedText) { throwError("Could not load optimised text."); }
-
-    textData.src = optimisedText;
-
-    textData.width = textSurface->w;
-    textData.height = textSurface->h;
-
-
-    SDL_FreeSurface(textSurface);
-
-
-    text->setRenderValid(true);
-}
-
-void Renderer::update(const float &interpolation)
-{
-    mInterpolation = interpolation;
-    SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0);
-    SDL_RenderClear(mRenderer);
-
-    // Convert Entity to Shared pointer to get data.
-    // Control blocks are thread safe.
-    if (auto tgtEntity = mTargetEntity.lock())
-    {
-        // Put the entity in the center of the screen.
-        mPosition = tgtEntity->mTransform.position - (glm::vec2(mRendererSize) / 2.f) + tgtEntity->mVelocity * mInterpolation;
-    }
-    else
-    {
-        mPosition = { 0.f, 0.f };
-    }
-}
-
-void Renderer::setTarget(const std::weak_ptr<Entity> &entity)
-{
-    mTargetEntity = entity;
-}
-
-void Renderer::renderHitBox(const std::shared_ptr<Entity> &entity)
-{
-    quad::rect entityHitBox = entity->getHitBoxRect();
-    entityHitBox.x -= mPosition.x;
-    entityHitBox.y -= mPosition.y;
-    SDL_Rect dstRect = {
-            static_cast<int>(entityHitBox.x),
-            static_cast<int>(entityHitBox.y),
-            static_cast<int>(entityHitBox.w),
-            static_cast<int>(entityHitBox.h)
-    };
-    SDL_SetRenderDrawColor(mRenderer, entity->mHitBoxColour.r, entity->mHitBoxColour.g, entity->mHitBoxColour.b, entity->mHitBoxColour.a);
-    SDL_RenderDrawRect(mRenderer, &dstRect);
-}
-
-void Renderer::renderHitBox(const quad::rect &aabb)
-{
-    SDL_Rect dstRect = {
-            static_cast<int>(aabb.x - mPosition.x),
-            static_cast<int>(aabb.y - mPosition.y),
-            static_cast<int>(aabb.w),
-            static_cast<int>(aabb.h)
-    };
-    SDL_SetRenderDrawColor(mRenderer, 0, 0, 255, 255);
-    SDL_RenderDrawRect(mRenderer, &dstRect);
 }
