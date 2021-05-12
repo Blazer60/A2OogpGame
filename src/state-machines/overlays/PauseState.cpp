@@ -42,12 +42,12 @@ PauseState::PauseState(SDL_Renderer *renderer, const glm::ivec2 &windowSize, std
 
 void PauseState::onPause()
 {
-    mPauseSound.play();
+    mUnPauseSound.play();  // Backwards to the name of the function.
 }
 
 void PauseState::onAwake()
 {
-    mUnPauseSound.play();
+    mPauseSound.play();  // Backwards to the name of the function.
 }
 
 void PauseState::event(StateMachineManager *smm)
