@@ -46,19 +46,28 @@ public:
     void render(StateMachineManager *smm, const float &interpolation) override;
 
     void createHudText(std::shared_ptr<HudText> text);
-
     void createEntity(const std::shared_ptr<Entity> &entity);
-    void moveBufferedEntities();
     void cleanEntities();
+    void moveBufferedEntities();
 
 protected:
     void collisionUpdateCheck();
 
     std::shared_ptr<Player> mPlayer;
+
+    /** All entities. Enemies, Projectiles, etc. */
     std::vector<std::shared_ptr<Entity>> mEntities;
+
+    /** Entities that have been spawned in this frame. */
     std::vector<std::shared_ptr<Entity>> mBufferedEntities;
+
+    /** All of the text that appears on screen. */
     std::vector<std::shared_ptr<HudText>> mHudTexts;
+
+    /** The three hearts seen at the bottom of the screen. */
     std::shared_ptr<LifeGauge> mLifeGauge;
+
+    /** The quad tree and handles all of the collision checking */
     std::unique_ptr<entityTree> mQuadTree;
 
     std::unique_ptr<Music> mMusic;

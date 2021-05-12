@@ -31,7 +31,7 @@ GameState::GameState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) :
     mPlayer(std::make_shared<Player>(glm::vec2{ -400.f, 50.f }))
 {
     mRenderer.loadImage(mPlayer->mImageRef);
-    mEntities.reserve(1000);
+    mEntities.reserve(1000);  // Stops the vector from continuously moving at the start of the game.
     createEntity(std::make_shared<BarrierImage>(glm::vec2(-2048, -2048)));
     createEntity(std::make_shared<BarrierCollider>(glm::vec2(-2048, -2048), BarrierCollider::EastFacing));
     createEntity(std::make_shared<BarrierCollider>(glm::vec2(1920, -2048), BarrierCollider::WestFacing));
@@ -51,12 +51,31 @@ GameState::GameState(SDL_Renderer *renderer, const glm::ivec2 &windowSize) :
 }
 
 void GameState::onPause()
-{
-}
+{}
 
 void GameState::onAwake()
-{
+{}
 
+void GameState::event(StateMachineManager *smm)
+{
+    SDL_Event event;
+    while (SDL_PollEvent(&event) != 0)
+    {
+        if (event.type == SDL_QUIT) { smm->mIsRunning = false; }
+        if (event.type == SDL_KEYDOWN)
+        {
+            switch (event.key.keysym.sym)
+            {
+                case SDLK_ESCAPE:
+                case SDLK_p:
+                    smm->changeState(statesList::Paused);
+                    break;
+                case SDLK_0:
+                    mMusic->nextTrack();
+                    break;
+            }
+        }
+    }
 }
 
 void GameState::update(StateMachineManager *smm)
@@ -94,19 +113,37 @@ void GameState::render(StateMachineManager *smm, const float &interpolation)
 
     if (mQuadTree) { mQuadTree->debugRender(&mRenderer); }
 #endif
-
+    // Hud elements last.
     mRenderer.renderItem(mLifeGauge);
 
     for (auto &text : mHudTexts)
     {
         mRenderer.renderItem(text);
     }
+    // Render present is done somewhere else so that overlaying states can be applied.
+}
+
+void GameState::createHudText(std::shared_ptr<HudText> text)
+{
+    mHudTexts.push_back(text);
+    mRenderer.loadText(text);
 }
 
 void GameState::createEntity(const std::shared_ptr<Entity>& entity)
 {
     mBufferedEntities.push_back(entity);
     mRenderer.loadImage(entity->mImageRef);
+}
+
+void GameState::cleanEntities()
+{
+    // Move dead entities to the back and then erase them all in one go.
+    mEntities.erase(
+            std::remove_if(
+                    mEntities.begin(),
+                    mEntities.end(),
+                    [](std::shared_ptr<Entity> &entity){ return entity->mIsDead; }),
+            mEntities.end());
 }
 
 void GameState::moveBufferedEntities()
@@ -116,19 +153,6 @@ void GameState::moveBufferedEntities()
         mEntities.push_back(item);
     }
     mBufferedEntities.clear();
-}
-
-void GameState::cleanEntities()
-{
-    for (int i = static_cast<int>(mEntities.size() ) - 1; i >= 0; --i)
-    {
-        if (mEntities[i]->mIsDead)
-        {
-            mRenderer.freeImage(mEntities[i]->mImageRef);
-            std::swap(mEntities[i], mEntities[mEntities.size() - 1]);
-            mEntities.pop_back();
-        }
-    }
 }
 
 void GameState::collisionUpdateCheck()
@@ -169,34 +193,6 @@ void GameState::collisionUpdateCheck()
             mRenderer.freeImage(mLifeGauge->getImageRef());
             mLifeGauge->setImageRef(mPlayer->getLives());
             mRenderer.loadImage(mLifeGauge->getImageRef());
-        }
-    }
-}
-
-void GameState::createHudText(std::shared_ptr<HudText> text)
-{
-    mHudTexts.push_back(text);
-    mRenderer.loadText(text);
-}
-
-void GameState::event(StateMachineManager *smm)
-{
-    SDL_Event event;
-    while (SDL_PollEvent(&event) != 0)
-    {
-        if (event.type == SDL_QUIT) { smm->mIsRunning = false; }
-        if (event.type == SDL_KEYDOWN)
-        {
-            switch (event.key.keysym.sym)
-            {
-                case SDLK_ESCAPE:
-                case SDLK_p:
-                    smm->changeState(statesList::Paused);
-                    break;
-                case SDLK_0:
-                    mMusic->nextTrack();
-                    break;
-            }
         }
     }
 }
