@@ -82,7 +82,9 @@ if (IS_DIRECTORY ${INCLUDE_DIR})
     message(CHECK_PASS "Found")
 else()
     message(CHECK_FAIL "Failed")
-    message(FATAL_ERROR "Vendor include does not exists for type: ${COMPILER_TRIPLET}.\n Check path exist: ${VENDOR_INCLUDE}")
+    message(FATAL_ERROR "Vendor include does not exists for type: ${COMPILER_TRIPLET}.\n
+                        Check path exist: ${INCLUDE_DIR}\n
+                        You can compile in x86 mode by turning on FORCE_X86_MODE on line 6 in CMakeLists.txt")
 endif()
 
 # Link vendor includes to the project.
